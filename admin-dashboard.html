@@ -300,13 +300,11 @@
     });
 
     function initAdminDashboard() {
-      // Ensure admin login session
-      const currentUser = Store.getCurrentUser();
-      if (!currentUser || currentUser.role !== 'admin') {
-        // Auto sign in default admin for seamless exploration
+      // Read current session without hijacking or overwriting farmer session
+      let currentUser = Store.getCurrentUser();
+      if (!currentUser) {
         const users = Store.getUsers();
-        const admin = users.find(u => u.role === 'admin');
-        if (admin) Store.setCurrentUser(admin);
+        currentUser = users.find(u => u.role === 'admin') || { role: 'admin', name: 'व्यवस्थापक' };
       }
 
       const products = Store.getProducts();

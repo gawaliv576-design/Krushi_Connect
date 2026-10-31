@@ -359,12 +359,14 @@
     function initFarmerDashboard() {
       let currentUser = Store.getCurrentUser();
       
-      // If no user or admin, default to demo farmer Ramesh Patil
+      // If no farmer is logged in, use demo farmer for viewing without overwriting existing session
       if (!currentUser || currentUser.role !== 'farmer') {
         const demoFarmer = Store.getRegisteredFarmers().find(f => f.phone === '9822012345');
         if (demoFarmer) {
-          Store.setCurrentUser(demoFarmer);
           currentUser = demoFarmer;
+          if (!Store.getCurrentUser()) {
+            Store.setCurrentUser(demoFarmer);
+          }
         }
       }
 
