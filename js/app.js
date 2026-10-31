@@ -513,7 +513,11 @@ const App = {
   setupEventListeners() {
     window.addEventListener('storage', () => {
       this.updateCartBadge();
-      this.updateUserSessionUI();
+      // Only re-sync user UI if this tab does not have an active isolated tab session
+      const hasTabSession = !!sessionStorage.getItem(Store.KEYS.CURRENT_USER);
+      if (!hasTabSession) {
+        this.updateUserSessionUI();
+      }
     });
 
     window.addEventListener('ksk_state_updated', () => {

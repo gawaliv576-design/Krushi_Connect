@@ -288,8 +288,10 @@
       if (!currentUser || currentUser.role !== 'farmer') {
         const demoFarmer = Store.getRegisteredFarmers().find(f => f.phone === '9822012345');
         if (demoFarmer) {
-          Store.setCurrentUser(demoFarmer);
           currentUser = demoFarmer;
+          if (!Store.getCurrentUser()) {
+            Store.setCurrentUser(demoFarmer);
+          }
         }
       }
 

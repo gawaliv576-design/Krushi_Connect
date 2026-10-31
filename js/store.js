@@ -771,14 +771,36 @@ const Store = {
   },
 
   getCurrentUser() {
-    const user = localStorage.getItem(this.KEYS.CURRENT_USER);
-    return user ? JSON.parse(user) : null;
+    try {
+      const sessionUser = sessionStorage.getItem(this.KEYS.CURRENT_USER);
+      if (sessionUser) {
+        return JSON.parse(sessionUser);
+      }
+      const localUser = localStorage.getItem(this.KEYS.CURRENT_USER);
+      if (localUser) {
+        const parsed = JSON.parse(localUser);
+        if (!parsed.sessionId) {
+          parsed.sessionId = 'ksk_sess_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+        }
+        sessionStorage.setItem(this.KEYS.CURRENT_USER, JSON.stringify(parsed));
+        return parsed;
+      }
+    } catch (e) {
+      console.error('Error reading current user session:', e);
+    }
+    return null;
   },
 
   setCurrentUser(user) {
     if (user) {
-      localStorage.setItem(this.KEYS.CURRENT_USER, JSON.stringify(user));
+      if (!user.sessionId) {
+        user.sessionId = 'ksk_sess_' + Date.now() + '_' + Math.random().toString(36).substring(2, 9);
+      }
+      const userStr = JSON.stringify(user);
+      sessionStorage.setItem(this.KEYS.CURRENT_USER, userStr);
+      localStorage.setItem(this.KEYS.CURRENT_USER, userStr);
     } else {
+      sessionStorage.removeItem(this.KEYS.CURRENT_USER);
       localStorage.removeItem(this.KEYS.CURRENT_USER);
     }
     this.notifyChange(this.KEYS.CURRENT_USER, user);
