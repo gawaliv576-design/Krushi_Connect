@@ -303,6 +303,7 @@ body.lang-en span.lang-en {
   border-radius: 18px;
   box-shadow: var(--ksk-shadow-sm);
   transition: var(--ksk-transition);
+  height: auto;
 }
 .row > [class*="col"] > .ksk-card {
   height: 100%;

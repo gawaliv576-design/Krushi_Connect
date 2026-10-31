@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- Home Page / मुख्य पान -->
+  <url>
+    <loc>https://krushiconnect.netlify.app/</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://krushiconnect.netlify.app/?lang=mr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://krushiconnect.netlify.app/?lang=en"/>
+    <image:image>
+      <image:loc>https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=1200</image:loc>
+      <image:title>कृषी सेवा केंद्र - सप्तशृंगी ॲग्रो सर्व्हिसेस</image:title>
+      <image:caption>रासायनिक व सेंद्रिय खते, हायब्रिड बियाणे, कीटकनाशके व ठिबक सिंचन</image:caption>
+    </image:image>
+  </url>
+
+  <!-- Products Catalog / उत्पादने व साठा -->
+  <url>
+    <loc>https://krushiconnect.netlify.app/products.html</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://krushiconnect.netlify.app/products.html?lang=mr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://krushiconnect.netlify.app/products.html?lang=en"/>
+  </url>
+
+  <!-- Categories / उत्पादन विभाग -->
+  <url>
+    <loc>https://krushiconnect.netlify.app/categories.html</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://krushiconnect.netlify.app/categories.html?lang=mr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://krushiconnect.netlify.app/categories.html?lang=en"/>
+  </url>
+
+  <!-- Fertilizer Calculator / खत डोस गणक यंत्र -->
+  <url>
+    <loc>https://krushiconnect.netlify.app/fertilizer-calculator.html</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://krushiconnect.netlify.app/fertilizer-calculator.html?lang=mr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://krushiconnect.netlify.app/fertilizer-calculator.html?lang=en"/>
+  </url>
+
+  <!-- Weather & Spray Advisory / हवामान व फवारणी सल्ला -->
+  <url>
+    <loc>https://krushiconnect.netlify.app/weather.html</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://krushiconnect.netlify.app/weather.html?lang=mr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://krushiconnect.netlify.app/weather.html?lang=en"/>
+  </url>
+
+  <!-- Farming Tips & Advisory / शेती सल्ला व हंगाम नियोजन -->
+  <url>
+    <loc>https://krushiconnect.netlify.app/farming-tips.html</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="mr" href="https://krushiconnect.netlify.app/farming-tips.html?lang=mr"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://krushiconnect.netlify.app/farming-tips.html?lang=en"/>
+  </url>
+
+  <!-- Cart / खरेदी टोपली -->
+  <url>
+    <loc>https://krushiconnect.netlify.app/cart.html</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Checkout / चेकआउट -->
+  <url>
+    <loc>https://krushiconnect.netlify.app/checkout.html</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Farmer Login / शेतकरी प्रवेश -->
+  <url>
+    <loc>https://krushiconnect.netlify.app/login.html</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Farmer Register / नवीन नोंदणी -->
+  <url>
+    <loc>https://krushiconnect.netlify.app/register.html</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Farmer Dashboard / शेतकरी डॅशबोर्ड -->
+  <url>
+    <loc>https://krushiconnect.netlify.app/farmer-dashboard.html</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Farmer Udhari Ledger / शेतकरी खातावही -->
+  <url>
+    <loc>https://krushiconnect.netlify.app/farmer-udhari.html</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>

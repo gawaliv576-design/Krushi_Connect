@@ -1,0 +1,25 @@
+# Robots.txt for Krushi Seva Kendra - Saptashrungi Agro Services
+# Allows full indexing for public storefront, educational tools, and products
+
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /products.html
+Allow: /categories.html
+Allow: /fertilizer-calculator.html
+Allow: /weather.html
+Allow: /farming-tips.html
+Allow: /cart.html
+Allow: /checkout.html
+Allow: /login.html
+Allow: /register.html
+Allow: /farmer-dashboard.html
+Allow: /farmer-udhari.html
+Allow: /css/
+Allow: /js/
+
+# Disallow indexing for internal admin views
+Disallow: /admin-*.html
+Disallow: /admin-*
+
+Sitemap: https://krushiconnect.netlify.app/sitemap.xml
