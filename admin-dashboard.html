@@ -295,6 +295,10 @@
       initAdminDashboard();
     });
 
+    window.addEventListener('ksk_state_updated', () => {
+      initAdminDashboard();
+    });
+
     function initAdminDashboard() {
       // Ensure admin login session
       const currentUser = Store.getCurrentUser();

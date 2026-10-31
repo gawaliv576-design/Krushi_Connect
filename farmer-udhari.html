@@ -279,6 +279,10 @@
       loadFarmerLedger();
     });
 
+    window.addEventListener('ksk_state_updated', () => {
+      loadFarmerLedger();
+    });
+
     function loadFarmerLedger() {
       let currentUser = Store.getCurrentUser();
       if (!currentUser || currentUser.role !== 'farmer') {

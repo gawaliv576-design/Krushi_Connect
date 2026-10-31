@@ -167,6 +167,10 @@
       filterOrders();
     });
 
+    window.addEventListener('ksk_state_updated', () => {
+      filterOrders();
+    });
+
     function filterOrders() {
       const q = (document.getElementById('orderSearchInput').value || '').toLowerCase().trim();
       const statusFilter = document.getElementById('orderStatusFilter').value;

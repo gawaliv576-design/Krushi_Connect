@@ -265,6 +265,89 @@
     </div>
   </div>
 
+  
+  <!-- Manage Stock Modal -->
+  <div class="modal fade" id="manageStockModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-box-seam me-2 text-warning"></i>
+            <span class="lang-mr">साठा व्यवस्थापन (Stock Management)</span>
+            <span class="lang-en">Stock & Inventory Management</span>
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="manageStockForm" onsubmit="handleSaveStockAdjustment(event)">
+          <div class="modal-body p-4">
+            <input type="hidden" id="stockProdId">
+
+            <div class="p-3 bg-light rounded-3 mb-3 border">
+              <div class="fw-bold fs-5 text-dark" id="stockProdNameDisplay">उत्पादन नाव</div>
+              <div class="d-flex justify-content-between align-items-center mt-2">
+                <span class="text-muted small">
+                  <span class="lang-mr">सध्याचा उपलब्ध साठा:</span>
+                  <span class="lang-en">Current Stock:</span>
+                </span>
+                <span class="badge bg-primary fs-6 px-3 py-1" id="stockCurrentDisplay">0</span>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold small">
+                <span class="lang-mr">कृती निवडा (Action)</span>
+                <span class="lang-en">Select Action</span>
+              </label>
+              <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="stockActionType" id="actAdd" value="add" checked onchange="updateCalculatedStock()">
+                <label class="btn btn-outline-success fw-bold" for="actAdd">+ साठा जोडा (Add)</label>
+
+                <input type="radio" class="btn-check" name="stockActionType" id="actDeduct" value="deduct" onchange="updateCalculatedStock()">
+                <label class="btn btn-outline-danger fw-bold" for="actDeduct">- कमी करा (Deduct)</label>
+
+                <input type="radio" class="btn-check" name="stockActionType" id="actSet" value="set" onchange="updateCalculatedStock()">
+                <label class="btn btn-outline-primary fw-bold" for="actSet">= थेट सेट करा (Set)</label>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold small">
+                <span class="lang-mr">संख्या / प्रमाण (Units) *</span>
+                <span class="lang-en">Quantity (Units) *</span>
+              </label>
+              <input type="number" id="stockQtyInput" class="form-control fs-4 fw-bold text-center" value="10" min="0" required oninput="updateCalculatedStock()">
+            </div>
+
+            <div class="d-flex flex-wrap gap-2 justify-content-center mb-3">
+              <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill" onclick="setQuickStockInput(5)">+5</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill" onclick="setQuickStockInput(10)">+10</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill" onclick="setQuickStockInput(25)">+25</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill" onclick="setQuickStockInput(50)">+50</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill" onclick="setQuickStockInput(100)">+100</button>
+              <button type="button" class="btn btn-sm btn-outline-danger rounded-pill" onclick="markStockOutZero()">साठा संपला (0)</button>
+            </div>
+
+            <div class="alert alert-info py-2 px-3 mb-0 text-center fw-bold">
+              <span class="lang-mr">नवीन एकूण साठा होईल: </span>
+              <span class="lang-en">New Total Stock will be: </span>
+              <span id="stockNewCalculated" class="text-success fs-5">0</span> नग (Units)
+            </div>
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+              <span class="lang-mr">रद्द करा</span><span class="lang-en">Cancel</span>
+            </button>
+            <button type="submit" class="btn btn-success px-4 fw-bold">
+              <i class="bi bi-check-circle me-1"></i>
+              <span class="lang-mr">साठा जतन करा</span>
+              <span class="lang-en">Update Stock</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <footer class="ksk-footer mt-5">
     <div class="container text-center small text-light text-opacity-50">
       <p class="mb-0">
@@ -290,6 +373,10 @@
     });
 
     window.addEventListener('ksk_lang_changed', () => {
+      filterAdminProducts();
+    });
+
+    window.addEventListener('ksk_state_updated', () => {
       filterAdminProducts();
     });
 
@@ -336,9 +423,10 @@
             </td>
             <td class="text-center">
               ${stockBadge}
-              <div class="mt-1">
-                <button onclick="quickAddStock('${p.id}', 10)" class="btn btn-xs btn-outline-success py-0 px-2 rounded-pill" style="font-size:0.7rem;" title="+10 Restock">
-                  <span class="lang-mr">+१० नग</span><span class="lang-en">+10 Units</span>
+              <div class="mt-1 d-flex gap-1 justify-content-center">
+                <button onclick="quickAddStock('${p.id}', 10)" class="btn btn-xs btn-outline-success py-0 px-2 rounded-pill" style="font-size:0.7rem;" title="+10 Restock">+10</button>
+                <button onclick="openManageStockModal('${p.id}')" class="btn btn-xs btn-outline-primary py-0 px-2 rounded-pill" style="font-size:0.7rem;" title="साठा व्यवस्थापन">
+                  <i class="bi bi-sliders"></i>
                 </button>
               </div>
             </td>
@@ -348,6 +436,9 @@
             </td>
             <td class="text-center">
               <div class="btn-group btn-group-sm">
+                <button onclick="openManageStockModal('${p.id}')" class="btn btn-outline-success" title="साठा व्यवस्थापन (Manage Stock)">
+                  <i class="bi bi-box-seam"></i>
+                </button>
                 <button onclick="openProductModal('${p.id}')" class="btn btn-outline-primary" title="संपादित करा (Edit)">
                   <i class="bi bi-pencil"></i>
                 </button>
@@ -382,6 +473,70 @@
       });
 
       renderAdminProducts(filtered);
+    }
+
+
+    let currentManagingProduct = null;
+
+    function openManageStockModal(id) {
+      const p = Store.getProductById(id);
+      if (!p) return;
+      currentManagingProduct = p;
+
+      document.getElementById('stockProdId').value = p.id;
+      document.getElementById('stockProdNameDisplay').innerHTML = `<span class="lang-mr">${p.name_mr}</span><span class="lang-en">${p.name_en}</span>`;
+      document.getElementById('stockCurrentDisplay').textContent = `${p.stock} ${p.unit || 'नग'}`;
+      document.getElementById('actAdd').checked = true;
+      document.getElementById('stockQtyInput').value = 10;
+      updateCalculatedStock();
+
+      const modal = new bootstrap.Modal(document.getElementById('manageStockModal'));
+      modal.show();
+      App.applyLanguage(App.getLang());
+    }
+
+    function setQuickStockInput(val) {
+      document.getElementById('stockQtyInput').value = val;
+      updateCalculatedStock();
+    }
+
+    function markStockOutZero() {
+      document.getElementById('actSet').checked = true;
+      document.getElementById('stockQtyInput').value = 0;
+      updateCalculatedStock();
+    }
+
+    function updateCalculatedStock() {
+      if (!currentManagingProduct) return;
+      const cur = currentManagingProduct.stock || 0;
+      const action = document.querySelector('input[name="stockActionType"]:checked').value;
+      const qty = parseInt(document.getElementById('stockQtyInput').value) || 0;
+
+      let next = cur;
+      if (action === 'add') next = cur + qty;
+      else if (action === 'deduct') next = Math.max(0, cur - qty);
+      else if (action === 'set') next = Math.max(0, qty);
+
+      document.getElementById('stockNewCalculated').textContent = next;
+    }
+
+    function handleSaveStockAdjustment(e) {
+      e.preventDefault();
+      if (!currentManagingProduct) return;
+      const cur = currentManagingProduct.stock || 0;
+      const action = document.querySelector('input[name="stockActionType"]:checked').value;
+      const qty = parseInt(document.getElementById('stockQtyInput').value) || 0;
+
+      let next = cur;
+      if (action === 'add') next = cur + qty;
+      else if (action === 'deduct') next = Math.max(0, cur - qty);
+      else if (action === 'set') next = Math.max(0, qty);
+
+      Store.updateProduct(currentManagingProduct.id, { stock: next });
+      App.showToast(`'${currentManagingProduct.name_mr}' चा साठा ${next} नग अद्ययावत केला!`, `Stock updated to ${next} units!`, 'success');
+
+      bootstrap.Modal.getInstance(document.getElementById('manageStockModal')).hide();
+      filterAdminProducts();
     }
 
     function quickAddStock(id, qty) {

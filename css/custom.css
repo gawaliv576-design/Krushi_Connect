@@ -303,12 +303,13 @@ body.lang-en span.lang-en {
   border-radius: 18px;
   box-shadow: var(--ksk-shadow-sm);
   transition: var(--ksk-transition);
-  overflow: hidden;
+}
+.row > [class*="col"] > .ksk-card {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
-.ksk-card:hover {
+.row > [class*="col"] > .ksk-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--ksk-shadow-hover);
   border-color: rgba(21, 128, 61, 0.3);

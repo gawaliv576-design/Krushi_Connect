@@ -352,6 +352,10 @@
       initFarmerDashboard();
     });
 
+    window.addEventListener('ksk_state_updated', () => {
+      initFarmerDashboard();
+    });
+
     function initFarmerDashboard() {
       let currentUser = Store.getCurrentUser();
       

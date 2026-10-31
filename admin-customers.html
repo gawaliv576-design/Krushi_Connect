@@ -244,6 +244,10 @@
       filterFarmers();
     });
 
+    window.addEventListener('ksk_state_updated', () => {
+      filterFarmers();
+    });
+
     function loadFarmersTable() {
       filterFarmers();
     }
