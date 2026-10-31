@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Create farmer account | Krushi Seva Kendra</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"><th:block th:replace="~{layout/header :: premiumAssets}"></th:block><link rel="stylesheet" th:href="@{/css/public-pages.css}"></head>
+<body class="auth-page auth-register-page">
+<main class="auth-register-shell"><a class="auth-back-home dark-link" th:href="@{/}"><i class="bi bi-arrow-left"></i> Back to shop</a><section class="auth-register-card"><a class="auth-mobile-brand" th:href="@{/}"><img src="/images/saptashrungi_logo_round.jpg" alt="">Saptashrungi Agro Services</a><span class="public-eyebrow">JOIN OUR FARMING COMMUNITY</span><h1>Create your farmer account</h1><p class="auth-intro">Keep your shop details and account information in one place.</p><div class="alert alert-danger" th:if="${error}" th:text="${error}" role="alert"></div>
+    <form method="post" th:action="@{/register}" th:object="${user}">
+        <div class="row g-3"><div class="col-12"><label class="form-label" for="name">Full name</label><input class="form-control" id="name" type="text" th:field="*{name}" autocomplete="name" maxlength="100" required></div>
+        <div class="col-md-6"><label class="form-label" for="email">Email address</label><input class="form-control" id="email" type="email" th:field="*{email}" autocomplete="email" maxlength="254" required></div>
+        <div class="col-md-6"><label class="form-label" for="phone">Phone</label><input class="form-control" id="phone" type="tel" th:field="*{phone}" autocomplete="tel" maxlength="20" pattern="[+0-9 ()-]{10,20}" required></div>
+        <div class="col-md-6"><label class="form-label" for="village">Village</label><input class="form-control" id="village" type="text" th:field="*{village}" autocomplete="address-level2" maxlength="100"></div>
+        <div class="col-md-6"><label class="form-label" for="district">District</label><input class="form-control" id="district" type="text" th:field="*{district}" autocomplete="address-level1" maxlength="100"></div>
+        <div class="col-md-6"><label class="form-label" for="password">Password</label><input class="form-control" id="password" type="password" th:field="*{password}" autocomplete="new-password" minlength="8" maxlength="72" required><small class="form-text">Use at least 8 characters.</small></div>
+        <div class="col-md-6"><label class="form-label" for="role">Account type</label><select class="form-select" id="role" name="role"><option value="ROLE_CUSTOMER" selected>Farmer</option></select><small class="form-text">New public accounts are registered as farmer customers.</small></div></div>
+        <button class="btn btn-success w-100 auth-submit mt-4" type="submit">Create farmer account <i class="bi bi-arrow-right ms-2"></i></button>
+    </form><p class="auth-register-prompt">Already registered? <a th:href="@{/login}">Sign in</a></p></section></main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script></body></html>

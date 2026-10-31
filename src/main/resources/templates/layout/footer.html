@@ -1,0 +1,62 @@
+<footer xmlns:th="http://www.thymeleaf.org"
+        th:fragment="footer"
+        id="contact"
+        class="premium-footer">
+    <div class="container premium-footer-container">
+        <div class="row g-5">
+            <div class="col-lg-4">
+                <a class="premium-footer-brand" th:href="@{/}">
+                    <img th:src="@{/images/saptashrungi_logo_round.jpg}" alt="" class="premium-footer-logo">
+                    <span><strong>Saptashrungi Agro Services</strong><small>सप्तशृंगी ॲग्रो सर्व्हिसेस</small></span>
+                </a>
+                <p class="premium-footer-about">A trusted local partner for quality farm inputs, practical guidance and better harvests.</p>
+                <div class="premium-social-links" aria-label="Contact and social links">
+                    <a href="https://wa.me/918600813827" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+                        <i class="bi bi-whatsapp"></i></a>
+                    <a href="tel:+918600813827" aria-label="Call Saptashrungi Agro Services">
+                        <i class="bi bi-telephone-fill"></i></a>
+                    <a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" target="_blank" rel="noopener noreferrer" aria-label="Shop location">
+                        <i class="bi bi-geo-alt-fill"></i></a>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-lg-2">
+                <h2 class="premium-footer-heading">Quick links</h2>
+                <ul class="premium-footer-links">
+                    <li><a th:href="@{/}">Home</a></li>
+                    <li><a th:href="@{/products}">Products</a></li>
+                    <li><a th:href="@{/offers}">Current offers</a></li>
+                    <li><a th:href="@{/farming-tips}">Farming advisory</a></li>
+                    <li><a th:href="@{/about}">About the shop</a></li>
+                    <li><a th:href="@{/contact}">Contact</a></li>
+                    <li><a th:href="@{/login}">Customer login</a></li>
+                </ul>
+            </div>
+
+            <div class="col-sm-6 col-lg-3">
+                <h2 class="premium-footer-heading">Visit our shop</h2>
+                <address class="premium-footer-contact">
+                    <p><i class="bi bi-geo-alt-fill"></i><span>Mirakhnagar, Vaijapur,<br>Chhatrapati Sambhajinagar,<br>Maharashtra - 423703</span></p>
+                    <p><i class="bi bi-telephone-fill"></i><a href="tel:+918600813827">+91 8600813827</a></p>
+                    <p><i class="bi bi-whatsapp"></i><a href="https://wa.me/918600813827" target="_blank" rel="noopener noreferrer">Chat with us on WhatsApp</a></p>
+                </address>
+            </div>
+
+            <div class="col-lg-3">
+                <h2 class="premium-footer-heading">We accept</h2>
+                <p class="premium-footer-payment-copy">Choose a convenient way to pay at the shop.</p>
+                <div class="premium-payment-badges">
+                    <span><i class="bi bi-cash-coin"></i>Cash</span>
+                    <span><i class="bi bi-qr-code"></i>UPI</span>
+                    <span><i class="bi bi-bank"></i>Bank transfer</span>
+                </div>
+                <p class="premium-footer-hours"><i class="bi bi-clock me-2"></i>Mon-Sat: 8 AM-6 PM<br><span>Sunday: 8 AM-1 PM</span></p>
+            </div>
+        </div>
+
+        <div class="premium-footer-bottom">
+            <span>&copy; 2026 Saptashrungi Agro Services. All rights reserved.</span>
+            <span>Rooted in trust. Growing together <i class="bi bi-heart-fill"></i></span>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>शेतकरी उधारी खातावही (Digital Khata-Bahi) | कृषी सेवा केंद्र</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body class="lang-mr">
+
+  <div class="ksk-topbar">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div>
+        <i class="bi bi-telephone-fill text-warning me-1"></i>
+        <span class="lang-mr">शेतकरी हेल्पलाइन: +९१ ९८२२० १२३४५</span>
+        <span class="lang-en">Farmer Helpline: +91 98220 12345</span>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-1">
+          <button id="btnLangMr" onclick="App.setLang('mr')" class="btn btn-xs py-0 px-2 btn-success text-white rounded-pill fw-bold" style="font-size:0.75rem;">मराठी</button>
+          <button id="btnLangEn" onclick="App.setLang('en')" class="btn btn-xs py-0 px-2 btn-outline-secondary rounded-pill fw-bold" style="font-size:0.75rem;">English</button>
+        </div>
+        <button onclick="App.toggleTheme()" class="btn btn-link text-light p-0 ms-1">
+          <i class="bi bi-moon-stars-fill theme-icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <header class="ksk-navbar">
+    <div class="container py-2">
+      <div class="d-flex align-items-center justify-content-between">
+        <a href="index.html" class="ksk-brand text-decoration-none">
+          <div class="ksk-brand-icon"><i class="bi bi-flower1"></i></div>
+          <div class="ksk-brand-text">
+            <span class="ksk-brand-title">सप्तशृंगी ॲग्रो</span>
+            <span class="ksk-brand-subtitle">Krushi Seva Kendra</span>
+          </div>
+        </a>
+
+        <nav class="d-none d-lg-flex align-items-center gap-1">
+          <a href="index.html" class="nav-link"><span class="lang-mr">मुखपृष्ठ</span><span class="lang-en">Home</span></a>
+          <a href="products.html" class="nav-link"><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></a>
+          <a href="farmer-dashboard.html" class="nav-link"><span class="lang-mr">डॅशबोर्ड</span><span class="lang-en">Dashboard</span></a>
+          <a href="farmer-udhari.html" class="nav-link active text-warning-emphasis"><i class="bi bi-journal-bookmark me-1"></i><span class="lang-mr">उधारी खातावही</span><span class="lang-en">Khata Ledger</span></a>
+        </nav>
+
+        <div class="d-flex align-items-center gap-3">
+          <a href="cart.html" class="btn btn-light rounded-circle p-2 position-relative shadow-sm border">
+            <i class="bi bi-cart3 fs-5 text-success"></i>
+            <span class="cart-badge-pill cart-badge" style="display:none;">0</span>
+          </a>
+          <div id="headerUserSection"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="py-4">
+    <div class="container">
+      
+      <!-- Khata Header Card -->
+      <div class="khata-header-card mb-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+          <div>
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="khata-pill text-warning">
+                <i class="bi bi-book-half me-1"></i>
+                <span class="lang-mr">डिजिटल उधारी पासबुक</span>
+                <span class="lang-en">Digital Khata Passbook</span>
+              </span>
+              <span class="badge bg-success">
+                <span class="lang-mr">सक्रिय खाते</span>
+                <span class="lang-en">Active Account</span>
+              </span>
+            </div>
+            <h2 class="fw-bold mb-1 text-white" id="khataFarmerName">रमेश सखाराम पाटील</h2>
+            <div class="text-light text-opacity-75 small">
+              <span><span class="lang-mr">ओळख क्र:</span><span class="lang-en">Farmer ID:</span> <strong id="khataFarmerId">KSK-9822012345</strong></span>
+              <span class="mx-2">•</span>
+              <span><span class="lang-mr">मोबाईल:</span><span class="lang-en">Phone:</span> <strong id="khataFarmerPhone">9822012345</strong></span>
+              <span class="mx-2">•</span>
+              <span id="khataFarmerVillage">गाव: वैजापूर</span>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap gap-2">
+            <button onclick="openPayModal()" class="btn btn-warning fw-bold px-4 py-2 text-dark shadow">
+              <i class="bi bi-qr-code-scan me-2"></i>
+              <span class="lang-mr">UPI ने उधारी जमा करा</span>
+              <span class="lang-en">Pay Due via UPI</span>
+            </button>
+            <button onclick="window.print()" class="btn btn-outline-light px-3 py-2">
+              <i class="bi bi-printer me-1"></i>
+              <span class="lang-mr">पासबुक प्रिंट करा</span>
+              <span class="lang-en">Print Passbook</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Financial Summary KPI Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-4">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon-blue">
+              <i class="bi bi-cart-plus-fill"></i>
+            </div>
+            <div>
+              <div class="kpi-value" id="khataTotalDebit">₹०</div>
+              <div class="kpi-label">
+                <span class="lang-mr">एकूण खरेदी (नावे)</span>
+                <span class="lang-en">Total Purchases (Debit)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon-green">
+              <i class="bi bi-check2-circle"></i>
+            </div>
+            <div>
+              <div class="kpi-value text-success" id="khataTotalCredit">₹०</div>
+              <div class="kpi-label">
+                <span class="lang-mr">एकूण भरणा (जमा)</span>
+                <span class="lang-en">Total Paid (Credit)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon-red">
+              <i class="bi bi-hourglass-split"></i>
+            </div>
+            <div>
+              <div class="kpi-value text-danger" id="khataCurrentDue">₹०</div>
+              <div class="kpi-label">
+                <span class="lang-mr">चालू शिल्लक बाकी</span>
+                <span class="lang-en">Current Balance Due</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Detailed Ledger Table -->
+      <div class="ksk-card p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-bold mb-0 text-dark">
+            <i class="bi bi-receipt-cutoff text-success me-2"></i>
+            <span class="lang-mr">खातावही नोंदवही</span>
+            <span class="lang-en">Transaction Statement Ledger</span>
+          </h5>
+          <span class="badge bg-light text-dark border small" id="ledgerCountBadge">नोंदी लोड होत आहेत...</span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover table-khata align-middle" id="khataMainTable">
+            <thead>
+              <tr>
+                <th><span class="lang-mr">तारीख</span><span class="lang-en">Date</span></th>
+                <th><span class="lang-mr">व्हाउचर / बिल क्र.</span><span class="lang-en">Voucher No.</span></th>
+                <th><span class="lang-mr">खरेदी तपशील</span><span class="lang-en">Description</span></th>
+                <th class="text-end"><span class="lang-mr">नावे रक्कम (₹)</span><span class="lang-en">Debit (₹)</span></th>
+                <th class="text-end"><span class="lang-mr">जमा रक्कम (₹)</span><span class="lang-en">Credit (₹)</span></th>
+                <th class="text-end"><span class="lang-mr">शिल्लक रक्कम (₹)</span><span class="lang-en">Balance (₹)</span></th>
+                <th class="text-center"><span class="lang-mr">मुदत / देय दिनांक</span><span class="lang-en">Due Date</span></th>
+                <th class="text-center"><span class="lang-mr">स्थिती</span><span class="lang-en">Status</span></th>
+              </tr>
+            </thead>
+            <tbody id="khataTableBody">
+              <!-- Dynamically populated via JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Ledger Footer Note -->
+        <div class="mt-4 p-3 bg-light rounded-3 small text-muted d-flex align-items-center justify-content-between">
+          <div>
+            <i class="bi bi-info-circle-fill text-primary me-1"></i>
+            कोणतीही अडचण किंवा खात्यात तफावत असल्यास कृपया दुकानाच्या काऊंटरवर संपर्क साधावा.
+          </div>
+          <div class="fw-bold text-dark">
+            सप्तशृंगी ॲग्रो • कॉम्प्युटराइज्ड डिजिटल खातावही
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Live Dynamic UPI QR Payment Modal -->
+  <div class="modal fade" id="payUdhariModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-qr-code-scan me-2"></i>
+            <span class="lang-mr">UPI द्वारे उधारी जमा करा</span>
+            <span class="lang-en">Pay Credit Due via UPI</span>
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4 text-center">
+          <p class="text-muted small mb-3">
+            <span class="lang-mr">आपली चालू बाकी रक्कम:</span>
+            <span class="lang-en">Your Current Balance Due:</span>
+            <strong class="text-danger fs-5" id="modalDueText">₹०</strong>
+          </p>
+
+          <!-- Input Payment Amount -->
+          <div class="mb-3 text-start">
+            <label class="form-label fw-bold small">
+              <span class="lang-mr">जमा करावयाची रक्कम (₹) *</span>
+              <span class="lang-en">Payment Amount (₹) *</span>
+            </label>
+            <div class="input-group">
+              <span class="input-group-text fw-bold">₹</span>
+              <input type="number" id="payAmountInput" class="form-control fw-bold fs-5 text-success" min="10" oninput="regenerateQr()">
+            </div>
+            <small class="text-muted">
+              <span class="lang-mr">आपण पूर्ण किंवा अंशतः (हप्त्याने) रक्कम जमा करू शकता.</span>
+              <span class="lang-en">You can pay in full or in partial installments.</span>
+            </small>
+          </div>
+
+          <!-- Dynamic QR Image Box -->
+          <div class="p-3 bg-light rounded-3 border mb-3">
+            <img id="dynamicUpiQr" src="" alt="UPI QR" style="width: 190px; height: 190px; border-radius: 12px;" class="border p-1 bg-white shadow-sm">
+            <div class="small fw-bold text-dark mt-2">saptashrungiagro@sbi</div>
+            <div class="badge bg-primary text-white mt-1">Google Pay / PhonePe / BHIM / Paytm</div>
+          </div>
+
+          <div class="mb-3 text-start">
+            <label class="form-label fw-bold small">
+              <span class="lang-mr">पेमेंट संदर्भ / नोट (टीप)</span>
+              <span class="lang-en">Payment Note / Ref</span>
+            </label>
+            <input type="text" id="payNoteInput" class="form-control" value="Google Pay UPI" placeholder="UPI Ref / Transaction ID">
+          </div>
+
+          <!-- Simulate Payment Button -->
+          <button onclick="simulatePaymentConfirm()" class="btn btn-ksk-primary w-100 py-3 fw-bold fs-6 shadow">
+            <i class="bi bi-patch-check-fill me-2"></i>
+            <span class="lang-mr">पेमेंट यशस्वी झाले (नोंद जमा करा)</span>
+            <span class="lang-en">Payment Received (Record Entry)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="ksk-footer mt-5">
+    <div class="container text-center small text-light text-opacity-50">
+      <p class="mb-0">© 2026 कृषी सेवा केंद्र - सप्तशृंगी ॲग्रो सर्व्हिसेस, नाशिक.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    let currentFarmerPhone = '9822012345';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadFarmerLedger();
+    });
+
+    window.addEventListener('ksk_lang_changed', () => {
+      loadFarmerLedger();
+    });
+
+    function loadFarmerLedger() {
+      let currentUser = Store.getCurrentUser();
+      if (!currentUser || currentUser.role !== 'farmer') {
+        const demoFarmer = Store.getRegisteredFarmers().find(f => f.phone === '9822012345');
+        if (demoFarmer) {
+          Store.setCurrentUser(demoFarmer);
+          currentUser = demoFarmer;
+        }
+      }
+
+      currentFarmerPhone = currentUser.phone;
+
+      // Populate Header
+      document.getElementById('khataFarmerName').innerHTML = `<span class="lang-mr">${currentUser.name_mr || currentUser.name}</span><span class="lang-en">${currentUser.name_en || currentUser.name}</span>`;
+      document.getElementById('khataFarmerId').textContent = currentUser.id || ('KSK-' + currentUser.phone);
+      document.getElementById('khataFarmerPhone').textContent = currentUser.phone;
+      const isEn = App.getLang() === 'en';
+      document.getElementById('khataFarmerVillage').innerHTML = `<span class="lang-mr">गाव: ${currentUser.village || 'वैजापूर'}</span><span class="lang-en">Village: ${currentUser.village_en || currentUser.village || 'Vaijapur'}</span>`;
+
+      // Calculate totals
+      const balance = Store.getFarmerBalance(currentFarmerPhone);
+      document.getElementById('khataTotalDebit').textContent = '₹' + balance.totalDebit.toLocaleString('en-IN');
+      document.getElementById('khataTotalCredit').textContent = '₹' + balance.totalCredit.toLocaleString('en-IN');
+      document.getElementById('khataCurrentDue').textContent = '₹' + balance.balance.toLocaleString('en-IN');
+      document.getElementById('modalDueText').textContent = '₹' + balance.balance.toLocaleString('en-IN');
+
+      // Populate Ledger Table
+      const ledger = Store.getFarmerLedger(currentFarmerPhone);
+      const tbody = document.getElementById('khataTableBody');
+      document.getElementById('ledgerCountBadge').innerHTML = `<span class="lang-mr">${ledger.length} व्यवहार नोंदी</span><span class="lang-en">${ledger.length} Transactions</span>`;
+
+      if (ledger.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted"><span class="lang-mr">खात्यावर अद्याप कोणतीही उधारी नोंद नाही.</span><span class="lang-en">No transaction records found on this account.</span></td></tr>`;
+        App.applyLanguage(App.getLang());
+        return;
+      }
+
+      let html = '';
+      let running = 0;
+
+      ledger.forEach(r => {
+        running += (r.debit || 0) - (r.credit || 0);
+        const isSettled = r.status === 'Settled' || (running === 0 && r.debit === 0);
+        const isOverdue = r.status === 'Overdue';
+
+        const statusBadge = isSettled 
+          ? `<span class="badge bg-success"><span class="lang-mr">जमा</span><span class="lang-en">Settled</span></span>` 
+          : isOverdue 
+            ? `<span class="badge bg-danger"><span class="lang-mr">थकीत</span><span class="lang-en">Overdue</span></span>` 
+            : `<span class="badge bg-warning text-dark"><span class="lang-mr">चालू</span><span class="lang-en">Active</span></span>`;
+
+        html += `
+          <tr>
+            <td class="fw-semibold text-muted">${r.date}</td>
+            <td><code>${r.voucherNo}</code></td>
+            <td>
+              <div class="fw-bold"><span class="lang-mr">${r.description_mr || r.description}</span><span class="lang-en">${r.description_en || r.description_mr || r.description}</span></div>
+            </td>
+            <td class="text-end fw-bold text-danger">${r.debit > 0 ? '₹' + r.debit.toLocaleString('en-IN') : '-'}</td>
+            <td class="text-end fw-bold text-success">${r.credit > 0 ? '₹' + r.credit.toLocaleString('en-IN') : '-'}</td>
+            <td class="text-end fw-bold fs-6">₹${running.toLocaleString('en-IN')}</td>
+            <td class="text-center small">${r.dueDate || '-'}</td>
+            <td class="text-center">${statusBadge}</td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+      App.applyLanguage(App.getLang());
+    }
+
+    function openPayModal() {
+      const balance = Store.getFarmerBalance(currentFarmerPhone);
+      const amountToPay = Math.max(0, balance.balance);
+      document.getElementById('payAmountInput').value = amountToPay;
+      regenerateQr();
+
+      const modal = new bootstrap.Modal(document.getElementById('payUdhariModal'));
+      modal.show();
+    }
+
+    function regenerateQr() {
+      const amt = parseFloat(document.getElementById('payAmountInput').value) || 0;
+      const vpa = 'saptashrungiagro@sbi';
+      const name = encodeURIComponent('Saptashrungi Agro Services');
+      const upiString = `upi://pay?pa=${vpa}&pn=${name}&am=${amt}&cu=INR`;
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(upiString)}`;
+      document.getElementById('dynamicUpiQr').src = qrUrl;
+    }
+
+    function simulatePaymentConfirm() {
+      const amt = parseFloat(document.getElementById('payAmountInput').value) || 0;
+      if (amt <= 0) {
+        alert('कृपया वैध रक्कम प्रविष्ट करा!');
+        return;
+      }
+
+      const note = document.getElementById('payNoteInput').value.trim() || 'UPI द्वारे जमा';
+      Store.recordPayment(currentFarmerPhone, amt, note);
+
+      bootstrap.Modal.getInstance(document.getElementById('payUdhariModal')).hide();
+      App.showToast(`₹${amt} ची रक्कम खात्यावर यशस्वीरित्या जमा झाली!`, `Payment of ₹${amt} successfully recorded!`, 'success');
+      loadFarmerLedger();
+    }
+  </script>
+</body>
+</html>

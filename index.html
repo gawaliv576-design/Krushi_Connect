@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>कृषी सेवा केंद्र - सप्तशृंगी ॲग्रो सर्व्हिसेस | Krushi Seva Kendra</title>
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body class="lang-mr">
+
+  <!-- Top Bar -->
+  <div class="ksk-topbar">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div>
+        <i class="bi bi-telephone-fill text-warning me-1"></i>
+        <span class="lang-mr">शेतकरी हेल्पलाइन: +९१ ९८२२० १२३४५</span>
+        <span class="lang-en">Farmer Helpline: +91 98220 12345</span>
+        <span class="mx-2 text-secondary d-none d-md-inline">|</span>
+        <span class="d-none d-md-inline">
+          <i class="bi bi-geo-alt-fill text-danger me-1"></i>
+          <span class="lang-mr">सिन्नर-शिर्डी हायवे, जि. नाशिक (महाराष्ट्र)</span>
+          <span class="lang-en">Sinnar-Shirdi Highway, Nashik (Maharashtra)</span>
+        </span>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <a href="weather.html" class="d-none d-sm-inline">
+          <i class="bi bi-cloud-sun-fill text-info me-1"></i>
+          <span class="lang-mr">आजचे हवामान & फवारणी वेळ</span>
+          <span class="lang-en">Today's Weather & Spray Guide</span>
+        </a>
+        <div class="d-flex align-items-center gap-1">
+          <button id="btnLangMr" onclick="App.setLang('mr')" class="btn btn-xs py-0 px-2 btn-success text-white rounded-pill fw-bold" style="font-size:0.75rem;">मराठी</button>
+          <button id="btnLangEn" onclick="App.setLang('en')" class="btn btn-xs py-0 px-2 btn-outline-secondary rounded-pill fw-bold" style="font-size:0.75rem;">English</button>
+        </div>
+        <button onclick="App.toggleTheme()" class="btn btn-link text-light p-0 ms-1" title="Toggle Theme">
+          <i class="bi bi-moon-stars-fill theme-icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navbar -->
+  <header class="ksk-navbar">
+    <div class="container py-2">
+      <div class="d-flex align-items-center justify-content-between">
+        
+        <!-- Brand -->
+        <a href="index.html" class="ksk-brand text-decoration-none">
+          <div class="ksk-brand-icon">
+            <i class="bi bi-flower1"></i>
+          </div>
+          <div class="ksk-brand-text">
+            <span class="ksk-brand-title">सप्तशृंगी ॲग्रो</span>
+            <span class="ksk-brand-subtitle">Krushi Seva Kendra</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="d-none d-lg-flex align-items-center gap-1">
+          <a href="index.html" class="nav-link active">
+            <span class="lang-mr">मुखपृष्ठ</span><span class="lang-en">Home</span>
+          </a>
+          <a href="products.html" class="nav-link">
+            <span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span>
+          </a>
+          <a href="categories.html" class="nav-link">
+            <span class="lang-mr">वर्गवारी</span><span class="lang-en">Categories</span>
+          </a>
+          <a href="fertilizer-calculator.html" class="nav-link">
+            <span class="lang-mr">खत गणक</span><span class="lang-en">Fertilizer Calc</span>
+          </a>
+          <a href="weather.html" class="nav-link">
+            <span class="lang-mr">हवामान सल्ला</span><span class="lang-en">Weather Advisory</span>
+          </a>
+          <a href="farming-tips.html" class="nav-link">
+            <span class="lang-mr">शेती सल्ले</span><span class="lang-en">Farming Tips</span>
+          </a>
+          <a href="farmer-udhari.html" class="nav-link text-warning-emphasis">
+            <i class="bi bi-journal-bookmark me-1"></i>
+            <span class="lang-mr">उधारी खातावही</span><span class="lang-en">Khata Ledger</span>
+          </a>
+        </nav>
+
+        <!-- Right Action Icons (Cart, Account) -->
+        <div class="d-flex align-items-center gap-3">
+          <!-- Cart Button -->
+          <a href="cart.html" class="btn btn-light rounded-circle p-2 position-relative shadow-sm border" title="Shopping Cart">
+            <i class="bi bi-cart3 fs-5 text-success"></i>
+            <span class="cart-badge-pill cart-badge" style="display:none;">0</span>
+          </a>
+
+          <!-- User Section Container -->
+          <div id="headerUserSection">
+            <!-- Injected by app.js -->
+          </div>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button class="btn btn-outline-success d-lg-none rounded-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+            <i class="bi bi-list fs-4"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Offcanvas Menu -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu">
+    <div class="offcanvas-header border-bottom">
+      <div class="d-flex align-items-center gap-2">
+        <div class="ksk-brand-icon" style="width:36px; height:36px; font-size:1.1rem;">
+          <i class="bi bi-flower1"></i>
+        </div>
+        <h5 class="offcanvas-title fw-bold text-success">सप्तशृंगी ॲग्रो</h5>
+      </div>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <div class="list-group list-group-flush mb-4">
+        <a href="index.html" class="list-group-item list-group-item-action active fw-bold py-3"><i class="bi bi-house-door me-2"></i><span class="lang-mr">मुखपृष्ठ</span><span class="lang-en">Home</span></a>
+        <a href="products.html" class="list-group-item list-group-item-action py-3"><i class="bi bi-bag-check me-2"></i><span class="lang-mr">सर्व उत्पादने</span><span class="lang-en">All Products</span></a>
+        <a href="categories.html" class="list-group-item list-group-item-action py-3"><i class="bi bi-grid me-2"></i><span class="lang-mr">उत्पादन वर्गवारी</span><span class="lang-en">Categories</span></a>
+        <a href="fertilizer-calculator.html" class="list-group-item list-group-item-action py-3"><i class="bi bi-calculator me-2"></i><span class="lang-mr">खत मात्रा गणक</span><span class="lang-en">Fertilizer Calculator</span></a>
+        <a href="weather.html" class="list-group-item list-group-item-action py-3"><i class="bi bi-cloud-sun me-2"></i><span class="lang-mr">हवामान व फवारणी सल्ला</span><span class="lang-en">Weather & Spray Advisory</span></a>
+        <a href="farming-tips.html" class="list-group-item list-group-item-action py-3"><i class="bi bi-lightbulb me-2"></i><span class="lang-mr">पीक संरक्षण व शेती सल्ले</span><span class="lang-en">Crop Advisory & Tips</span></a>
+        <a href="farmer-udhari.html" class="list-group-item list-group-item-action py-3 text-warning-emphasis"><i class="bi bi-journal-text me-2"></i><span class="lang-mr">शेतकरी उधारी खातावही</span><span class="lang-en">Farmer Credit Ledger</span></a>
+        <a href="admin-dashboard.html" class="list-group-item list-group-item-action py-3 text-primary"><i class="bi bi-shield-lock me-2"></i><span class="lang-mr">दुकानदार / ॲडमिन पॅनल</span><span class="lang-en">Admin Panel</span></a>
+      </div>
+      <div class="p-3 bg-light rounded-3 text-center">
+        <p class="small text-muted mb-2">सप्तशृंगी ॲग्रो सर्व्हिसेस, नाशिक</p>
+        <a href="tel:9822012345" class="btn btn-sm btn-success w-100 rounded-pill"><i class="bi bi-telephone-outbound me-1"></i> संपर्क: 9822012345</a>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+      <div class="container position-relative" style="z-index: 2;">
+        <div class="row align-items-center">
+          <div class="col-lg-8">
+            <div class="hero-badge">
+              <i class="bi bi-patch-check-fill text-warning"></i>
+              <span class="lang-mr">१२ वर्षांचा विश्वास • ५,०००+ समाधानी शेतकरी बंधू</span>
+              <span class="lang-en">12 Years of Trust • 5,000+ Satisfied Farmers</span>
+            </div>
+            <h1 class="hero-title">
+              <span class="lang-mr">उत्तम बियाणे, दर्जेदार खते आणि योग्य कृषी सल्ला!</span>
+              <span class="lang-en">Premium Seeds, Quality Fertilizers & Expert Agri Guidance!</span>
+            </h1>
+            <p class="lead mb-4 text-white-50">
+              <span class="lang-mr">कपाशी, कांदा, सोयाबीन व सर्व पिकांसाठी शासकीय अनुदानित दरात खते, औषधे व ठिबक साहित्य थेट आपल्या बांधावर.</span>
+              <span class="lang-en">Certified seeds, subsidized fertilizers and modern irrigation systems delivered directly to your farm.</span>
+            </p>
+
+            <!-- Instant Search Bar -->
+            <form action="products.html" method="GET" class="hero-search-box mb-4">
+              <i class="bi bi-search text-muted fs-5 ms-2"></i>
+              <input type="text" name="search" class="hero-search-input" placeholder="युरिया, डीएपी, कोराजन, कांदा बियाणे शोधा... / Search Urea, DAP, Seeds..." id="homeSearchInput">
+              <button type="submit" class="hero-search-btn">
+                <span class="lang-mr">शोधा</span><span class="lang-en">Search</span>
+              </button>
+            </form>
+
+            <div class="d-flex flex-wrap gap-2 text-white-50 small">
+              <span class="text-white fw-bold"><i class="bi bi-fire text-warning me-1"></i><span class="lang-mr">लोकप्रिय:</span><span class="lang-en">Popular:</span></span>
+              <a href="products.html?category=fertilizers" class="badge bg-white bg-opacity-25 text-white text-decoration-none"><span class="lang-mr">युरिया खत</span><span class="lang-en">Urea</span></a>
+              <a href="products.html?category=fertilizers" class="badge bg-white bg-opacity-25 text-white text-decoration-none"><span class="lang-mr">डीएपी १८:४६:०</span><span class="lang-en">DAP 18:46:0</span></a>
+              <a href="products.html?category=pesticides" class="badge bg-white bg-opacity-25 text-white text-decoration-none"><span class="lang-mr">कोराजन</span><span class="lang-en">Coragen</span></a>
+              <a href="products.html?category=seeds" class="badge bg-white bg-opacity-25 text-white text-decoration-none"><span class="lang-mr">कांदा बियाणे</span><span class="lang-en">Onion Seeds</span></a>
+              <a href="products.html?category=irrigation" class="badge bg-white bg-opacity-25 text-white text-decoration-none"><span class="lang-mr">जैन ठिबक</span><span class="lang-en">Jain Drip</span></a>
+            </div>
+          </div>
+
+          <div class="col-lg-4 mt-5 mt-lg-0">
+            <!-- Live Advisory Mini Card -->
+            <div class="ksk-glass-card p-4 text-dark shadow-lg">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill fw-bold">
+                  <i class="bi bi-broadcast me-1"></i>
+                  <span class="lang-mr">नाशिक कृषी हवामान</span><span class="lang-en">Nashik Agri Weather</span>
+                </span>
+                <span class="text-muted small"><span class="lang-mr">आज २८°C</span><span class="lang-en">Today 28°C</span></span>
+              </div>
+              <h5 class="fw-bold mb-2">
+                <span class="lang-mr">आजच्या फवारणीसाठी योग्य वेळ!</span>
+                <span class="lang-en">Safe Spray Timing Today!</span>
+              </h5>
+              <p class="small text-muted mb-3">
+                <span class="lang-mr">हवा स्थिर असून दुपारनंतर ३ ते सायंकाळी ६ वाजेपर्यंत कीटकनाशक फवारणीस अनुकूल हवामान आहे.</span>
+                <span class="lang-en">Wind speed is calm. Afternoon 3 PM to 6 PM is ideal for pest spray without drift.</span>
+              </p>
+              <div class="d-grid gap-2">
+                <a href="fertilizer-calculator.html" class="btn btn-sm btn-ksk-accent fw-bold text-center">
+                  <i class="bi bi-calculator me-1"></i>
+                  <span class="lang-mr">खत मात्रा कॅल्क्युलेटर वापरा</span>
+                  <span class="lang-en">Use Fertilizer Calculator</span>
+                </a>
+                <a href="farmer-udhari.html" class="btn btn-sm btn-outline-dark fw-bold text-center">
+                  <i class="bi bi-book me-1"></i>
+                  <span class="lang-mr">तुमची उधारी तपासा (खातावही)</span>
+                  <span class="lang-en">Check Your Credit Ledger</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Category Grid -->
+    <section class="py-5">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-end mb-4">
+          <div>
+            <h6 class="text-success text-uppercase fw-bold mb-1">
+              <span class="lang-mr">उत्पादन दालन</span><span class="lang-en">Product Catalog</span>
+            </h6>
+            <h2 class="fw-bold mb-0">
+              <span class="lang-mr">प्रमुख वर्गवारी निवडा</span><span class="lang-en">Browse by Categories</span>
+            </h2>
+          </div>
+          <a href="categories.html" class="btn btn-outline-success rounded-pill px-3 py-1 fw-bold">
+            <span class="lang-mr">सर्व वर्गवारी पहा</span><span class="lang-en">View All</span> <i class="bi bi-arrow-right ms-1"></i>
+          </a>
+        </div>
+
+        <div class="row g-3 row-cols-2 row-cols-md-3 row-cols-lg-6 text-center">
+          <!-- Category 1: Seeds -->
+          <div class="col">
+            <a href="products.html?category=seeds" class="text-decoration-none text-dark">
+              <div class="ksk-card category-card p-3">
+                <div class="category-icon-box cat-seeds">
+                  <i class="bi bi-tree"></i>
+                </div>
+                <h6 class="fw-bold mb-1">
+                  <span class="lang-mr">बियाणे</span><span class="lang-en">Seeds</span>
+                </h6>
+                <small class="text-muted">
+                  <span class="lang-mr">कपाशी, कांदा, सोयाबीन</span>
+                  <span class="lang-en">Cotton, Onion, Soybean</span>
+                </small>
+              </div>
+            </a>
+          </div>
+
+          <!-- Category 2: Fertilizers -->
+          <div class="col">
+            <a href="products.html?category=fertilizers" class="text-decoration-none text-dark">
+              <div class="ksk-card category-card p-3">
+                <div class="category-icon-box cat-fertilizers">
+                  <i class="bi bi-box-seam"></i>
+                </div>
+                <h6 class="fw-bold mb-1">
+                  <span class="lang-mr">रासायनिक खते</span><span class="lang-en">Fertilizers</span>
+                </h6>
+                <small class="text-muted">
+                  <span class="lang-mr">युरिया, डीएपी, पोटॅश</span>
+                  <span class="lang-en">Urea, DAP, Potash</span>
+                </small>
+              </div>
+            </a>
+          </div>
+
+          <!-- Category 3: Pesticides -->
+          <div class="col">
+            <a href="products.html?category=pesticides" class="text-decoration-none text-dark">
+              <div class="ksk-card category-card p-3">
+                <div class="category-icon-box cat-pesticides">
+                  <i class="bi bi-bug"></i>
+                </div>
+                <h6 class="fw-bold mb-1">
+                  <span class="lang-mr">कीटकनाशके</span><span class="lang-en">Pesticides</span>
+                </h6>
+                <small class="text-muted">
+                  <span class="lang-mr">बुरशीनाशक, तणनाशक</span>
+                  <span class="lang-en">Fungicide, Herbicide</span>
+                </small>
+              </div>
+            </a>
+          </div>
+
+          <!-- Category 4: Irrigation -->
+          <div class="col">
+            <a href="products.html?category=irrigation" class="text-decoration-none text-dark">
+              <div class="ksk-card category-card p-3">
+                <div class="category-icon-box cat-irrigation">
+                  <i class="bi bi-droplet-half"></i>
+                </div>
+                <h6 class="fw-bold mb-1">
+                  <span class="lang-mr">ठिबक व सिंचन</span><span class="lang-en">Irrigation</span>
+                </h6>
+                <small class="text-muted">
+                  <span class="lang-mr">इनलाईन, स्प्रिंकलर, पाईप</span>
+                  <span class="lang-en">Inline, Sprinklers, Pipes</span>
+                </small>
+              </div>
+            </a>
+          </div>
+
+          <!-- Category 5: Tools -->
+          <div class="col">
+            <a href="products.html?category=tools" class="text-decoration-none text-dark">
+              <div class="ksk-card category-card p-3">
+                <div class="category-icon-box cat-tools">
+                  <i class="bi bi-tools"></i>
+                </div>
+                <h6 class="fw-bold mb-1">
+                  <span class="lang-mr">कृषी अवजारे</span><span class="lang-en">Agri Tools</span>
+                </h6>
+                <small class="text-muted">
+                  <span class="lang-mr">बॅटरी पंप, विळा, स्प्रेअर</span>
+                  <span class="lang-en">Battery Pumps, Sickles, Sprayers</span>
+                </small>
+              </div>
+            </a>
+          </div>
+
+          <!-- Category 6: Organic -->
+          <div class="col">
+            <a href="products.html?category=organic" class="text-decoration-none text-dark">
+              <div class="ksk-card category-card p-3">
+                <div class="category-icon-box cat-organic">
+                  <i class="bi bi-flower2"></i>
+                </div>
+                <h6 class="fw-bold mb-1">
+                  <span class="lang-mr">सेंद्रिय खते</span><span class="lang-en">Organic Bio</span>
+                </h6>
+                <small class="text-muted">
+                  <span class="lang-mr">बायो-एनपीके, हुमिक</span>
+                  <span class="lang-en">Bio-NPK, Humic Acid</span>
+                </small>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Products Section -->
+    <section class="py-5 bg-white">
+      <div class="container">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4">
+          <div>
+            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill fw-bold mb-2">
+              <i class="bi bi-stars me-1"></i>
+              <span class="lang-mr">हंगामातील विशेष उत्पादने</span><span class="lang-en">Seasonal Highlights</span>
+            </span>
+            <h2 class="fw-bold mb-1">
+              <span class="lang-mr">शेतकऱ्यांची पहिली पसंती</span><span class="lang-en">Featured Agro Products</span>
+            </h2>
+            <p class="text-muted mb-0">
+              <span class="lang-mr">सर्व उत्पादनांवर शासकीय अनुमती व खात्रीशीर गुणवत्ता प्रमाणपत्र.</span>
+              <span class="lang-en">Government authorized genuine batch products with certified purity.</span>
+            </p>
+          </div>
+          <div class="mt-3 mt-md-0">
+            <a href="products.html" class="btn btn-ksk-primary">
+              <span class="lang-mr">सर्व उत्पादने पहा</span><span class="lang-en">View All Products</span>
+              <i class="bi bi-arrow-right ms-2"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Dynamic Product Grid -->
+        <div class="row g-4" id="homeProductGrid">
+          <!-- Rendered via JavaScript from Store -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Agri-Tools Suite Banner (Fertilizer Calc & Weather Promo) -->
+    <section class="py-5" style="background: linear-gradient(135deg, #f0fdf4, #e0f2fe);">
+      <div class="container">
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-6">
+            <div class="ksk-card p-4 p-md-5 border-0 shadow-md" style="background: #ffffff;">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="category-icon-box cat-fertilizers m-0" style="width:56px; height:56px; font-size:1.6rem;">
+                  <i class="bi bi-calculator"></i>
+                </div>
+                <div>
+                  <h4 class="fw-bold mb-0 text-success">
+                    <span class="lang-mr">खत मात्रा गणक (कॅल्क्युलेटर)</span>
+                    <span class="lang-en">Fertilizer Dosage Calculator</span>
+                  </h4>
+                  <small class="text-muted">Crop-specific NPK calculation engine</small>
+                </div>
+              </div>
+              <p class="text-muted mb-4">
+                <span class="lang-mr">तुमचे पीक, शेतीचे क्षेत्र (एकर किंवा गुंठा) आणि जमिनीचा प्रकार निवडा. आमचा गणक तुम्हाला लागणारे युरिया, डीएपी आणि पोटॅश पोत्यांचे अचूक प्रमाण सांगेल.</span>
+                <span class="lang-en">Input your crop, land acreage and soil type. Get exact recommendations for Urea, DAP, and Potash bags in kg.</span>
+              </p>
+              <div class="d-flex flex-wrap gap-3">
+                <a href="fertilizer-calculator.html" class="btn btn-ksk-primary px-4 py-2">
+                  <i class="bi bi-calculator-fill me-2"></i>
+                  <span class="lang-mr">आत्ताच खत मात्रा मोजा</span>
+                  <span class="lang-en">Calculate Now</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="ksk-card p-4 p-md-5 border-0 shadow-md" style="background: #ffffff;">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="category-icon-box cat-irrigation m-0" style="width:56px; height:56px; font-size:1.6rem;">
+                  <i class="bi bi-cloud-sun"></i>
+                </div>
+                <div>
+                  <h4 class="fw-bold mb-0 text-primary">
+                    <span class="lang-mr">हवामान व फवारणी सल्लागार</span>
+                    <span class="lang-en">Weather & Spray Advisory</span>
+                  </h4>
+                  <small class="text-muted">7-Day Agro Forecast & Wind Tracking</small>
+                </div>
+              </div>
+              <p class="text-muted mb-4">
+                <span class="lang-mr">पावसाचा अंदाज, हवेचा वेग आणि आर्द्रता तपासून कीटकनाशक फवारणीसाठी योग्य वेळेचा सल्ला मिळवा. फवारणी वाया जाऊ नये म्हणून आधी तपासा.</span>
+                <span class="lang-en">Check real-time rain probability and wind velocity to choose ideal time for chemical spraying without wastage.</span>
+              </p>
+              <div class="d-flex flex-wrap gap-3">
+                <a href="weather.html" class="btn btn-outline-primary px-4 py-2 fw-bold rounded-3">
+                  <i class="bi bi-compass-fill me-2"></i>
+                  <span class="lang-mr">७ दिवसांचा हवामान अंदाज</span>
+                  <span class="lang-en">View 7-Day Forecast</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Digital Khata (Udhari) Banner for Farmers -->
+    <section class="py-5 bg-dark text-white position-relative overflow-hidden">
+      <div class="container position-relative" style="z-index: 2;">
+        <div class="row align-items-center">
+          <div class="col-lg-7">
+            <span class="badge bg-warning text-dark fw-bold px-3 py-1 rounded-pill mb-3">
+              <i class="bi bi-book-half me-1"></i>
+              <span class="lang-mr">डिजिटल उधारी पासबुक</span><span class="lang-en">Digital Khata Passbook</span>
+            </span>
+            <h2 class="fw-bold mb-3">
+              <span class="lang-mr">पारदर्शक उधारी व्यवहार – तुमच्या मोबाईलवर!</span>
+              <span class="lang-en">Transparent Credit Ledger on Your Mobile!</span>
+            </h2>
+            <p class="lead text-light text-opacity-75 mb-4">
+              <span class="lang-mr">सप्तशृंगी ॲग्रो केंद्रातील तुमच्या सर्व खरेदीचे बिल, जमा केलेली रक्कम व शिल्लक उधारी आता २४ तास डिजिटल स्वरूपात उपलब्ध. घरबसल्या UPI QR ने उधारी जमा करा.</span>
+              <span class="lang-en">Track all purchases, cash receipts, and outstanding dues 24/7. Pay anytime via instant dynamic UPI QR code.</span>
+            </p>
+            <div class="d-flex flex-wrap gap-3">
+              <a href="farmer-udhari.html" class="btn btn-ksk-accent px-4 py-2 fw-bold">
+                <i class="bi bi-journal-check me-2"></i>
+                <span class="lang-mr">माझी उधारी खातावही उघडा</span>
+                <span class="lang-en">Open My Khata Passbook</span>
+              </a>
+              <a href="login.html" class="btn btn-outline-light px-4 py-2 fw-bold">
+                <i class="bi bi-person-fill me-2"></i>
+                <span class="lang-mr">शेतकरी लॉगिन</span>
+                <span class="lang-en">Farmer Login</span>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-5 mt-4 mt-lg-0 text-center">
+            <div class="p-4 rounded-4 bg-white bg-opacity-10 border border-white border-opacity-20 d-inline-block text-start w-100">
+              <div class="d-flex align-items-center justify-content-between mb-3 border-bottom border-white border-opacity-25 pb-2">
+                <span class="fw-bold">
+                  <i class="bi bi-shield-lock-fill text-success me-2"></i>
+                  <span class="lang-mr">नमुना पासबुक (Demo Passbook)</span>
+                  <span class="lang-en">Demo Khata Passbook</span>
+                </span>
+                <span class="badge bg-success">
+                  <span class="lang-mr">सक्रिय खाते</span>
+                  <span class="lang-en">Active Account</span>
+                </span>
+              </div>
+              <div class="small mb-1 text-light text-opacity-75">
+                <span class="lang-mr">शेतकरी: <strong>रमेश सखाराम पाटील (वैजापूर)</strong></span>
+                <span class="lang-en">Farmer: <strong>Ramesh Sakharam Patil (Vaijapur)</strong></span>
+              </div>
+              <div class="small mb-3 text-light text-opacity-75">
+                <span class="lang-mr">शेतकरी ओळख क्र: <code>KSK-9822012345</code></span>
+                <span class="lang-en">Farmer ID: <code>KSK-9822012345</code></span>
+              </div>
+              <div class="row g-2 text-center">
+                <div class="col-6">
+                  <div class="p-2 bg-black bg-opacity-30 rounded-3">
+                    <small class="text-white-50 d-block">
+                      <span class="lang-mr">एकूण खरेदी</span>
+                      <span class="lang-en">Total Purchases</span>
+                    </small>
+                    <span class="fw-bold text-light"><span class="lang-mr">₹३२,४००</span><span class="lang-en">₹32,400</span></span>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="p-2 bg-black bg-opacity-30 rounded-3">
+                    <small class="text-white-50 d-block">
+                      <span class="lang-mr">चालू बाकी उधारी</span>
+                      <span class="lang-en">Balance Due</span>
+                    </small>
+                    <span class="fw-bold text-warning"><span class="lang-mr">₹८,४५०</span><span class="lang-en">₹8,450</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust Badges & Guarantees -->
+    <section class="py-5 bg-white">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-md-3">
+            <div class="trust-badge-card">
+              <div class="trust-badge-icon">
+                <i class="bi bi-award-fill"></i>
+              </div>
+              <h5 class="fw-bold mb-2">
+                <span class="lang-mr">१००% अस्सल उत्पादने</span>
+                <span class="lang-en">100% Genuine</span>
+              </h5>
+              <p class="text-muted small mb-0">
+                <span class="lang-mr">सर्व औषधे व बियाणे थेट नामांकित कंपन्यांकडून अधिकृत बिलासह.</span>
+                <span class="lang-en">Direct from certified manufacturers with verified tax invoices.</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="trust-badge-card">
+              <div class="trust-badge-icon" style="background:#fef9c3; color:#ca8a04;">
+                <i class="bi bi-truck"></i>
+              </div>
+              <h5 class="fw-bold mb-2">
+                <span class="lang-mr">थेट शेतात पोहोच सेवा</span>
+                <span class="lang-en">Farm Delivery</span>
+              </h5>
+              <p class="text-muted small mb-0">
+                <span class="lang-mr">बल्क खत व ठिबक साहित्याची ट्रॅक्टर / पिकअप द्वारे थेट बांधावर डिलिव्हरी.</span>
+                <span class="lang-en">Doorstep tractor delivery for bulk fertilizers and irrigation pipes.</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="trust-badge-card">
+              <div class="trust-badge-icon" style="background:#fee2e2; color:#dc2626;">
+                <i class="bi bi-shield-check"></i>
+              </div>
+              <h5 class="fw-bold mb-2">
+                <span class="lang-mr">शासकीय परवानाधारक</span>
+                <span class="lang-en">Govt. Certified</span>
+              </h5>
+              <p class="text-muted small mb-0">
+                <span class="lang-mr">महाराष्ट्र शासन कृषी विभाग परवाना क्र. NSK/AGR/2014/9912.</span>
+                <span class="lang-en">Govt. of Maharashtra Agriculture Dept. authorized retailer.</span>
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="trust-badge-card">
+              <div class="trust-badge-icon" style="background:#e0f2fe; color:#0284c7;">
+                <i class="bi bi-chat-heart-fill"></i>
+              </div>
+              <h5 class="fw-bold mb-2">
+                <span class="lang-mr">मोफत कृषी सल्ला</span>
+                <span class="lang-en">Free Agro Advice</span>
+              </h5>
+              <p class="text-muted small mb-0">
+                <span class="lang-mr">तज्ज्ञ कृषी पदवीधरांकडून पीक संरक्षणाचा मोफत सल्ला व मार्गदर्शन.</span>
+                <span class="lang-en">Free soil and crop consultation by expert agronomists.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials / Farmer Reviews -->
+    <section class="py-5 bg-light">
+      <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-5">
+          <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill fw-bold mb-2">
+            <i class="bi bi-chat-quote-fill me-1"></i>
+            <span class="lang-mr">शेतकरी बंधूंचे अनुभव</span><span class="lang-en">Farmer Reviews</span>
+          </span>
+          <h2 class="fw-bold">
+            <span class="lang-mr">सप्तशृंगी ॲग्रो सेवेवर शेतकऱ्यांचा विश्वास</span>
+            <span class="lang-en">Trusted by Progressive Farmers</span>
+          </h2>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="ksk-card p-4">
+              <div class="text-warning mb-3">
+                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+              </div>
+              <p class="text-muted fst-italic mb-3">
+                <span class="lang-mr">"मी गेल्या ६ वर्षांपासून कपाशीचे बियाणे आणि खते सप्तशृंगी केंद्रातूनच घेतो. बियाण्यांची उगवण क्षमता उत्तम असते आणि उधारी खात्याची व्यवस्था अतिशय पारदर्शक आहे."</span>
+                <span class="lang-en">"I have been buying cotton seeds and fertilizers from Saptashrungi Agro for 6 years. Seed germination is excellent and their digital credit ledger is 100% transparent."</span>
+              </p>
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle bg-success text-white d-flex align-items-center justify-content-center fw-bold" style="width:42px; height:42px;">
+                  <span class="lang-mr">रपा</span><span class="lang-en">RP</span>
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-0">
+                    <span class="lang-mr">रमेश पाटील</span>
+                    <span class="lang-en">Ramesh Patil</span>
+                  </h6>
+                  <small class="text-muted">
+                    <span class="lang-mr">कपाशी व कांदा उत्पादक, वैजापूर</span>
+                    <span class="lang-en">Cotton & Onion Farmer, Vaijapur</span>
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="ksk-card p-4">
+              <div class="text-warning mb-3">
+                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+              </div>
+              <p class="text-muted fst-italic mb-3">
+                <span class="lang-mr">"जैन ठिबकची नळी थेट शेतात पोहोचवली. महाडीबीटी अनुदानासाठी लागणारे सर्व कागदपत्रे व कोटेशन त्यांनी वेळेत तयार करून दिले. खूप छान सेवा!"</span>
+                <span class="lang-en">"Jain Drip pipes were delivered right to my field. All Mahadbt subsidy quotation and documentation was provided on time. Great agro service!"</span>
+              </p>
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold" style="width:42px; height:42px;">
+                  <span class="lang-mr">सुदे</span><span class="lang-en">SD</span>
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-0">
+                    <span class="lang-mr">सुरेश देशमुख</span>
+                    <span class="lang-en">Suresh Deshmukh</span>
+                  </h6>
+                  <small class="text-muted">
+                    <span class="lang-mr">ऊस बागायतदार, कोपरगाव</span>
+                    <span class="lang-en">Sugarcane Farmer, Kopargaon</span>
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="ksk-card p-4">
+              <div class="text-warning mb-3">
+                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+              </div>
+              <p class="text-muted fst-italic mb-3">
+                <span class="lang-mr">"हवामान सल्ला आणि खत मात्रा गणक खूप उपयुक्त आहे. कांद्यावरील करप्यासाठी त्यांनी दिलेले औषध २ फवारणीत गुणकारी ठरले. धन्यवाद!"</span>
+                <span class="lang-en">"The weather advisory and fertilizer calculator are extremely useful. The fungicide prescribed for onion blight cured the crop in 2 sprays. Thank you!"</span>
+              </p>
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center fw-bold" style="width:42px; height:42px;">
+                  <span class="lang-mr">गशि</span><span class="lang-en">GS</span>
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-0">
+                    <span class="lang-mr">गणेश शिंदे</span>
+                    <span class="lang-en">Ganesh Shinde</span>
+                  </h6>
+                  <small class="text-muted">
+                    <span class="lang-mr">द्राक्ष व भाजीपाला उत्पादक, सिन्नर</span>
+                    <span class="lang-en">Grape & Vegetable Grower, Sinnar</span>
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Product Detail Modal (Reusable for Quick View) -->
+  <div class="modal fade" id="productDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden" id="productDetailModalContent">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="ksk-footer">
+    <div class="container">
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="ksk-brand-icon" style="width:40px; height:40px; font-size:1.2rem;">
+              <i class="bi bi-flower1"></i>
+            </div>
+            <h5 class="mb-0 text-white fw-bold">
+              <span class="lang-mr">सप्तशृंगी ॲग्रो सर्व्हिसेस</span>
+              <span class="lang-en">Saptashrungi Agro Services</span>
+            </h5>
+          </div>
+          <p class="small text-light text-opacity-75">
+            <span class="lang-mr">शेतकरी बांधवांच्या समृद्धीसाठी सदैव कटिबद्ध. दर्जेदार बियाणे, रासायनिक व सेंद्रिय खते, कीटकनाशके आणि आधुनिक सिंचन साहित्याचे अधिकृत विक्री केंद्र.</span>
+            <span class="lang-en">Committed to agricultural prosperity with certified seeds, fertilizers, crop protection and modern drip systems.</span>
+          </p>
+          <div class="mt-2">
+            <span class="footer-badge">
+              <i class="bi bi-shield-check text-success me-1"></i>
+              <span class="lang-mr">परवाना क्र: NSK-9912</span>
+              <span class="lang-en">License No: NSK-9912</span>
+            </span>
+            <span class="footer-badge">
+              <i class="bi bi-patch-check text-warning me-1"></i>
+              <span>GSTIN: 27AABCS1234F1Z5</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-6">
+          <h5><span class="lang-mr">महत्त्वाच्या लिंक्स</span><span class="lang-en">Quick Links</span></h5>
+          <ul class="list-unstyled small d-flex flex-column gap-2">
+            <li><a href="index.html"><span class="lang-mr">मुखपृष्ठ</span><span class="lang-en">Home</span></a></li>
+            <li><a href="products.html"><span class="lang-mr">सर्व उत्पादने</span><span class="lang-en">Products</span></a></li>
+            <li><a href="categories.html"><span class="lang-mr">उत्पादन वर्गवारी</span><span class="lang-en">Categories</span></a></li>
+            <li><a href="fertilizer-calculator.html"><span class="lang-mr">खत गणक</span><span class="lang-en">Fertilizer Calc</span></a></li>
+            <li><a href="weather.html"><span class="lang-mr">हवामान सल्ला</span><span class="lang-en">Weather Advisory</span></a></li>
+            <li><a href="farming-tips.html"><span class="lang-mr">शेती सल्ले</span><span class="lang-en">Farming Tips</span></a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3 col-6">
+          <h5><span class="lang-mr">शेतकरी सुविधा</span><span class="lang-en">Farmer Services</span></h5>
+          <ul class="list-unstyled small d-flex flex-column gap-2">
+            <li><a href="login.html"><span class="lang-mr">शेतकरी लॉगिन</span><span class="lang-en">Farmer Login</span></a></li>
+            <li><a href="farmer-udhari.html"><span class="lang-mr">डिजिटल उधारी खातावही</span><span class="lang-en">Khata Ledger</span></a></li>
+            <li><a href="register.html"><span class="lang-mr">नवीन नोंदणी</span><span class="lang-en">New Registration</span></a></li>
+            <li><a href="admin-dashboard.html"><span class="lang-mr">व्यवस्थापक दालन</span><span class="lang-en">Admin Panel</span></a></li>
+            <li><a href="cart.html"><span class="lang-mr">खरेदी कार्ट</span><span class="lang-en">Cart & Checkout</span></a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3">
+          <h5><span class="lang-mr">संपर्क व पत्ता</span><span class="lang-en">Contact Us</span></h5>
+          <ul class="list-unstyled small text-light text-opacity-75 d-flex flex-column gap-2">
+            <li>
+              <i class="bi bi-geo-alt-fill text-danger me-2"></i>
+              <span class="lang-mr">सिन्नर-शिर्डी रोड, छत्रपती शिवाजी महाराज चौक, सिन्नर, जि. नाशिक - ४२२१०३</span>
+              <span class="lang-en">Sinnar-Shirdi Highway, Shivaji Chowk, Sinnar, Dist. Nashik - 422103</span>
+            </li>
+            <li><i class="bi bi-telephone-fill text-success me-2"></i>+९१ ९८२२० १२३४५ / ९८२३४ ५६७८९</li>
+            <li><i class="bi bi-envelope-fill text-info me-2"></i>contact@saptashrungiagro.com</li>
+            <li>
+              <i class="bi bi-clock-fill text-warning me-2"></i>
+              <span class="lang-mr">सकाळी ८:०० ते रात्री ८:३० (रविवार सुरू)</span>
+              <span class="lang-en">8:00 AM to 8:30 PM (Open All Days)</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="border-secondary opacity-25">
+
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center small text-light text-opacity-50">
+        <div>
+          <span class="lang-mr">© 2026 कृषी सेवा केंद्र - सप्तशृंगी ॲग्रो सर्व्हिसेस. सर्व हक्क सुरक्षित.</span>
+          <span class="lang-en">© 2026 Krushi Seva Kendra - Saptashrungi Agro Services. All Rights Reserved.</span>
+        </div>
+        <div class="mt-2 mt-md-0">
+          <span class="me-3">Offline-First Client-Side Web Application</span>
+          <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-25">v2.5 LocalStorage Edition</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <div class="mobile-bottom-nav">
+    <a href="index.html" class="mobile-bottom-nav-item active">
+      <i class="bi bi-house-door"></i>
+      <span class="lang-mr">मुखपृष्ठ</span><span class="lang-en">Home</span>
+    </a>
+    <a href="products.html" class="mobile-bottom-nav-item">
+      <i class="bi bi-bag"></i>
+      <span class="lang-mr">खरेदी</span><span class="lang-en">Shop</span>
+    </a>
+    <a href="fertilizer-calculator.html" class="mobile-bottom-nav-item">
+      <i class="bi bi-calculator"></i>
+      <span class="lang-mr">खत गणक</span><span class="lang-en">Calc</span>
+    </a>
+    <a href="farmer-udhari.html" class="mobile-bottom-nav-item">
+      <i class="bi bi-journal-bookmark"></i>
+      <span class="lang-mr">खातावही</span><span class="lang-en">Khata</span>
+    </a>
+    <a href="cart.html" class="mobile-bottom-nav-item position-relative">
+      <i class="bi bi-cart3"></i>
+      <span class="cart-badge-pill cart-badge" style="display:none; top:-4px; right:12px;">0</span>
+      <span class="lang-mr">कार्ट</span><span class="lang-en">Cart</span>
+    </a>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Home Page specific logic: Render featured products
+    document.addEventListener('DOMContentLoaded', () => {
+      renderHomeProducts();
+    });
+
+    window.addEventListener('ksk_lang_changed', () => {
+      renderHomeProducts();
+    });
+
+    function renderHomeProducts() {
+      const container = document.getElementById('homeProductGrid');
+      if (!container) return;
+
+      const products = Store.getProducts().slice(0, 8); // top 8 products
+      let html = '';
+
+      products.forEach(p => {
+        const discountPercent = p.originalPrice > p.price ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100) : 0;
+        
+        html += `
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="ksk-card">
+              <div class="product-img-wrapper">
+                <img src="${p.image}" alt="${p.name_mr}" loading="lazy">
+                ${discountPercent > 0 ? `<span class="product-tag-discount">${discountPercent}% सूट / OFF</span>` : ''}
+                <span class="product-tag-category">${p.brand}</span>
+              </div>
+              <div class="p-3 d-flex flex-column flex-grow-1">
+                <div class="mb-1">
+                  <span class="badge bg-light text-dark border small">${p.unit}</span>
+                </div>
+                <h6 class="fw-bold text-dark mb-1 text-truncate" title="${p.name_mr}">
+                  <span class="lang-mr">${p.name_mr}</span>
+                  <span class="lang-en">${p.name_en}</span>
+                </h6>
+                <div class="small text-muted mb-2 text-truncate">
+                  <i class="bi bi-shield-check text-success me-1"></i>${p.composition}
+                </div>
+
+                <div class="d-flex align-items-baseline mb-3 mt-auto">
+                  <span class="product-price-current">₹${p.price}</span>
+                  ${p.originalPrice > p.price ? `<span class="product-price-original">₹${p.originalPrice}</span>` : ''}
+                </div>
+
+                <div class="d-grid gap-2">
+                  <button onclick="handleAddToCart('${p.id}')" class="btn btn-sm btn-ksk-primary">
+                    <i class="bi bi-cart-plus me-1"></i>
+                    <span class="lang-mr">कार्टमध्ये जोडा</span><span class="lang-en">Add to Cart</span>
+                  </button>
+                  <button onclick="openProductModal('${p.id}')" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-eye me-1"></i>
+                    <span class="lang-mr">माहिती व प्रमाण</span><span class="lang-en">Dosage & Details</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function handleAddToCart(id) {
+      Store.addToCart(id, 1);
+      App.showToast('उत्पादन कार्टमध्ये जोडले गेले आहे!', 'Product added to cart!', 'success');
+    }
+
+    function openProductModal(id) {
+      const p = Store.getProductById(id);
+      if (!p) return;
+
+      const modalContainer = document.getElementById('productDetailModalContent');
+      const discountPercent = p.originalPrice > p.price ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100) : 0;
+
+      modalContainer.innerHTML = `
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title fw-bold">
+            <span class="lang-mr">${p.name_mr}</span>
+            <span class="lang-en">${p.name_en}</span>
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="row g-4">
+            <div class="col-md-5">
+              <img src="${p.image}" class="img-fluid rounded-3 shadow-sm border w-100" style="max-height:280px; object-fit:cover;">
+              <div class="mt-3 p-3 bg-light rounded-3 text-center">
+                <span class="badge bg-warning text-dark fw-bold px-3 py-1 mb-1">${p.badge || '१००% प्रमाणित'}</span>
+                <div class="small text-muted">बॅच क्रमांक: <strong>${p.batchNo}</strong></div>
+                <div class="small text-muted">अंतिम मुदत (Expiry): <strong>${p.expiryDate}</strong></div>
+              </div>
+            </div>
+            <div class="col-md-7">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge bg-success-subtle text-success border border-success-subtle">${p.brand}</span>
+                <span class="badge bg-secondary-subtle text-secondary">${p.unit}</span>
+              </div>
+              <h4 class="fw-bold mb-1">
+                <span class="lang-mr">${p.name_mr}</span>
+                <span class="lang-en">${p.name_en}</span>
+              </h4>
+              <div class="mb-3">
+                <span class="fs-3 fw-bold text-success">₹${p.price}</span>
+                ${p.originalPrice > p.price ? `<span class="text-muted text-decoration-line-through ms-2">₹${p.originalPrice}</span>` : ''}
+                ${discountPercent > 0 ? `<span class="badge bg-danger ms-2">${discountPercent}% OFF</span>` : ''}
+              </div>
+
+              <div class="p-3 bg-light rounded-3 mb-3">
+                <h6 class="fw-bold text-success mb-1">
+                  <i class="bi bi-droplet-half me-1"></i>
+                  <span class="lang-mr">वापर व फवारणी प्रमाण:</span>
+                  <span class="lang-en">Dosage & Application:</span>
+                </h6>
+                <p class="small mb-2 text-dark">
+                  <span class="lang-mr">${p.dosage_mr}</span>
+                  <span class="lang-en">${p.dosage_en}</span>
+                </p>
+                <h6 class="fw-bold text-primary mb-1">
+                  <i class="bi bi-shield-check me-1"></i>
+                  <span class="lang-mr">रासायनिक घटक:</span>
+                  <span class="lang-en">Composition:</span>
+                </h6>
+                <p class="small mb-0 text-muted">${p.composition}</p>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-bold small">
+                  <i class="bi bi-plant me-1 text-success"></i>
+                  <span class="lang-mr">उपयुक्त पिके:</span>
+                  <span class="lang-en">Recommended Crops:</span>
+                </label>
+                <div class="small text-muted">
+                  <span class="lang-mr">${p.crop_mr}</span>
+                  <span class="lang-en">${p.crop_en}</span>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-center gap-3">
+                <div class="input-group" style="width: 120px;">
+                  <button class="btn btn-outline-secondary" type="button" onclick="const input = document.getElementById('modalQty'); if(input.value > 1) input.value--;">-</button>
+                  <input type="number" id="modalQty" class="form-control text-center" value="1" min="1" max="100">
+                  <button class="btn btn-outline-secondary" type="button" onclick="const input = document.getElementById('modalQty'); input.value++;">+</button>
+                </div>
+                <button onclick="addToCartFromModal('${p.id}')" class="btn btn-ksk-primary flex-grow-1">
+                  <i class="bi bi-cart-plus me-1"></i>
+                  <span class="lang-mr">कार्टमध्ये जोडा</span><span class="lang-en">Add to Cart</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const modal = new bootstrap.Modal(document.getElementById('productDetailModal'));
+      modal.show();
+    }
+
+    function addToCartFromModal(id) {
+      const qty = parseInt(document.getElementById('modalQty').value) || 1;
+      Store.addToCart(id, qty);
+      bootstrap.Modal.getInstance(document.getElementById('productDetailModal')).hide();
+      App.showToast(`कार्टमध्ये ${qty} नग जोडले गेले!`, `Added ${qty} items to cart!`, 'success');
+    }
+  </script>
+</body>
+</html>

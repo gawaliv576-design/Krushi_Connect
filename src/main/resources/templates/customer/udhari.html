@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Udhari | Krushi Seva Kendra</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <th:block th:replace="~{layout/header :: premiumAssets}"></th:block>
+</head>
+<body class="customer-page">
+    <header th:replace="~{layout/navbar :: navbar}"></header>
+    <aside th:replace="~{layout/sidebar-customer :: sidebar('udhari')}"></aside>
+    <main class="container-fluid py-4 premium-dashboard-content">
+        <div class="customer-page-heading">
+            <div><span class="customer-eyebrow">YOUR ACCOUNT</span><h1>My Udhari</h1><p>Track your shop credit, due dates and payment history.</p></div>
+            <a class="btn btn-success customer-primary-action" th:href="@{/customer/pay}"><i class="bi bi-qr-code-scan me-2"></i>Pay now</a>
+        </div>
+        <section class="balance-card" th:classappend="${outstanding.signum() > 0 ? 'balance-card--due' : 'balance-card--clear'}">
+            <div class="balance-card__copy">
+                <span>Current outstanding balance</span>
+                <strong>₹<span th:text="${#numbers.formatDecimal(outstanding, 1, 2)}">0.00</span></strong>
+                <small th:if="${outstanding.signum() > 0}" th:text="${overdueCount > 0 ? overdueCount + ' payment(s) past the due date' : 'Please pay by the due date shown below.'}">Payment due</small>
+                <small th:if="${outstanding.signum() == 0}">Your account is clear. Thank you!</small>
+            </div>
+            <span class="balance-card__icon"><i th:class="${outstanding.signum() > 0 ? 'bi bi-exclamation-circle' : 'bi bi-check-circle'}"></i></span>
+        </section>
+
+        <section class="customer-panel-card">
+            <div class="customer-panel-card__heading">
+                <div><h2>Credit transaction history</h2><p>Udhari entries recorded by Saptashrungi Agro Services.</p></div>
+                <span class="customer-count" th:text="${udharis.size()} + ' entries'">0 entries</span>
+            </div>
+            <div class="customer-empty-state" th:if="${udharis.isEmpty()}"><i class="bi bi-wallet2"></i><strong>No udhari entries yet</strong><span>Your credit history will appear here when the shop records an entry.</span></div>
+            <div class="table-responsive" th:unless="${udharis.isEmpty()}">
+                <table class="table align-middle customer-table mb-0">
+                    <thead><tr><th>Entry</th><th>Amount</th><th>Due date</th><th>Status</th><th>Payment confirmation</th></tr></thead>
+                    <tbody>
+                    <tr th:each="udhari : ${udharis}">
+                        <td><strong>Credit #<span th:text="${udhari.id}">1</span></strong><small th:text="${#temporals.format(udhari.createdAt, 'dd MMM yyyy')}">Date</small></td>
+                        <td class="customer-amount">₹<span th:text="${#numbers.formatDecimal(udhari.amount, 1, 2)}">0.00</span></td>
+                        <td>
+                            <span th:if="${udhari.dueDate != null}" th:text="${#temporals.format(udhari.dueDate, 'dd MMM yyyy')}">Date</span>
+                            <span th:if="${udhari.dueDate == null}" class="text-muted">Not set</span>
+                            <small class="customer-overdue" th:if="${udhari.status.name() == 'OVERDUE'}">Past due date</small>
+                        </td>
+                        <td><span class="customer-status" th:classappend="${udhari.status.name() == 'PAID' ? 'customer-status--paid' : (udhari.status.name() == 'OVERDUE' ? 'customer-status--overdue' : 'customer-status--due')}" th:text="${udhari.status}">PENDING</span></td>
+                        <td>
+                            <a class="btn btn-sm btn-outline-success customer-whatsapp-confirm" th:if="${udhari.status.name() != 'PAID'}"
+                               href="https://wa.me/918600813827" target="_blank" rel="noopener noreferrer"
+                               th:attr="data-amount=${udhari.amount},data-credit-id=${udhari.id},data-due-date=${udhari.dueDate},data-name=${user.name}"
+                               aria-label="Confirm payment with the shop on WhatsApp"><i class="bi bi-whatsapp me-1"></i>Confirm on WhatsApp</a>
+                            <span th:if="${udhari.status.name() == 'PAID'}" class="customer-paid-label"><i class="bi bi-check-circle-fill me-1"></i>Paid</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="customer-reminder-note" th:if="${overdueCount > 0}">
+                <i class="bi bi-bell"></i>
+                <span>One or more entries are overdue. Please contact the shop to arrange payment. WhatsApp opens a reminder for you to review and send.</span>
+                <a th:href="@{/customer/pay}">Pay online <i class="bi bi-arrow-right"></i></a>
+            </div>
+        </section>
+        <p class="customer-automation-note"><i class="bi bi-info-circle me-1"></i>Automatic overdue reminders require WhatsApp consent in your profile and a configured business messaging service. You can contact the shop using the button above.</p>
+    </main>
+    <footer th:replace="~{layout/footer :: footer}"></footer>
+    <script>
+        document.querySelectorAll(".customer-whatsapp-confirm").forEach((link) => {
+            link.addEventListener("click", (event) => {
+                const amount = link.dataset.amount || "0";
+                const creditId = link.dataset.creditId || "";
+                const dueDate = link.dataset.dueDate;
+                const message = `Namaskar, I have paid ₹${amount} towards my udhari (Credit #${creditId}).${dueDate ? ` Due date: ${dueDate}.` : ""} Please confirm.`;
+                link.href = `https://wa.me/918600813827?text=${encodeURIComponent(message)}`;
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

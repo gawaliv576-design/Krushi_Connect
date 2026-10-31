@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>व्यवस्थापक डॅशबोर्ड (Admin Panel) | कृषी सेवा केंद्र</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body class="lang-mr">
+
+  <div class="ksk-topbar">
+    <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+      <div>
+        <i class="bi bi-shield-check text-warning me-1"></i>
+        <span class="lang-mr">सप्तशृंगी ॲग्रो • मुख्य व्यवस्थापक नियंत्रण कक्ष</span>
+        <span class="lang-en">Saptashrungi Agro • Store Admin Console</span>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <a href="index.html" class="text-light text-decoration-none small">
+          <i class="bi bi-shop me-1"></i>
+          <span class="lang-mr">ग्राहक दालन</span>
+          <span class="lang-en">Storefront</span>
+        </a>
+        <div class="d-flex align-items-center gap-1">
+          <button id="btnLangMr" onclick="App.setLang('mr')" class="btn btn-xs py-0 px-2 btn-success text-white rounded-pill fw-bold" style="font-size:0.75rem;">मराठी</button>
+          <button id="btnLangEn" onclick="App.setLang('en')" class="btn btn-xs py-0 px-2 btn-outline-secondary rounded-pill fw-bold" style="font-size:0.75rem;">English</button>
+        </div>
+        <button onclick="App.toggleTheme()" class="btn btn-link text-light p-0 ms-1">
+          <i class="bi bi-moon-stars-fill theme-icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-wrapper">
+    
+    <!-- Admin Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="d-flex align-items-center gap-2 mb-4 pb-3 border-bottom">
+        <div class="ksk-brand-icon" style="width:38px; height:38px; font-size:1.2rem;">
+          <i class="bi bi-flower1"></i>
+        </div>
+        <div>
+          <h6 class="fw-bold mb-0 text-success">
+            <span class="lang-mr">सप्तशृंगी ॲग्रो</span>
+            <span class="lang-en">Saptashrungi Agro</span>
+          </h6>
+          <small class="text-muted">
+            <span class="lang-mr">दुकान व्यवस्थापक</span>
+            <span class="lang-en">Store Manager</span>
+          </small>
+        </div>
+      </div>
+
+      <nav class="d-flex flex-column">
+        <a href="admin-dashboard.html" class="admin-nav-item active">
+          <i class="bi bi-speedometer2 fs-5"></i>
+          <span class="lang-mr">डॅशबोर्ड (Overview)</span><span class="lang-en">Dashboard Overview</span>
+        </a>
+        <a href="admin-products.html" class="admin-nav-item">
+          <i class="bi bi-box-seam fs-5"></i>
+          <span class="lang-mr">उत्पादने व साठा (Inventory)</span><span class="lang-en">Products & Stock</span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-item">
+          <i class="bi bi-journal-text fs-5"></i>
+          <span class="lang-mr">उधारी खातावही (Credit Ledger)</span><span class="lang-en">Credit Ledger</span>
+        </a>
+        <a href="admin-orders.html" class="admin-nav-item">
+          <i class="bi bi-receipt fs-5"></i>
+          <span class="lang-mr">ऑर्डर्स व विक्री (Orders)</span><span class="lang-en">Store Orders</span>
+        </a>
+        <a href="admin-customers.html" class="admin-nav-item">
+          <i class="bi bi-people fs-5"></i>
+          <span class="lang-mr">नोंदणीकृत शेतकरी (Farmers)</span><span class="lang-en">Registered Farmers</span>
+        </a>
+        <hr class="my-3 text-secondary">
+        <a href="index.html" class="admin-nav-item text-primary">
+          <i class="bi bi-box-arrow-up-right fs-5"></i>
+          <span class="lang-mr">दुकान पहा (Live Store)</span><span class="lang-en">View Storefront</span>
+        </a>
+        <a href="javascript:void(0)" onclick="App.handleLogout()" class="admin-nav-item text-danger">
+          <i class="bi bi-box-arrow-right fs-5"></i>
+          <span class="lang-mr">लॉगआउट (Logout)</span><span class="lang-en">Logout</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Admin Main Content -->
+    <main class="admin-content">
+      
+      <!-- Page Top Header -->
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+        <div>
+          <h3 class="fw-bold mb-1">
+            <span class="lang-mr">दुकान व्यवस्थापन नियंत्रण कक्ष</span>
+            <span class="lang-en">Store Admin Dashboard</span>
+          </h3>
+          <p class="text-muted mb-0">
+            <span class="lang-mr">आजची विक्री, उधारी वसुली, आणि उत्पादनांच्या साठ्याची अद्ययावत माहिती</span>
+            <span class="lang-en">Live sales overview, credit ledger dues, and stock inventory</span>
+          </p>
+        </div>
+        <div class="d-flex gap-2 mt-3 mt-md-0">
+          <a href="admin-products.html?action=add" class="btn btn-ksk-primary fw-bold">
+            <i class="bi bi-plus-circle me-1"></i>
+            <span class="lang-mr">नवीन उत्पादन जोडा</span>
+            <span class="lang-en">Add New Product</span>
+          </a>
+          <a href="admin-udhari.html?action=new" class="btn btn-warning fw-bold text-dark">
+            <i class="bi bi-plus-square me-1"></i>
+            <span class="lang-mr">नवीन उधारी नोंदवा</span>
+            <span class="lang-en">Record Credit Due</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- KPI Stats Row -->
+      <div class="row g-3 mb-4">
+        <!-- Monthly Revenue -->
+        <div class="col-sm-6 col-lg-3">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon-green">
+              <i class="bi bi-currency-rupee"></i>
+            </div>
+            <div>
+              <div class="kpi-value text-success" id="kpiRevenue">₹१,२८,४००</div>
+              <div class="kpi-label">
+                <span class="lang-mr">मासिक विक्री</span>
+                <span class="lang-en">Monthly Revenue</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total Outstanding Udhari -->
+        <div class="col-sm-6 col-lg-3">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon-red">
+              <i class="bi bi-wallet2"></i>
+            </div>
+            <div>
+              <div class="kpi-value text-danger" id="kpiOutstandingUdhari">₹०</div>
+              <div class="kpi-label">
+                <span class="lang-mr">एकूण बाकी उधारी</span>
+                <span class="lang-en">Outstanding Dues</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Low Stock Alerts -->
+        <div class="col-sm-6 col-lg-3">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon-gold">
+              <i class="bi bi-exclamation-triangle-fill"></i>
+            </div>
+            <div>
+              <div class="kpi-value text-warning-emphasis" id="kpiLowStock">०</div>
+              <div class="kpi-label">
+                <span class="lang-mr">कमी साठा अलर्ट</span>
+                <span class="lang-en">Low Stock Alerts</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total Farmers -->
+        <div class="col-sm-6 col-lg-3">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon-blue">
+              <i class="bi bi-person-lines-fill"></i>
+            </div>
+            <div>
+              <div class="kpi-value text-primary" id="kpiFarmersCount">०</div>
+              <div class="kpi-label">
+                <span class="lang-mr">नोंदणीकृत शेतकरी</span>
+                <span class="lang-en">Registered Farmers</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        
+        <!-- Outstanding Debtors Quick List -->
+        <div class="col-lg-7">
+          <div class="ksk-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="fw-bold mb-0 text-danger">
+                <i class="bi bi-bell-fill me-2"></i>
+                <span class="lang-mr">थकीत उधारी शेतकरी</span>
+                <span class="lang-en">Outstanding Debtors</span>
+              </h5>
+              <a href="admin-udhari.html" class="btn btn-sm btn-outline-danger">
+                <span class="lang-mr">सर्व उधारी खाती</span>
+                <span class="lang-en">All Ledgers</span>
+              </a>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-hover align-middle small">
+                <thead class="table-light">
+                  <tr>
+                    <th><span class="lang-mr">शेतकऱ्याचे नाव</span><span class="lang-en">Farmer Name</span></th>
+                    <th><span class="lang-mr">गाव</span><span class="lang-en">Village</span></th>
+                    <th><span class="lang-mr">मोबाईल</span><span class="lang-en">Mobile</span></th>
+                    <th class="text-end"><span class="lang-mr">बाकी रक्कम</span><span class="lang-en">Balance Due</span></th>
+                    <th class="text-center"><span class="lang-mr">व्हॉट्सॲप / कृती</span><span class="lang-en">WhatsApp / Action</span></th>
+                  </tr>
+                </thead>
+                <tbody id="topDebtorsTableBody">
+                  <!-- Injected via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Low Stock & Near Expiry Alerts -->
+        <div class="col-lg-5">
+          <div class="ksk-card p-4 h-100">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="fw-bold mb-0 text-warning-emphasis">
+                <i class="bi bi-shield-exclamation text-warning me-2"></i>
+                <span class="lang-mr">साठा व एक्सपायरी अलर्ट</span>
+                <span class="lang-en">Stock & Expiry Alerts</span>
+              </h5>
+              <a href="admin-products.html" class="btn btn-sm btn-outline-secondary">
+                <span class="lang-mr">साठा व्यवस्थापन</span>
+                <span class="lang-en">Manage Stock</span>
+              </a>
+            </div>
+
+            <div class="list-group list-group-flush" id="stockAlertsList">
+              <!-- Injected via JS -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Recent Orders Row -->
+      <div class="ksk-card p-4 mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-bold mb-0">
+            <i class="bi bi-bag-check text-success me-2"></i>
+            <span class="lang-mr">नुकत्याच आलेल्या ग्राहक ऑर्डर्स</span>
+            <span class="lang-en">Recent Store Orders</span>
+          </h5>
+          <a href="admin-orders.html" class="btn btn-sm btn-outline-success">
+            <span class="lang-mr">सर्व ऑर्डर्स पहा</span>
+            <span class="lang-en">View All Orders</span>
+          </a>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle small">
+            <thead class="table-light">
+              <tr>
+                <th><span class="lang-mr">ऑर्डर आयडी</span><span class="lang-en">Order ID</span></th>
+                <th><span class="lang-mr">तारीख</span><span class="lang-en">Date</span></th>
+                <th><span class="lang-mr">शेतकरी नाव</span><span class="lang-en">Farmer Name</span></th>
+                <th><span class="lang-mr">गाव</span><span class="lang-en">Village</span></th>
+                <th><span class="lang-mr">पेमेंट पद्धत</span><span class="lang-en">Payment Mode</span></th>
+                <th><span class="lang-mr">रक्कम</span><span class="lang-en">Amount</span></th>
+                <th><span class="lang-mr">स्थिती</span><span class="lang-en">Status</span></th>
+              </tr>
+            </thead>
+            <tbody id="adminRecentOrdersBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initAdminDashboard();
+    });
+
+    window.addEventListener('ksk_lang_changed', () => {
+      initAdminDashboard();
+    });
+
+    function initAdminDashboard() {
+      // Ensure admin login session
+      const currentUser = Store.getCurrentUser();
+      if (!currentUser || currentUser.role !== 'admin') {
+        // Auto sign in default admin for seamless exploration
+        const users = Store.getUsers();
+        const admin = users.find(u => u.role === 'admin');
+        if (admin) Store.setCurrentUser(admin);
+      }
+
+      const products = Store.getProducts();
+      const farmers = Store.getRegisteredFarmers();
+      const udhariRecords = Store.getUdhariRecords();
+      const orders = Store.getOrders();
+
+      // Calculate total outstanding udhari across all farmers
+      let totalDue = 0;
+      const debtorList = [];
+
+      farmers.forEach(f => {
+        const bal = Store.getFarmerBalance(f.phone);
+        if (bal.balance > 0) {
+          totalDue += bal.balance;
+          debtorList.push({
+            name: f.name,
+            phone: f.phone,
+            village: f.village,
+            balance: bal.balance
+          });
+        }
+      });
+
+      debtorList.sort((a, b) => b.balance - a.balance);
+
+      const totalRev = orders.reduce((sum, o) => sum + (o.total || 0), 128400);
+      document.getElementById('kpiRevenue').textContent = '₹' + totalRev.toLocaleString('en-IN');
+      document.getElementById('kpiOutstandingUdhari').textContent = '₹' + totalDue.toLocaleString('en-IN');
+      document.getElementById('kpiFarmersCount').textContent = farmers.length;
+
+      // Low stock count (stock <= 20)
+      const lowStockProducts = products.filter(p => p.stock <= 20);
+      document.getElementById('kpiLowStock').textContent = lowStockProducts.length;
+
+      // Render top debtors
+      const debtorBody = document.getElementById('topDebtorsTableBody');
+      if (debtorList.length === 0) {
+        debtorBody.innerHTML = `<tr><td colspan="5" class="text-center py-3 text-muted"><span class="lang-mr">सर्व उधारी खाती पूर्ण भरलेली आहेत!</span><span class="lang-en">All credit accounts are settled!</span></td></tr>`;
+      } else {
+        let dHtml = '';
+        debtorList.slice(0, 5).forEach(d => {
+          const waMsg = encodeURIComponent(`सस्नेह नमस्कार, ${d.name} जी. सप्तशृंगी ॲग्रो सर्व्हिसेस, नाशिक कडील आपले उधारी खात्यावर ₹${d.balance} शिल्लक बाकी आहे. कृपया सोयीनुसार रक्कम जमा करावी. धन्यवाद!`);
+          const waUrl = `https://wa.me/91${d.phone}?text=${waMsg}`;
+
+          dHtml += `
+            <tr>
+              <td class="fw-bold">${d.name}</td>
+              <td>${d.village}</td>
+              <td><code>${d.phone}</code></td>
+              <td class="text-end fw-bold text-danger">₹${d.balance.toLocaleString('en-IN')}</td>
+              <td class="text-center">
+                <a href="${waUrl}" target="_blank" class="btn btn-xs btn-success text-white py-1 px-2 rounded-pill shadow-sm" title="WhatsApp Reminder">
+                  <i class="bi bi-whatsapp me-1"></i>
+                  <span class="lang-mr">तगादा मेसेज</span>
+                  <span class="lang-en">Reminder</span>
+                </a>
+              </td>
+            </tr>
+          `;
+        });
+        debtorBody.innerHTML = dHtml;
+      }
+
+      // Render Low stock list
+      const stockList = document.getElementById('stockAlertsList');
+      if (lowStockProducts.length === 0) {
+        stockList.innerHTML = `<div class="p-3 text-center text-muted"><span class="lang-mr">सर्व उत्पादने मुबलक साठ्यात आहेत.</span><span class="lang-en">All items adequately stocked.</span></div>`;
+      } else {
+        let sHtml = '';
+        lowStockProducts.slice(0, 4).forEach(p => {
+          sHtml += `
+            <div class="list-group-item d-flex justify-content-between align-items-center py-2 px-0">
+              <div>
+                <div class="fw-bold text-truncate" style="max-width:200px;">
+                  <span class="lang-mr">${p.name_mr}</span>
+                  <span class="lang-en">${p.name_en}</span>
+                </div>
+                <small class="text-muted">
+                  <span class="lang-mr">बॅच: ${p.batchNo} • मुदत: ${p.expiryDate}</span>
+                  <span class="lang-en">Batch: ${p.batchNo} • Exp: ${p.expiryDate}</span>
+                </small>
+              </div>
+              <span class="badge ${p.stock <= 10 ? 'bg-danger' : 'bg-warning text-dark'}">
+                <span class="lang-mr">साठा: ${p.stock}</span>
+                <span class="lang-en">Stock: ${p.stock}</span>
+              </span>
+            </div>
+          `;
+        });
+        stockList.innerHTML = sHtml;
+      }
+
+      // Render Recent Orders
+      const ordersBody = document.getElementById('adminRecentOrdersBody');
+      if (orders.length === 0) {
+        ordersBody.innerHTML = `<tr><td colspan="7" class="text-center py-3 text-muted"><span class="lang-mr">अद्याप कोणतीही ऑर्डर आलेली नाही.</span><span class="lang-en">No orders received yet.</span></td></tr>`;
+      } else {
+        let oHtml = '';
+        orders.slice(0, 5).forEach(o => {
+          const payMr = o.paymentMethod || 'रोख / उधारी';
+          const payEn = o.paymentMethod.includes('Cash') ? 'Cash on Delivery' : o.paymentMethod.includes('UPI') ? 'UPI Payment' : 'Store Credit / Khata';
+          const statusMr = o.status_mr || 'पोहोचवले';
+          const statusEn = o.status_en || o.status || 'Delivered';
+
+          oHtml += `
+            <tr>
+              <td><strong>${o.orderId}</strong></td>
+              <td>${o.date}</td>
+              <td class="fw-semibold">${o.farmerName}</td>
+              <td>${o.village}</td>
+              <td>
+                <span class="badge bg-light text-dark border">
+                  <span class="lang-mr">${payMr}</span>
+                  <span class="lang-en">${payEn}</span>
+                </span>
+              </td>
+              <td class="fw-bold text-success">₹${o.total.toLocaleString('en-IN')}</td>
+              <td>
+                <span class="badge bg-success">
+                  <span class="lang-mr">${statusMr}</span>
+                  <span class="lang-en">${statusEn}</span>
+                </span>
+              </td>
+            </tr>
+          `;
+        });
+        ordersBody.innerHTML = oHtml;
+      }
+
+      // Refresh language styles on newly inserted content
+      App.applyLanguage(App.getLang());
+    }
+  </script>
+</body>
+</html>

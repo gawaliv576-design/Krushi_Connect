@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>उत्पादने व साठा व्यवस्थापन (Inventory) | कृषी सेवा केंद्र</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body class="lang-mr">
+
+  <div class="ksk-topbar">
+    <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+      <div>
+        <i class="bi bi-shield-check text-warning me-1"></i>
+        <span class="lang-mr">सप्तशृंगी ॲग्रो • साठा व इन्व्हेंटरी व्यवस्थापन</span>
+        <span class="lang-en">Saptashrungi Agro • Stock & Inventory Management</span>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <a href="admin-dashboard.html" class="text-light text-decoration-none small">
+          <i class="bi bi-speedometer2 me-1"></i>
+          <span class="lang-mr">डॅशबोर्ड</span>
+          <span class="lang-en">Dashboard</span>
+        </a>
+        <div class="d-flex align-items-center gap-1">
+          <button id="btnLangMr" onclick="App.setLang('mr')" class="btn btn-xs py-0 px-2 btn-success text-white rounded-pill fw-bold" style="font-size:0.75rem;">मराठी</button>
+          <button id="btnLangEn" onclick="App.setLang('en')" class="btn btn-xs py-0 px-2 btn-outline-secondary rounded-pill fw-bold" style="font-size:0.75rem;">English</button>
+        </div>
+        <button onclick="App.toggleTheme()" class="btn btn-link text-light p-0 ms-1">
+          <i class="bi bi-moon-stars-fill theme-icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-wrapper">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="d-flex align-items-center gap-2 mb-4 pb-3 border-bottom">
+        <div class="ksk-brand-icon" style="width:38px; height:38px; font-size:1.2rem;">
+          <i class="bi bi-flower1"></i>
+        </div>
+        <div>
+          <h6 class="fw-bold mb-0 text-success">
+            <span class="lang-mr">सप्तशृंगी ॲग्रो</span>
+            <span class="lang-en">Saptashrungi Agro</span>
+          </h6>
+          <small class="text-muted">
+            <span class="lang-mr">दुकान व्यवस्थापक</span>
+            <span class="lang-en">Store Manager</span>
+          </small>
+        </div>
+      </div>
+
+      <nav class="d-flex flex-column">
+        <a href="admin-dashboard.html" class="admin-nav-item">
+          <i class="bi bi-speedometer2 fs-5"></i>
+          <span class="lang-mr">डॅशबोर्ड (Overview)</span><span class="lang-en">Dashboard Overview</span>
+        </a>
+        <a href="admin-products.html" class="admin-nav-item active">
+          <i class="bi bi-box-seam fs-5"></i>
+          <span class="lang-mr">उत्पादने व साठा (Inventory)</span><span class="lang-en">Products & Stock</span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-item">
+          <i class="bi bi-journal-text fs-5"></i>
+          <span class="lang-mr">उधारी खातावही (Credit Ledger)</span><span class="lang-en">Credit Ledger</span>
+        </a>
+        <a href="admin-orders.html" class="admin-nav-item">
+          <i class="bi bi-receipt fs-5"></i>
+          <span class="lang-mr">ऑर्डर्स व विक्री (Orders)</span><span class="lang-en">Store Orders</span>
+        </a>
+        <a href="admin-customers.html" class="admin-nav-item">
+          <i class="bi bi-people fs-5"></i>
+          <span class="lang-mr">नोंदणीकृत शेतकरी (Farmers)</span><span class="lang-en">Registered Farmers</span>
+        </a>
+        <hr class="my-3 text-secondary">
+        <a href="index.html" class="admin-nav-item text-primary">
+          <i class="bi bi-box-arrow-up-right fs-5"></i>
+          <span class="lang-mr">दुकान पहा (Live Store)</span><span class="lang-en">View Storefront</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-content">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+        <div>
+          <h3 class="fw-bold mb-1">
+            <i class="bi bi-boxes text-success me-2"></i>
+            <span class="lang-mr">उत्पादने सूची व साठा व्यवस्थापन</span>
+            <span class="lang-en">Product Catalog & Inventory</span>
+          </h3>
+          <p class="text-muted mb-0">
+            <span class="lang-mr">किमती, साठा संख्या, बॅच नंबर व मुदत तारीख व्यवस्थापित करा</span>
+            <span class="lang-en">Manage product pricing, stock levels, batch numbers, and expiry dates</span>
+          </p>
+        </div>
+        <button onclick="openProductModal('new')" class="btn btn-ksk-primary fw-bold mt-3 mt-md-0 shadow">
+          <i class="bi bi-plus-lg me-1"></i>
+          <span class="lang-mr">नवीन उत्पादन जोडा</span>
+          <span class="lang-en">Add New Product</span>
+        </button>
+      </div>
+
+      <!-- Filters & Search Toolbar -->
+      <div class="ksk-card p-3 mb-4">
+        <div class="row g-3">
+          <div class="col-md-5">
+            <div class="input-group">
+              <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+              <input type="text" id="adminSearchInput" class="form-control" placeholder="उत्पादन नाव, बॅच, किंवा बारकोड शोधा..." oninput="filterAdminProducts()">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <select id="adminCategoryFilter" class="form-select" onchange="filterAdminProducts()">
+              <option value="all">सर्व वर्गवारी (All Categories)</option>
+              <option value="fertilizers">रासायनिक खते (Fertilizers)</option>
+              <option value="pesticides">कीटकनाशके (Pesticides)</option>
+              <option value="seeds">बियाणे (Seeds)</option>
+              <option value="irrigation">ठिबक व सिंचन (Irrigation)</option>
+              <option value="tools">कृषी अवजारे (Tools)</option>
+              <option value="organic">सेंद्रिय खते (Organic)</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <select id="adminStockFilter" class="form-select" onchange="filterAdminProducts()">
+              <option value="all">सर्व साठा स्थिती (All Stock)</option>
+              <option value="low">कमी साठा (&le; २०)</option>
+              <option value="out">साठा संपलेला (०)</option>
+              <option value="available">मुबलक साठा (&gt; २०)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Products Inventory Table -->
+      <div class="ksk-card p-4">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light small">
+              <tr>
+                <th><span class="lang-mr">उत्पादन तपशील</span><span class="lang-en">Product Details</span></th>
+                <th><span class="lang-mr">वर्गवारी / ब्रँड</span><span class="lang-en">Category / Brand</span></th>
+                <th class="text-end"><span class="lang-mr">विक्री दर (MRP)</span><span class="lang-en">Sell Price (MRP)</span></th>
+                <th class="text-center"><span class="lang-mr">उपलब्ध साठा</span><span class="lang-en">In-Stock</span></th>
+                <th><span class="lang-mr">बॅच क्र. & मुदत</span><span class="lang-en">Batch & Expiry</span></th>
+                <th class="text-center"><span class="lang-mr">कृती</span><span class="lang-en">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody id="adminProductsTableBody">
+              <!-- Dynamically populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Add / Edit Product Modal -->
+  <div class="modal fade" id="productFormModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title fw-bold" id="productModalTitle">नवीन उत्पादन जोडा</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="productEditForm" onsubmit="handleSaveProduct(event)">
+          <div class="modal-body p-4">
+            <input type="hidden" id="editProductId">
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-bold small">मराठी नाव (Name in Marathi) *</label>
+                <input type="text" id="pNameMr" class="form-control" required placeholder="उदा. निम कोटेड युरिया">
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label fw-bold small">इंग्रजी नाव (Name in English) *</label>
+                <input type="text" id="pNameEn" class="form-control" required placeholder="Neem Coated Urea (45 kg)">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label fw-bold small">वर्गवारी (Category) *</label>
+                <select id="pCategory" class="form-select" required>
+                  <option value="fertilizers">रासायनिक खते (Fertilizers)</option>
+                  <option value="pesticides">कीटकनाशके (Pesticides)</option>
+                  <option value="seeds">बियाणे (Seeds)</option>
+                  <option value="irrigation">ठिबक व सिंचन (Irrigation)</option>
+                  <option value="tools">कृषी अवजारे (Agri Tools)</option>
+                  <option value="organic">सेंद्रिय खते (Organic)</option>
+                </select>
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label fw-bold small">कंपनी / ब्रँड (Brand) *</label>
+                <input type="text" id="pBrand" class="form-control" required placeholder="IFFCO / Mahyco / FMC">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label fw-bold small">एकक (Unit) *</label>
+                <input type="text" id="pUnit" class="form-control" required placeholder="बॅग / बाटली / लिटर / नग">
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label fw-bold small">विक्री किंमत (₹) *</label>
+                <input type="number" id="pPrice" class="form-control" required min="1">
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label fw-bold small">मूळ छापील किंमत (MRP ₹)</label>
+                <input type="number" id="pOrigPrice" class="form-control" min="1">
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label fw-bold small">साठा संख्या (Stock Qty) *</label>
+                <input type="number" id="pStock" class="form-control" required min="0">
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label fw-bold small">बॅच नंबर (Batch No)</label>
+                <input type="text" id="pBatch" class="form-control" placeholder="BATCH-2026-X">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label fw-bold small">अंतिम मुदत (Expiry Date)</label>
+                <input type="date" id="pExpiry" class="form-control">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label fw-bold small">बारकोड / HSN कोड</label>
+                <input type="text" id="pBarcode" class="form-control" placeholder="890123400101">
+              </div>
+
+              <div class="col-md-4">
+                <label class="form-label fw-bold small">फोटो लिंक (Image URL)</label>
+                <input type="url" id="pImage" class="form-control" placeholder="https://images.unsplash.com/...">
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-bold small">रासायनिक घटक (Composition)</label>
+                <input type="text" id="pComposition" class="form-control" placeholder="उदा. Nitrogen 46% किंवा Chlorantraniliprole 18.5%">
+              </div>
+
+              <div class="col-12">
+                <label class="form-label fw-bold small">फवारणी व वापर प्रमाण (Dosage Guidelines)</label>
+                <textarea id="pDosage" class="form-control" rows="2" placeholder="प्रति एकर किंवा प्रति पंप प्रमाण..."></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+              <span class="lang-mr">रद्द करा</span><span class="lang-en">Cancel</span>
+            </button>
+            <button type="submit" class="btn btn-ksk-primary px-4 fw-bold">
+              <i class="bi bi-save me-1"></i>
+              <span class="lang-mr">माहिती जतन करा</span>
+              <span class="lang-en">Save Product</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="ksk-footer mt-5">
+    <div class="container text-center small text-light text-opacity-50">
+      <p class="mb-0">
+        <span class="lang-mr">© 2026 कृषी सेवा केंद्र - सप्तशृंगी ॲग्रो सर्व्हिसेस, नाशिक.</span>
+        <span class="lang-en">© 2026 Krushi Seva Kendra - Saptashrungi Agro Services, Nashik.</span>
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check query param
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('action') === 'add') {
+        openProductModal('new');
+      }
+      renderAdminProducts();
+    });
+
+    window.addEventListener('ksk_lang_changed', () => {
+      filterAdminProducts();
+    });
+
+    function renderAdminProducts(productsToRender) {
+      const products = productsToRender || Store.getProducts();
+      const tbody = document.getElementById('adminProductsTableBody');
+
+      if (products.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted"><span class="lang-mr">कोणतेही उत्पादन सापडले नाही.</span><span class="lang-en">No products found.</span></td></tr>`;
+        return;
+      }
+
+      let html = '';
+      products.forEach(p => {
+        const isLow = p.stock <= 20 && p.stock > 0;
+        const isOut = p.stock <= 0;
+        const stockBadge = isOut 
+          ? `<span class="badge bg-danger"><span class="lang-mr">साठा संपला (०)</span><span class="lang-en">Out of Stock (0)</span></span>` 
+          : isLow 
+            ? `<span class="badge bg-warning text-dark"><span class="lang-mr">कमी साठा (${p.stock})</span><span class="lang-en">Low Stock (${p.stock})</span></span>` 
+            : `<span class="badge bg-success-subtle text-success border border-success-subtle fw-bold">${p.stock}</span>`;
+
+        html += `
+          <tr>
+            <td>
+              <div class="d-flex align-items-center gap-3">
+                <img src="${p.image}" alt="${p.name_mr}" style="width:48px; height:48px; object-fit:cover; border-radius:8px;" class="border">
+                <div>
+                  <div class="fw-bold">
+                    <span class="lang-mr">${p.name_mr}</span>
+                    <span class="lang-en">${p.name_en}</span>
+                  </div>
+                  <small class="text-muted"><span class="badge bg-light text-dark border">${p.unit}</span></small>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="fw-semibold">${p.brand}</div>
+              <small class="text-muted text-capitalize">${p.category}</small>
+            </td>
+            <td class="text-end fw-bold text-success fs-6">
+              ₹${p.price.toLocaleString('en-IN')}
+              ${p.originalPrice > p.price ? `<div class="small text-muted text-decoration-line-through">₹${p.originalPrice}</div>` : ''}
+            </td>
+            <td class="text-center">
+              ${stockBadge}
+              <div class="mt-1">
+                <button onclick="quickAddStock('${p.id}', 10)" class="btn btn-xs btn-outline-success py-0 px-2 rounded-pill" style="font-size:0.7rem;" title="+10 Restock">
+                  <span class="lang-mr">+१० नग</span><span class="lang-en">+10 Units</span>
+                </button>
+              </div>
+            </td>
+            <td>
+              <div class="small"><span class="lang-mr">बॅच:</span><span class="lang-en">Batch:</span> <code>${p.batchNo || '-'}</code></div>
+              <div class="small text-muted"><span class="lang-mr">मुदत:</span><span class="lang-en">Exp:</span> ${p.expiryDate || '-'}</div>
+            </td>
+            <td class="text-center">
+              <div class="btn-group btn-group-sm">
+                <button onclick="openProductModal('${p.id}')" class="btn btn-outline-primary" title="संपादित करा (Edit)">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button onclick="handleDeleteProduct('${p.id}')" class="btn btn-outline-danger" title="हटवा (Delete)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+      App.applyLanguage(App.getLang());
+    }
+
+    function filterAdminProducts() {
+      const q = (document.getElementById('adminSearchInput').value || '').toLowerCase().trim();
+      const cat = document.getElementById('adminCategoryFilter').value;
+      const stock = document.getElementById('adminStockFilter').value;
+
+      const all = Store.getProducts();
+      const filtered = all.filter(p => {
+        const mQ = !q || p.name_mr.toLowerCase().includes(q) || p.name_en.toLowerCase().includes(q) || (p.batchNo && p.batchNo.toLowerCase().includes(q)) || (p.barcode && p.barcode.includes(q));
+        const mCat = cat === 'all' || p.category === cat;
+        const mStock = stock === 'all' || 
+          (stock === 'low' && p.stock <= 20 && p.stock > 0) ||
+          (stock === 'out' && p.stock <= 0) ||
+          (stock === 'available' && p.stock > 20);
+
+        return mQ && mCat && mStock;
+      });
+
+      renderAdminProducts(filtered);
+    }
+
+    function quickAddStock(id, qty) {
+      const p = Store.getProductById(id);
+      if (p) {
+        Store.updateProduct(id, { stock: p.stock + qty });
+        App.showToast(`'${p.name_mr}' चा साठा +${qty} ने वाढवला!`, `Stock increased by +${qty}!`, 'success');
+        filterAdminProducts();
+      }
+    }
+
+    function openProductModal(mode) {
+      const modalTitle = document.getElementById('productModalTitle');
+      if (mode === 'new') {
+        modalTitle.textContent = 'नवीन कृषी उत्पादन जोडा';
+        document.getElementById('editProductId').value = '';
+        document.getElementById('productEditForm').reset();
+        document.getElementById('pImage').value = 'https://images.unsplash.com/photo-1592417817098-8f3d6ef2c6e6?auto=format&fit=crop&w=600&q=80';
+      } else {
+        modalTitle.textContent = 'उत्पादनाची माहिती संपादित करा';
+        const p = Store.getProductById(mode);
+        if (!p) return;
+
+        document.getElementById('editProductId').value = p.id;
+        document.getElementById('pNameMr').value = p.name_mr || '';
+        document.getElementById('pNameEn').value = p.name_en || '';
+        document.getElementById('pCategory').value = p.category || 'fertilizers';
+        document.getElementById('pBrand').value = p.brand || '';
+        document.getElementById('pUnit').value = p.unit || 'बॅग';
+        document.getElementById('pPrice').value = p.price || '';
+        document.getElementById('pOrigPrice').value = p.originalPrice || '';
+        document.getElementById('pStock').value = p.stock || 0;
+        document.getElementById('pBatch').value = p.batchNo || '';
+        document.getElementById('pExpiry').value = p.expiryDate || '';
+        document.getElementById('pBarcode').value = p.barcode || '';
+        document.getElementById('pImage').value = p.image || '';
+        document.getElementById('pComposition').value = p.composition || '';
+        document.getElementById('pDosage').value = p.dosage_mr || '';
+      }
+
+      const modal = new bootstrap.Modal(document.getElementById('productFormModal'));
+      modal.show();
+    }
+
+    function handleSaveProduct(e) {
+      e.preventDefault();
+
+      const id = document.getElementById('editProductId').value;
+      const productData = {
+        name_mr: document.getElementById('pNameMr').value.trim(),
+        name_en: document.getElementById('pNameEn').value.trim(),
+        category: document.getElementById('pCategory').value,
+        brand: document.getElementById('pBrand').value.trim(),
+        unit: document.getElementById('pUnit').value.trim(),
+        price: parseFloat(document.getElementById('pPrice').value),
+        originalPrice: parseFloat(document.getElementById('pOrigPrice').value) || parseFloat(document.getElementById('pPrice').value),
+        stock: parseInt(document.getElementById('pStock').value) || 0,
+        batchNo: document.getElementById('pBatch').value.trim() || 'BATCH-2026',
+        expiryDate: document.getElementById('pExpiry').value || '2028-12-31',
+        barcode: document.getElementById('pBarcode').value.trim() || '890123400199',
+        image: document.getElementById('pImage').value.trim() || 'https://images.unsplash.com/photo-1592417817098-8f3d6ef2c6e6?auto=format&fit=crop&w=600&q=80',
+        composition: document.getElementById('pComposition').value.trim(),
+        dosage_mr: document.getElementById('pDosage').value.trim(),
+        dosage_en: document.getElementById('pDosage').value.trim()
+      };
+
+      if (id) {
+        Store.updateProduct(id, productData);
+        App.showToast('उत्पादन माहिती अद्ययावत केली!', 'Product updated successfully!', 'success');
+      } else {
+        Store.addProduct(productData);
+        App.showToast('नवीन उत्पादन जोडले गेले!', 'New product added successfully!', 'success');
+      }
+
+      bootstrap.Modal.getInstance(document.getElementById('productFormModal')).hide();
+      filterAdminProducts();
+    }
+
+    function handleDeleteProduct(id) {
+      if (confirm('आपण खात्रीपूर्वक हे उत्पादन हटवू इच्छिता का?')) {
+        Store.deleteProduct(id);
+        App.showToast('उत्पादन हटवले गेले!', 'Product deleted!', 'danger');
+        filterAdminProducts();
+      }
+    }
+  </script>
+</body>
+</html>

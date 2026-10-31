@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>खत मात्रा गणक (Fertilizer Calculator) | कृषी सेवा केंद्र</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body class="lang-mr">
+
+  <div class="ksk-topbar">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div>
+        <i class="bi bi-telephone-fill text-warning me-1"></i>
+        <span class="lang-mr">शेतकरी हेल्पलाइन: +९१ ९८२२० १२३४५</span>
+        <span class="lang-en">Farmer Helpline: +91 98220 12345</span>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-1">
+          <button id="btnLangMr" onclick="App.setLang('mr')" class="btn btn-xs py-0 px-2 btn-success text-white rounded-pill fw-bold" style="font-size:0.75rem;">मराठी</button>
+          <button id="btnLangEn" onclick="App.setLang('en')" class="btn btn-xs py-0 px-2 btn-outline-secondary rounded-pill fw-bold" style="font-size:0.75rem;">English</button>
+        </div>
+        <button onclick="App.toggleTheme()" class="btn btn-link text-light p-0 ms-1">
+          <i class="bi bi-moon-stars-fill theme-icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <header class="ksk-navbar">
+    <div class="container py-2">
+      <div class="d-flex align-items-center justify-content-between">
+        <a href="index.html" class="ksk-brand text-decoration-none">
+          <div class="ksk-brand-icon"><i class="bi bi-flower1"></i></div>
+          <div class="ksk-brand-text">
+            <span class="ksk-brand-title">सप्तशृंगी ॲग्रो</span>
+            <span class="ksk-brand-subtitle">Krushi Seva Kendra</span>
+          </div>
+        </a>
+
+        <nav class="d-none d-lg-flex align-items-center gap-1">
+          <a href="index.html" class="nav-link"><span class="lang-mr">मुखपृष्ठ</span><span class="lang-en">Home</span></a>
+          <a href="products.html" class="nav-link"><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></a>
+          <a href="categories.html" class="nav-link"><span class="lang-mr">वर्गवारी</span><span class="lang-en">Categories</span></a>
+          <a href="fertilizer-calculator.html" class="nav-link active"><span class="lang-mr">खत गणक</span><span class="lang-en">Fertilizer Calc</span></a>
+          <a href="weather.html" class="nav-link"><span class="lang-mr">हवामान सल्ला</span><span class="lang-en">Weather Advisory</span></a>
+          <a href="farming-tips.html" class="nav-link"><span class="lang-mr">शेती सल्ले</span><span class="lang-en">Farming Tips</span></a>
+          <a href="farmer-udhari.html" class="nav-link text-warning-emphasis"><i class="bi bi-journal-bookmark me-1"></i><span class="lang-mr">उधारी खातावही</span><span class="lang-en">Khata Ledger</span></a>
+        </nav>
+
+        <div class="d-flex align-items-center gap-3">
+          <a href="cart.html" class="btn btn-light rounded-circle p-2 position-relative shadow-sm border">
+            <i class="bi bi-cart3 fs-5 text-success"></i>
+            <span class="cart-badge-pill cart-badge" style="display:none;">0</span>
+          </a>
+          <div id="headerUserSection"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="py-5">
+    <div class="container">
+      
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill fw-bold mb-2">
+          <i class="bi bi-calculator me-1"></i>
+          <span class="lang-mr">महात्मा फुले कृषी विद्यापीठ शिफारस आधारित</span>
+          <span class="lang-en">MPKV Recommended Fertilizer Dosage</span>
+        </span>
+        <h2 class="fw-bold">
+          <span class="lang-mr">पीकनिहाय संतुलित खत मात्रा गणक</span>
+          <span class="lang-en">Crop-Specific Fertilizer Dosage Calculator</span>
+        </h2>
+        <p class="text-muted">
+          <span class="lang-mr">योग्य प्रमाणात खतांचा वापर केल्याने उत्पादन ३०% वाढते व जमिनीचे आरोग्य टिकून राहते.</span>
+          <span class="lang-en">Balanced fertilization increases yield by up to 30% while preserving long-term soil health.</span>
+        </p>
+      </div>
+
+      <div class="row g-4 justify-content-center">
+        <!-- Input Form -->
+        <div class="col-lg-5">
+          <div class="ksk-card p-4">
+            <h5 class="fw-bold text-success mb-3">
+              <i class="bi bi-sliders me-2"></i>
+              <span class="lang-mr">शेती व पीक माहिती भरा</span>
+              <span class="lang-en">Enter Crop & Field Info</span>
+            </h5>
+
+            <form id="calcForm" onsubmit="calculateDosage(event)">
+              <!-- Crop Selection -->
+              <div class="mb-3">
+                <label class="form-label fw-bold small">
+                  <span class="lang-mr">पीक निवडा (Select Crop) *</span>
+                  <span class="lang-en">Select Crop *</span>
+                </label>
+                <select id="calcCrop" class="form-select" required>
+                  <option value="cotton" selected>कपाशी / कापूस (Cotton)</option>
+                  <option value="onion">कांदा (Onion)</option>
+                  <option value="soybean">सोयाबीन (Soybean)</option>
+                  <option value="sugarcane">ऊस (Sugarcane)</option>
+                  <option value="maize">मका (Maize)</option>
+                  <option value="wheat">गहू (Wheat)</option>
+                </select>
+              </div>
+
+              <!-- Land Unit -->
+              <div class="mb-3">
+                <label class="form-label fw-bold small">क्षेत्र एकक (Area Unit) *</label>
+                <div class="d-flex gap-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="areaUnit" id="unitAcre" value="acre" checked onchange="updateAreaPlaceholder()">
+                    <label class="form-check-label" for="unitAcre">एकर (Acre)</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="radio" name="areaUnit" id="unitGuntha" value="guntha" onchange="updateAreaPlaceholder()">
+                    <label class="form-check-label" for="unitGuntha">गुंठा (Guntha - ४० गुंठे = १ एकर)</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Area Value -->
+              <div class="mb-3">
+                <label class="form-label fw-bold small">शेतीचे एकूण क्षेत्र (Area Size) *</label>
+                <input type="number" id="calcArea" class="form-control" value="1" min="0.1" step="0.1" required>
+              </div>
+
+              <!-- Soil Type -->
+              <div class="mb-4">
+                <label class="form-label fw-bold small">जमिनीचा प्रकार (Soil Type)</label>
+                <select id="calcSoil" class="form-select">
+                  <option value="medium" selected>मध्यम काळी जमीन (Medium Black Soil)</option>
+                  <option value="heavy">भारी काळी / कसदार जमीन (Heavy Black Soil)</option>
+                  <option value="light">हलकी / मुरमाड जमीन (Light Murmad Soil)</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-ksk-primary w-100 py-3 fw-bold">
+                <i class="bi bi-cpu-fill me-2"></i>
+                <span class="lang-mr">खतांचे प्रमाण मोजा (Calculate)</span>
+                <span class="lang-en">Calculate Recommended Bags</span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Result Box -->
+        <div class="col-lg-7">
+          <div class="ksk-card p-4 h-100" id="resultCard">
+            <h5 class="fw-bold mb-3 border-bottom pb-2">
+              <i class="bi bi-check2-circle text-success me-2"></i>
+              <span class="lang-mr">शिफारस केलेले खत प्रमाण व वेळापत्रक</span>
+              <span class="lang-en">Recommended NPK Doses & Bags</span>
+            </h5>
+
+            <div id="resultContent">
+              <!-- Dynamically rendered -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="ksk-footer mt-5">
+    <div class="container text-center small text-light text-opacity-50">
+      <p class="mb-0">© 2026 कृषी सेवा केंद्र - सप्तशृंगी ॲग्रो सर्व्हिसेस, नाशिक.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      calculateDosage();
+    });
+
+    window.addEventListener('ksk_lang_changed', () => {
+      calculateDosage();
+    });
+
+    function updateAreaPlaceholder() {
+      const isGuntha = document.getElementById('unitGuntha').checked;
+      const input = document.getElementById('calcArea');
+      if (isGuntha) {
+        input.value = '20';
+      } else {
+        input.value = '1';
+      }
+      calculateDosage();
+    }
+
+    function calculateDosage(e) {
+      if (e) e.preventDefault();
+
+      const crop = document.getElementById('calcCrop').value;
+      const isGuntha = document.getElementById('unitGuntha').checked;
+      let area = parseFloat(document.getElementById('calcArea').value) || 1;
+      
+      // Convert to acres for calculation standard
+      const acres = isGuntha ? (area / 40) : area;
+
+      // Crop recommendations per acre (bags of 45kg/50kg)
+      const recommendations = {
+        cotton: {
+          name: 'कपाशी (Cotton)',
+          npk: '100:50:50 NPK kg/acre',
+          ureaBags: Math.ceil(acres * 2.2),
+          dapBags: Math.ceil(acres * 1.0),
+          potashBags: Math.ceil(acres * 0.8),
+          s1: 'पेरणीच्या वेळी: १ बॅग डीएपी + अर्धी बॅग पोटॅश',
+          s1_en: 'At Sowing: 1 bag DAP + 0.5 bag Potash (MOP)',
+          s2: '३० दिवसांनी (खुरपणीनंतर): १ बॅग युरिया',
+          s2_en: 'At 30 Days (After Weeding): 1 bag Neem Urea',
+          s3: '६० दिवसांनी (पात्या लागताना): १ बॅग युरिया + अर्धी बॅग पोटॅश',
+          s3_en: 'At 60 Days (Flowering): 1 bag Urea + 0.5 bag Potash'
+        },
+        onion: {
+          name: 'कांदा (Onion)',
+          npk: '100:50:50 NPK kg/acre',
+          ureaBags: Math.ceil(acres * 2.0),
+          dapBags: Math.ceil(acres * 1.2),
+          potashBags: Math.ceil(acres * 1.0),
+          s1: 'पुनर्लागवडीच्या वेळी: १ बॅग डीएपी + १ बॅग पोटॅश + अर्धी बॅग युरिया',
+          s1_en: 'Transplanting: 1 bag DAP + 1 bag Potash + 0.5 bag Urea',
+          s2: '३० दिवसांनी: १ बॅग युरिया',
+          s2_en: 'At 30 Days: 1 bag Neem Coated Urea',
+          s3: '४५ दिवसांनी: अर्धी बॅग युरिया (६० दिवसांनंतर नत्र खते देणे पूर्णपणे बंद करावे)',
+          s3_en: 'At 45 Days: 0.5 bag Urea (Stop Nitrogen after 60 days)'
+        },
+        soybean: {
+          name: 'सोयाबीन (Soybean)',
+          npk: '30:60:30 NPK kg/acre',
+          ureaBags: Math.ceil(acres * 0.6),
+          dapBags: Math.ceil(acres * 1.3),
+          potashBags: Math.ceil(acres * 0.5),
+          s1: 'पेरणीच्या वेळी: संपूर्ण खत मात्रा एकाच वेळी बियाण्याखाली २ ते ३ इंच टाकावी.',
+          s1_en: 'At Sowing: Basal dose 2-3 inches below seed depth',
+          s2: 'फुलोऱ्याच्या वेळी: १९:१९:१९ विद्राव्य खताची फवारणी करावी.',
+          s2_en: 'Flowering: Foliar spray of 19:19:19 water-soluble fertilizer',
+          s3: 'शेंगा भरताना: ०:५२:३४ किंवा ०:०:५० ची फवारणी करावी.',
+          s3_en: 'Pod development: Foliar spray of 0:52:34 or 0:0:50'
+        },
+        sugarcane: {
+          name: 'ऊस (Sugarcane)',
+          npk: '250:115:115 NPK kg/acre',
+          ureaBags: Math.ceil(acres * 5.0),
+          dapBags: Math.ceil(acres * 2.5),
+          potashBags: Math.ceil(acres * 2.0),
+          s1: 'लागवडीच्या वेळी: १ बॅग डीएपी + १ बॅग पोटॅश + १ बॅग युरिया',
+          s1_en: 'Planting: 1 bag DAP + 1 bag Potash + 1 bag Urea',
+          s2: 'मोठ्या बांधणीच्या वेळी: २ बॅग युरिया + १.५ बॅग डीएपी + १ बॅग पोटॅश',
+          s2_en: 'Earthing Up: 2 bags Urea + 1.5 bags DAP + 1 bag Potash',
+          s3: 'पाणी देताना: विभागून युरिया द्यावा.',
+          s3_en: 'Irrigation: Split Urea top dressing'
+        },
+        maize: {
+          name: 'मका (Maize)',
+          npk: '120:60:40 NPK kg/acre',
+          ureaBags: Math.ceil(acres * 2.5),
+          dapBags: Math.ceil(acres * 1.3),
+          potashBags: Math.ceil(acres * 0.8),
+          s1: 'पेरणीच्या वेळी: १ बॅग डीएपी + अर्धी बॅग पोटॅश',
+          s1_en: 'Sowing: 1 bag DAP + 0.5 bag Potash',
+          s2: 'गुडघाभर उंची असताना: १ बॅग युरिया',
+          s2_en: 'Knee High: 1 bag Neem Urea top-dressing',
+          s3: 'तुरा बाहेर पडताना: १ बॅग युरिया',
+          s3_en: 'Tasseling: 1 bag Neem Urea'
+        },
+        wheat: {
+          name: 'गहू (Wheat)',
+          npk: '120:60:40 NPK kg/acre',
+          ureaBags: Math.ceil(acres * 2.4),
+          dapBags: Math.ceil(acres * 1.2),
+          potashBags: Math.ceil(acres * 0.7),
+          s1: 'पेरणीच्या वेळी: संपूर्ण डीएपी व पोटॅश + अर्धा युरिया',
+          s1_en: 'Sowing: Full DAP & Potash + half Urea',
+          s2: '२१ दिवसांनी (मुकुट मुळे फुटताना): अर्धा युरिया',
+          s2_en: 'At 21 Days (Crown root initiation): Remaining half Urea',
+          s3: '४५ दिवसांनी: आवश्यकतेनुसार विद्राव्य खत फवारणी',
+          s3_en: 'At 45 Days: Foliar spray of micronutrients if needed'
+        }
+      };
+
+      const res = recommendations[crop];
+      const isEn = App.getLang() === 'en';
+
+      const html = `
+        <div class="alert alert-success d-flex align-items-center gap-2 mb-4">
+          <i class="bi bi-patch-check-fill fs-3 text-success"></i>
+          <div>
+            <span class="lang-mr"><strong>${res.name}</strong> साठी ${acres.toFixed(2)} एकर क्षेत्राकरिता शिफारस केलेले प्रमाण:</span>
+            <span class="lang-en">Recommended dosage for <strong>${res.name}</strong> over ${acres.toFixed(2)} acres:</span>
+          </div>
+        </div>
+
+        <div class="row g-3 mb-4 text-center">
+          <div class="col-4">
+            <div class="p-3 bg-light rounded-3 border">
+              <small class="text-muted d-block"><span class="lang-mr">निम कोटेड युरिया (४५kg)</span><span class="lang-en">Neem Coated Urea (45kg)</span></small>
+              <h3 class="fw-bold text-success my-1">${res.ureaBags} <span class="lang-mr">पोती</span><span class="lang-en">Bags</span></h3>
+              <small class="text-muted">(${res.ureaBags * 45} kg)</small>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="p-3 bg-light rounded-3 border">
+              <small class="text-muted d-block"><span class="lang-mr">डीएपी १८:४६:० (५०kg)</span><span class="lang-en">DAP 18:46:0 (50kg)</span></small>
+              <h3 class="fw-bold text-primary my-1">${res.dapBags} <span class="lang-mr">पोती</span><span class="lang-en">Bags</span></h3>
+              <small class="text-muted">(${res.dapBags * 50} kg)</small>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="p-3 bg-light rounded-3 border">
+              <small class="text-muted d-block"><span class="lang-mr">पोटॅश MOP (५०kg)</span><span class="lang-en">Potash MOP (50kg)</span></small>
+              <h3 class="fw-bold text-warning my-1">${res.potashBags} <span class="lang-mr">पोती</span><span class="lang-en">Bags</span></h3>
+              <small class="text-muted">(${res.potashBags * 50} kg)</small>
+            </div>
+          </div>
+        </div>
+
+        <h6 class="fw-bold text-dark mb-2">
+          <i class="bi bi-clock-history text-success me-1"></i>
+          <span class="lang-mr">खत देण्याचे योग्य वेळापत्रक (Split Schedule):</span>
+          <span class="lang-en">Recommended Split Schedule:</span>
+        </h6>
+        <div class="list-group list-group-flush border rounded-3 mb-4 small">
+          <div class="list-group-item"><strong>Stage 1 (Sowing):</strong> <span class="lang-mr">${res.s1}</span><span class="lang-en">${res.s1_en || res.s1}</span></div>
+          <div class="list-group-item"><strong>Stage 2 (Vegetative):</strong> <span class="lang-mr">${res.s2}</span><span class="lang-en">${res.s2_en || res.s2}</span></div>
+          <div class="list-group-item"><strong>Stage 3 (Flowering/Maturity):</strong> <span class="lang-mr">${res.s3}</span><span class="lang-en">${res.s3_en || res.s3}</span></div>
+        </div>
+
+        <button onclick="addBundleToCart(${res.ureaBags}, ${res.dapBags})" class="btn btn-ksk-accent w-100 py-3 fw-bold">
+          <i class="bi bi-cart-plus-fill me-2"></i>
+          <span class="lang-mr">ही सर्व खते १-क्लिक मध्ये कार्टमध्ये जोडा (Add to Cart)</span>
+          <span class="lang-en">Add Recommended Bags to Cart (1-Click)</span>
+        </button>
+      `;
+
+      document.getElementById('resultContent').innerHTML = html;
+    }
+
+    function addBundleToCart(ureaQty, dapQty) {
+      Store.addToCart('prod-001', ureaQty);
+      Store.addToCart('prod-002', dapQty);
+      App.showToast(`शिफारस केलेली खते (${ureaQty} पोती युरिया + ${dapQty} पोती डीएपी) कार्टमध्ये जोडली!`, 'Recommended fertilizers added to cart!', 'success');
+      setTimeout(() => {
+        window.location.href = 'cart.html';
+      }, 700);
+    }
+  </script>
+</body>
+</html>

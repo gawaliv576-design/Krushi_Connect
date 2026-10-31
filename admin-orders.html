@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ऑर्डर्स व विक्री व्यवस्थापन (Store Orders) | कृषी सेवा केंद्र</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body class="lang-mr">
+
+  <div class="ksk-topbar">
+    <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+      <div>
+        <i class="bi bi-shield-check text-warning me-1"></i>
+        <span class="lang-mr">सप्तशृंगी ॲग्रो • ग्राहक ऑर्डर्स व डिलिव्हरी व्यवस्थापन</span>
+        <span class="lang-en">Saptashrungi Agro • Orders & Delivery Management</span>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <a href="admin-dashboard.html" class="text-light text-decoration-none small">
+          <i class="bi bi-speedometer2 me-1"></i>
+          <span class="lang-mr">डॅशबोर्ड</span>
+          <span class="lang-en">Dashboard</span>
+        </a>
+        <div class="d-flex align-items-center gap-1">
+          <button id="btnLangMr" onclick="App.setLang('mr')" class="btn btn-xs py-0 px-2 btn-success text-white rounded-pill fw-bold" style="font-size:0.75rem;">मराठी</button>
+          <button id="btnLangEn" onclick="App.setLang('en')" class="btn btn-xs py-0 px-2 btn-outline-secondary rounded-pill fw-bold" style="font-size:0.75rem;">English</button>
+        </div>
+        <button onclick="App.toggleTheme()" class="btn btn-link text-light p-0 ms-1">
+          <i class="bi bi-moon-stars-fill theme-icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-wrapper">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="d-flex align-items-center gap-2 mb-4 pb-3 border-bottom">
+        <div class="ksk-brand-icon" style="width:38px; height:38px; font-size:1.2rem;">
+          <i class="bi bi-flower1"></i>
+        </div>
+        <div>
+          <h6 class="fw-bold mb-0 text-success">
+            <span class="lang-mr">सप्तशृंगी ॲग्रो</span>
+            <span class="lang-en">Saptashrungi Agro</span>
+          </h6>
+          <small class="text-muted">
+            <span class="lang-mr">दुकान व्यवस्थापक</span>
+            <span class="lang-en">Store Manager</span>
+          </small>
+        </div>
+      </div>
+
+      <nav class="d-flex flex-column">
+        <a href="admin-dashboard.html" class="admin-nav-item">
+          <i class="bi bi-speedometer2 fs-5"></i>
+          <span class="lang-mr">डॅशबोर्ड (Overview)</span><span class="lang-en">Dashboard Overview</span>
+        </a>
+        <a href="admin-products.html" class="admin-nav-item">
+          <i class="bi bi-box-seam fs-5"></i>
+          <span class="lang-mr">उत्पादने व साठा (Inventory)</span><span class="lang-en">Products & Stock</span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-item">
+          <i class="bi bi-journal-text fs-5"></i>
+          <span class="lang-mr">उधारी खातावही (Credit Ledger)</span><span class="lang-en">Credit Ledger</span>
+        </a>
+        <a href="admin-orders.html" class="admin-nav-item active">
+          <i class="bi bi-receipt fs-5"></i>
+          <span class="lang-mr">ऑर्डर्स व विक्री (Orders)</span><span class="lang-en">Store Orders</span>
+        </a>
+        <a href="admin-customers.html" class="admin-nav-item">
+          <i class="bi bi-people fs-5"></i>
+          <span class="lang-mr">नोंदणीकृत शेतकरी (Farmers)</span><span class="lang-en">Registered Farmers</span>
+        </a>
+        <hr class="my-3 text-secondary">
+        <a href="index.html" class="admin-nav-item text-primary">
+          <i class="bi bi-box-arrow-up-right fs-5"></i>
+          <span class="lang-mr">दुकान पहा (Live Store)</span><span class="lang-en">View Storefront</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-content">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+        <div>
+          <h3 class="fw-bold mb-1">
+            <i class="bi bi-truck text-success me-2"></i>
+            <span class="lang-mr">ग्राहक ऑर्डर्स व शेतात डिलिव्हरी</span>
+            <span class="lang-en">Customer Orders & Fulfillment</span>
+          </h3>
+          <p class="text-muted mb-0">
+            <span class="lang-mr">ऑनलाइन व स्टोअर ऑर्डर्सची स्थिती आणि ट्रॅक्टर डिलिव्हरी व्यवस्थापित करा</span>
+            <span class="lang-en">Manage customer orders, payment status, and farm doorstep delivery</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Filters Toolbar -->
+      <div class="ksk-card p-3 mb-4">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+              <input type="text" id="orderSearchInput" class="form-control" placeholder="ऑर्डर आयडी, शेतकरी नाव किंवा मोबाईल शोधा..." oninput="filterOrders()">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <select id="orderStatusFilter" class="form-select" onchange="filterOrders()">
+              <option value="all">सर्व ऑर्डर्स (All Orders)</option>
+              <option value="Pending">प्रलंबित (Pending)</option>
+              <option value="Delivered">पोहोचवले (Delivered)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Orders Table -->
+      <div class="ksk-card p-4">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light small">
+              <tr>
+                <th><span class="lang-mr">ऑर्डर आयडी & दिनांक</span><span class="lang-en">Order ID & Date</span></th>
+                <th><span class="lang-mr">शेतकरी ग्राहक</span><span class="lang-en">Farmer Customer</span></th>
+                <th><span class="lang-mr">गाव व पत्ता</span><span class="lang-en">Village & Address</span></th>
+                <th><span class="lang-mr">खरेदी उत्पादने</span><span class="lang-en">Purchased Products</span></th>
+                <th><span class="lang-mr">पेमेंट पद्धत</span><span class="lang-en">Payment Mode</span></th>
+                <th class="text-end"><span class="lang-mr">एकूण रक्कम</span><span class="lang-en">Total Amount</span></th>
+                <th class="text-center"><span class="lang-mr">स्थिती</span><span class="lang-en">Status</span></th>
+                <th class="text-center"><span class="lang-mr">डिलिव्हरी कृती</span><span class="lang-en">Action</span></th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody">
+              <!-- Dynamically rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <footer class="ksk-footer mt-5">
+    <div class="container text-center small text-light text-opacity-50">
+      <p class="mb-0">
+        <span class="lang-mr">© 2026 कृषी सेवा केंद्र - सप्तशृंगी ॲग्रो सर्व्हिसेस, नाशिक.</span>
+        <span class="lang-en">© 2026 Krushi Seva Kendra - Saptashrungi Agro Services, Nashik.</span>
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      filterOrders();
+    });
+
+    window.addEventListener('ksk_lang_changed', () => {
+      filterOrders();
+    });
+
+    function filterOrders() {
+      const q = (document.getElementById('orderSearchInput').value || '').toLowerCase().trim();
+      const statusFilter = document.getElementById('orderStatusFilter').value;
+      const orders = Store.getOrders();
+      const tbody = document.getElementById('ordersTableBody');
+
+      const filtered = orders.filter(o => {
+        const matchQ = !q || o.orderId.toLowerCase().includes(q) || o.farmerName.toLowerCase().includes(q) || o.farmerPhone.includes(q) || (o.village && o.village.toLowerCase().includes(q));
+        const matchS = statusFilter === 'all' || o.status === statusFilter;
+        return matchQ && matchS;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted"><span class="lang-mr">कोणतीही ऑर्डर सापडली नाही.</span><span class="lang-en">No orders found.</span></td></tr>`;
+        App.applyLanguage(App.getLang());
+        return;
+      }
+
+      let html = '';
+      filtered.forEach(o => {
+        const isDelivered = o.status === 'Delivered';
+        const statusBadge = isDelivered 
+          ? `<span class="badge bg-success"><span class="lang-mr">पोहोचवले</span><span class="lang-en">Delivered</span></span>` 
+          : `<span class="badge bg-warning text-dark"><span class="lang-mr">प्रलंबित</span><span class="lang-en">Pending</span></span>`;
+
+        const payMr = o.paymentMethod || 'रोख (Cash)';
+        let payEn = 'Cash on Delivery';
+        if (payMr.includes('उधारी') || payMr.includes('Credit') || payMr.includes('खात्यावर')) payEn = 'Store Credit';
+        else if (payMr.includes('UPI') || payMr.includes('ऑनलाइन')) payEn = 'Online UPI';
+
+        html += `
+          <tr>
+            <td>
+              <div class="fw-bold">${o.orderId}</div>
+              <small class="text-muted">${o.date}</small>
+            </td>
+            <td>
+              <div class="fw-semibold">${o.farmerName}</div>
+              <small class="text-muted">📞 ${o.farmerPhone}</small>
+            </td>
+            <td>
+              <div>${o.village}</div>
+              <small class="text-muted"><span class="lang-mr">ता.</span><span class="lang-en">Tal.</span> ${o.taluka || '-'}</small>
+            </td>
+            <td class="small" style="max-width:220px;">
+              ${o.items.map(i => `<span class="badge bg-light text-dark border me-1 mb-1">${i.qty}x <span class="lang-mr">${i.name_mr || i.name_en}</span><span class="lang-en">${i.name_en || i.name_mr}</span></span>`).join('')}
+            </td>
+            <td><span class="badge bg-secondary-subtle text-secondary"><span class="lang-mr">${payMr}</span><span class="lang-en">${payEn}</span></span></td>
+            <td class="text-end fw-bold text-success fs-6">₹${o.total.toLocaleString('en-IN')}</td>
+            <td class="text-center">${statusBadge}</td>
+            <td class="text-center">
+              ${!isDelivered ? `
+                <button onclick="markDelivered('${o.orderId}')" class="btn btn-xs btn-outline-success py-1 px-2 rounded-pill" title="डिलिव्हर झाले म्हणून चिन्हांकित करा">
+                  <i class="bi bi-check-lg me-1"></i><span class="lang-mr">डिलिव्हर करा</span><span class="lang-en">Mark Delivered</span>
+                </button>
+              ` : `
+                <span class="text-success small fw-bold"><i class="bi bi-check2-all me-1"></i><span class="lang-mr">पूर्ण झाले</span><span class="lang-en">Completed</span></span>
+              `}
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+      App.applyLanguage(App.getLang());
+    }
+    }
+
+    function markDelivered(orderId) {
+      Store.updateOrderStatus(orderId, 'Delivered', 'पोहोचवले (Delivered)');
+      App.showToast(`ऑर्डर #${orderId} यशस्वीरित्या शेतात पोहोचवली म्हणून नोंदवली!`, `Order #${orderId} marked delivered!`, 'success');
+      filterOrders();
+    }
+  </script>
+</body>
+</html>

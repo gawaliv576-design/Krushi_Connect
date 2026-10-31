@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payments - Krushi Seva Kendra</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <th:block th:replace="~{layout/header :: premiumAssets}"></th:block>
+</head>
+<body class="customer-page">
+    <header th:replace="~{layout/navbar :: navbar}"></header>
+    <aside th:replace="~{layout/sidebar-customer :: sidebar('payments')}"></aside>
+
+    <main class="container-fluid py-4 premium-dashboard-content">
+        <div class="customer-page-heading">
+            <div><span class="customer-eyebrow">PAYMENT RECORDS</span><h1>My Payments</h1><p>Review your recent cash, UPI and other recorded payments.</p></div>
+        </div>
+
+        <section class="customer-panel-card">
+            <div class="card-body">
+                <div th:if="${payments.isEmpty()}" class="alert alert-info">
+                    No payments recorded yet.
+                </div>
+                <div th:unless="${payments.isEmpty()}" class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Amount</th>
+                                <th>Method</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="payment : ${payments}">
+                                <td class="fw-bold text-success">₹<span th:text="${payment.amount}">0</span></td>
+                                <td th:text="${payment.method}">Method</td>
+                                <td>
+                                    <span th:if="${payment.status.toString() == 'SUCCESS'}" class="badge bg-success">SUCCESS</span>
+                                    <span th:if="${payment.status.toString() == 'PENDING'}" class="badge bg-warning">PENDING</span>
+                                </td>
+                                <td th:text="${#temporals.format(payment.paymentDate, 'dd/MM/yyyy HH:mm')}">Date</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer th:replace="~{layout/footer :: footer}"></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

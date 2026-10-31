@@ -1,0 +1,124 @@
+/* ==========================================================================
+   KRUSHI SEVA KENDRA - DARK MODE STYLESHEET
+   Activated via body.dark-mode or html[data-bs-theme="dark"]
+   ========================================================================== */
+
+body.dark-mode {
+  --ksk-primary: #22c55e;
+  --ksk-primary-hover: #16a34a;
+  --ksk-primary-light: rgba(34, 197, 94, 0.15);
+  --ksk-primary-soft: rgba(34, 197, 94, 0.1);
+  --ksk-accent: #facc15;
+  --ksk-accent-light: rgba(250, 204, 21, 0.15);
+  --ksk-dark: #f8fafc;
+  --ksk-text-main: #e2e8f0;
+  --ksk-text-muted: #94a3b8;
+  --ksk-border: #334155;
+  --ksk-card-bg: #1e293b;
+  --ksk-body-bg: #0f172a;
+
+  background-color: var(--ksk-body-bg);
+  color: var(--ksk-text-main);
+}
+
+body.dark-mode .ksk-navbar {
+  background: #1e293b;
+  border-bottom-color: #334155;
+}
+
+body.dark-mode .ksk-card,
+body.dark-mode .kpi-card,
+body.dark-mode .trust-badge-card,
+body.dark-mode .admin-sidebar,
+body.dark-mode .admin-content,
+body.dark-mode .modal-content {
+  background-color: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+body.dark-mode .ksk-glass-card {
+  background: rgba(30, 41, 59, 0.85);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .nav-link {
+  color: #cbd5e1;
+}
+body.dark-mode .nav-link:hover,
+body.dark-mode .nav-link.active {
+  color: #22c55e;
+  background-color: rgba(34, 197, 94, 0.15);
+}
+
+body.dark-mode .btn-lang-toggle,
+body.dark-mode .btn-theme-toggle {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+body.dark-mode .form-control,
+body.dark-mode .form-select {
+  background-color: #0f172a;
+  border-color: #334155;
+  color: #f8fafc;
+}
+body.dark-mode .form-control:focus,
+body.dark-mode .form-select:focus {
+  background-color: #0f172a;
+  border-color: #22c55e;
+  color: #ffffff;
+}
+
+body.dark-mode .hero-search-box {
+  background: #1e293b;
+  border: 1px solid #334155;
+}
+body.dark-mode .hero-search-input {
+  background: transparent;
+  color: #f8fafc;
+}
+
+body.dark-mode .product-img-wrapper {
+  background: #0f172a;
+}
+
+body.dark-mode .table-khata th,
+body.dark-mode .table th {
+  background: #0f172a;
+  color: #cbd5e1;
+}
+body.dark-mode .table td {
+  border-color: #334155;
+  color: #cbd5e1;
+}
+
+body.dark-mode .mobile-bottom-nav {
+  background: #1e293b;
+  border-top-color: #334155;
+}
+body.dark-mode .mobile-bottom-nav-item {
+  color: #94a3b8;
+}
+body.dark-mode .mobile-bottom-nav-item.active {
+  color: #22c55e;
+}
+
+body.dark-mode .list-group-item {
+  background-color: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+body.dark-mode .text-dark {
+  color: #f8fafc !important;
+}
+
+body.dark-mode .bg-light {
+  background-color: #0f172a !important;
+}
+
+body.dark-mode .border {
+  border-color: #334155 !important;
+}

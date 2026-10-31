@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>उधारी खातावही व्यवस्थापन (Credit Management) | कृषी सेवा केंद्र</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body class="lang-mr">
+
+  <div class="ksk-topbar">
+    <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
+      <div>
+        <i class="bi bi-shield-check text-warning me-1"></i>
+        <span class="lang-mr">सप्तशृंगी ॲग्रो • उधारी खातावही व वसुली नियंत्रण कक्ष</span>
+        <span class="lang-en">Saptashrungi Agro • Credit Ledger & Recovery Console</span>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <a href="admin-dashboard.html" class="text-light text-decoration-none small">
+          <i class="bi bi-speedometer2 me-1"></i>
+          <span class="lang-mr">डॅशबोर्ड</span>
+          <span class="lang-en">Dashboard</span>
+        </a>
+        <div class="d-flex align-items-center gap-1">
+          <button id="btnLangMr" onclick="App.setLang('mr')" class="btn btn-xs py-0 px-2 btn-success text-white rounded-pill fw-bold" style="font-size:0.75rem;">मराठी</button>
+          <button id="btnLangEn" onclick="App.setLang('en')" class="btn btn-xs py-0 px-2 btn-outline-secondary rounded-pill fw-bold" style="font-size:0.75rem;">English</button>
+        </div>
+        <button onclick="App.toggleTheme()" class="btn btn-link text-light p-0 ms-1">
+          <i class="bi bi-moon-stars-fill theme-icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-wrapper">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="d-flex align-items-center gap-2 mb-4 pb-3 border-bottom">
+        <div class="ksk-brand-icon" style="width:38px; height:38px; font-size:1.2rem;">
+          <i class="bi bi-flower1"></i>
+        </div>
+        <div>
+          <h6 class="fw-bold mb-0 text-success">
+            <span class="lang-mr">सप्तशृंगी ॲग्रो</span>
+            <span class="lang-en">Saptashrungi Agro</span>
+          </h6>
+          <small class="text-muted">
+            <span class="lang-mr">दुकान व्यवस्थापक</span>
+            <span class="lang-en">Store Manager</span>
+          </small>
+        </div>
+      </div>
+
+      <nav class="d-flex flex-column">
+        <a href="admin-dashboard.html" class="admin-nav-item">
+          <i class="bi bi-speedometer2 fs-5"></i>
+          <span class="lang-mr">डॅशबोर्ड (Overview)</span><span class="lang-en">Dashboard Overview</span>
+        </a>
+        <a href="admin-products.html" class="admin-nav-item">
+          <i class="bi bi-box-seam fs-5"></i>
+          <span class="lang-mr">उत्पादने व साठा (Inventory)</span><span class="lang-en">Products & Stock</span>
+        </a>
+        <a href="admin-udhari.html" class="admin-nav-item active">
+          <i class="bi bi-journal-text fs-5"></i>
+          <span class="lang-mr">उधारी खातावही (Credit Ledger)</span><span class="lang-en">Credit Ledger</span>
+        </a>
+        <a href="admin-orders.html" class="admin-nav-item">
+          <i class="bi bi-receipt fs-5"></i>
+          <span class="lang-mr">ऑर्डर्स व विक्री (Orders)</span><span class="lang-en">Store Orders</span>
+        </a>
+        <a href="admin-customers.html" class="admin-nav-item">
+          <i class="bi bi-people fs-5"></i>
+          <span class="lang-mr">नोंदणीकृत शेतकरी (Farmers)</span><span class="lang-en">Registered Farmers</span>
+        </a>
+        <hr class="my-3 text-secondary">
+        <a href="index.html" class="admin-nav-item text-primary">
+          <i class="bi bi-box-arrow-up-right fs-5"></i>
+          <span class="lang-mr">दुकान पहा (Live Store)</span><span class="lang-en">View Storefront</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-content">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+        <div>
+          <h3 class="fw-bold mb-1">
+            <i class="bi bi-journal-check text-warning-emphasis me-2"></i>
+            <span class="lang-mr">शेतकरी उधारी खातावही व वसुली</span>
+            <span class="lang-en">Farmer Credit Ledger & Recovery</span>
+          </h3>
+          <p class="text-muted mb-0">
+            <span class="lang-mr">शेतकऱ्यांची उधारी नोंदवा, भरणा जमा करा आणि व्हॉट्सॲपवर आठवण मेसेज पाठवा.</span>
+            <span class="lang-en">Record farmer credit dues, receive payments, and send instant WhatsApp reminders.</span>
+          </p>
+        </div>
+        <button onclick="openNewCreditModal()" class="btn btn-warning fw-bold text-dark mt-3 mt-md-0 shadow">
+          <i class="bi bi-plus-circle-fill me-1"></i>
+          <span class="lang-mr">नवीन उधारी बिल नोंदवा</span>
+          <span class="lang-en">Record Credit Due</span>
+        </button>
+      </div>
+
+      <!-- Financial Snapshot Bar -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-4">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon-red">
+              <i class="bi bi-cash-stack"></i>
+            </div>
+            <div>
+              <div class="kpi-value text-danger" id="adminTotalOutstanding">₹०</div>
+              <div class="kpi-label">एकूण बाजारातील बाकी उधारी (Total Outstanding)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon-green">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div>
+              <div class="kpi-value text-success" id="adminTotalRecovered">₹०</div>
+              <div class="kpi-label">
+                <span class="lang-mr">एकूण वसूल झालेली रक्कम</span>
+                <span class="lang-en">Total Amount Collected</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon-gold">
+              <i class="bi bi-people-fill"></i>
+            </div>
+            <div>
+              <div class="kpi-value text-warning-emphasis" id="adminDebtorCount">०</div>
+              <div class="kpi-label">
+                <span class="lang-mr">थकीत उधारी शेतकरी संख्या</span>
+                <span class="lang-en">Outstanding Debtors Count</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search & Filters -->
+      <div class="ksk-card p-3 mb-4">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-6">
+            <div class="input-group">
+              <span class="input-group-text bg-white"><i class="bi bi-search text-muted"></i></span>
+              <input type="text" id="udhariSearchInput" class="form-control" placeholder="शेतकऱ्याचे नाव, मोबाईल किंवा गाव शोधा... / Search name, phone, village..." oninput="filterDebtorsTable()">
+            </div>
+          </div>
+          <div class="col-md-3">
+            <select id="udhariStatusFilter" class="form-select" onchange="filterDebtorsTable()">
+              <option value="all">सर्व स्थिती (All Status)</option>
+              <option value="due" selected>फक्त बाकी असलेले (Balance &gt; 0)</option>
+              <option value="settled">पूर्ण भरलेले (Settled / 0)</option>
+            </select>
+          </div>
+          <div class="col-md-3 text-md-end">
+            <button onclick="window.print()" class="btn btn-outline-secondary w-100">
+              <i class="bi bi-printer me-1"></i>
+              <span class="lang-mr">उधारी यादी प्रिंट करा</span>
+              <span class="lang-en">Print Ledger List</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Debtors Table -->
+      <div class="ksk-card p-4">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light small">
+              <tr>
+                <th><span class="lang-mr">शेतकऱ्याचे नाव & ओळख क्र.</span><span class="lang-en">Farmer Name & ID</span></th>
+                <th><span class="lang-mr">गाव व तालुका</span><span class="lang-en">Village & Taluka</span></th>
+                <th><span class="lang-mr">मोबाईल नंबर</span><span class="lang-en">Mobile</span></th>
+                <th class="text-end"><span class="lang-mr">एकूण खरेदी (₹)</span><span class="lang-en">Total Purchases (₹)</span></th>
+                <th class="text-end"><span class="lang-mr">एकूण जमा (₹)</span><span class="lang-en">Total Paid (₹)</span></th>
+                <th class="text-end"><span class="lang-mr">चालू बाकी उधारी (₹)</span><span class="lang-en">Current Due (₹)</span></th>
+                <th class="text-center"><span class="lang-mr">स्थिती</span><span class="lang-en">Status</span></th>
+                <th class="text-center"><span class="lang-mr">कृती</span><span class="lang-en">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody id="adminDebtorsTableBody">
+              <!-- Dynamically populated via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Record New Credit Due Modal -->
+  <div class="modal fade" id="newCreditModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-warning text-dark">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-plus-circle-fill me-2"></i>
+            <span class="lang-mr">नवीन उधारी बिल नोंदवा</span>
+            <span class="lang-en">Record New Credit Invoice</span>
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="newCreditForm" onsubmit="handleSaveCreditDue(event)">
+          <div class="modal-body p-4">
+            <!-- Select Farmer -->
+            <div class="mb-3">
+              <label class="form-label fw-bold small">
+                <span class="lang-mr">शेतकरी निवडा *</span>
+                <span class="lang-en">Select Farmer *</span>
+              </label>
+              <select id="creditFarmerSelect" class="form-select" required onchange="handleFarmerSelectChange()">
+                <option value="">-- शेतकरी निवडा (Select Farmer) --</option>
+                <!-- Injected via JS -->
+              </select>
+            </div>
+
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label fw-bold small">
+                  <span class="lang-mr">मोबाईल नंबर</span>
+                  <span class="lang-en">Mobile Number</span>
+                </label>
+                <input type="text" id="creditPhone" class="form-control" readonly>
+              </div>
+              <div class="col-6">
+                <label class="form-label fw-bold small">
+                  <span class="lang-mr">चालू जुनी बाकी</span>
+                  <span class="lang-en">Current Due</span>
+                </label>
+                <input type="text" id="creditOldBalance" class="form-control text-danger fw-bold" readonly>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold small">
+                <span class="lang-mr">नवीन उधारी बिल रक्कम (₹) *</span>
+                <span class="lang-en">New Invoice Amount (₹) *</span>
+              </label>
+              <input type="number" id="creditAmount" class="form-control fs-5 fw-bold text-success" required min="1" placeholder="उदा. 4500">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold small">
+                <span class="lang-mr">मालाचा तपशील *</span>
+                <span class="lang-en">Item Description *</span>
+              </label>
+              <input type="text" id="creditDescription" class="form-control" required placeholder="उदा. ४ पोती युरिया + २ कोराजन">
+            </div>
+
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label fw-bold small">
+                  <span class="lang-mr">बिल / व्हाउचर क्र.</span>
+                  <span class="lang-en">Invoice / Voucher No.</span>
+                </label>
+                <input type="text" id="creditBillNo" class="form-control" placeholder="उदा. BILL-9920">
+              </div>
+              <div class="col-6">
+                <label class="form-label fw-bold small">
+                  <span class="lang-mr">पैसे देण्याचा वायदा</span>
+                  <span class="lang-en">Due Date</span>
+                </label>
+                <input type="date" id="creditDueDate" class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+              <span class="lang-mr">रद्द करा</span><span class="lang-en">Cancel</span>
+            </button>
+            <button type="submit" class="btn btn-warning fw-bold text-dark px-4">
+              <i class="bi bi-save me-1"></i>
+              <span class="lang-mr">उधारी खात्यावर नोंदवा</span>
+              <span class="lang-en">Save to Ledger</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Receive Payment Modal -->
+  <div class="modal fade" id="receivePaymentModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-cash-coin me-2"></i>
+            <span class="lang-mr">उधारी वसुली / भरणा जमा करा</span>
+            <span class="lang-en">Record Payment Receipt</span>
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="receivePaymentForm" onsubmit="handleSavePayment(event)">
+          <div class="modal-body p-4">
+            <input type="hidden" id="payFarmerPhone">
+            
+            <div class="p-3 bg-light rounded-3 mb-3">
+              <div class="fw-bold fs-5 text-dark" id="payFarmerNameDisplay">शेतकरी नाव</div>
+              <small class="text-muted" id="payFarmerPhoneDisplay">9822012345</small>
+              <div class="mt-2 text-danger fw-bold fs-6">
+                <span class="lang-mr">एकूण चालू बाकी:</span>
+                <span class="lang-en">Total Outstanding:</span>
+                <span id="payFarmerDueDisplay">₹०</span>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold small">
+                <span class="lang-mr">जमा झालेली रक्कम (Amount Received ₹) *</span>
+                <span class="lang-en">Amount Received (₹) *</span>
+              </label>
+              <input type="number" id="payReceivedAmount" class="form-control fs-4 fw-bold text-success" required min="1">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold small">
+                <span class="lang-mr">भरणा माध्यम / नोट</span>
+                <span class="lang-en">Payment Mode / Notes</span>
+              </label>
+              <select id="payModeSelect" class="form-select">
+                <option value="रोख काऊंटरवर जमा (Cash)">रोख काऊंटरवर जमा (Cash on Counter)</option>
+                <option value="Google Pay / PhonePe UPI">Google Pay / PhonePe UPI</option>
+                <option value="बँक ट्रान्सफर (NEFT/RTGS)">बँक ट्रान्सफर (Bank Transfer NEFT/RTGS)</option>
+                <option value="चेक द्वारे जमा (Cheque)">चेक द्वारे जमा (Cheque Deposit)</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+              <span class="lang-mr">रद्द करा</span><span class="lang-en">Cancel</span>
+            </button>
+            <button type="submit" class="btn btn-success px-4 fw-bold">
+              <i class="bi bi-check2-circle me-1"></i>
+              <span class="lang-mr">पावती जमा करा</span>
+              <span class="lang-en">Save Payment</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer class="ksk-footer mt-5">
+    <div class="container text-center small text-light text-opacity-50">
+      <p class="mb-0">
+        <span class="lang-mr">© 2026 कृषी सेवा केंद्र - सप्तशृंगी ॲग्रो सर्व्हिसेस, नाशिक.</span>
+        <span class="lang-en">© 2026 Krushi Seva Kendra - Saptashrungi Agro Services, Nashik.</span>
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('action') === 'new') {
+        openNewCreditModal();
+      }
+      loadAdminDebtors();
+    });
+
+    window.addEventListener('ksk_lang_changed', () => {
+      loadAdminDebtors();
+    });
+
+    function loadAdminDebtors() {
+      const farmers = Store.getRegisteredFarmers();
+      let totalOut = 0;
+      let totalRec = 0;
+      let debtorsCount = 0;
+
+      farmers.forEach(f => {
+        const bal = Store.getFarmerBalance(f.phone);
+        totalOut += Math.max(0, bal.balance);
+        totalRec += bal.totalCredit;
+        if (bal.balance > 0) debtorsCount++;
+      });
+
+      document.getElementById('adminTotalOutstanding').textContent = '₹' + totalOut.toLocaleString('en-IN');
+      document.getElementById('adminTotalRecovered').textContent = '₹' + totalRec.toLocaleString('en-IN');
+      document.getElementById('adminDebtorCount').textContent = debtorsCount;
+
+      filterDebtorsTable();
+    }
+
+    function filterDebtorsTable() {
+      const q = (document.getElementById('udhariSearchInput').value || '').toLowerCase().trim();
+      const statusFilter = document.getElementById('udhariStatusFilter').value;
+      const farmers = Store.getRegisteredFarmers();
+      const tbody = document.getElementById('adminDebtorsTableBody');
+
+      const list = [];
+      farmers.forEach(f => {
+        const bal = Store.getFarmerBalance(f.phone);
+        const matchQ = !q || f.name.toLowerCase().includes(q) || f.phone.includes(q) || (f.village && f.village.toLowerCase().includes(q));
+        const matchStatus = statusFilter === 'all' || 
+          (statusFilter === 'due' && bal.balance > 0) || 
+          (statusFilter === 'settled' && bal.balance <= 0);
+
+        if (matchQ && matchStatus) {
+          list.push({ ...f, ...bal });
+        }
+      });
+
+      // Sort by balance descending
+      list.sort((a, b) => b.balance - a.balance);
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted"><span class="lang-mr">कोणताही शेतकरी सापडला नाही.</span><span class="lang-en">No debtor farmers found.</span></td></tr>`;
+        return;
+      }
+
+      let html = '';
+      list.forEach(d => {
+        const isSettled = d.balance <= 0;
+        const statusBadge = isSettled 
+          ? `<span class="badge bg-success"><span class="lang-mr">शून्य बाकी</span><span class="lang-en">Clear</span></span>` 
+          : `<span class="badge bg-danger"><span class="lang-mr">बाकी उधारी</span><span class="lang-en">Due</span></span>`;
+
+        const waMsg = encodeURIComponent(`सस्नेह नमस्कार, ${d.name} जी. सप्तशृंगी ॲग्रो सर्व्हिसेस, नाशिक कडील आपले उधारी खात्यावर ₹${d.balance} शिल्लक बाकी आहे. कृपया सोयीनुसार रक्कम जमा करावी. धन्यवाद!`);
+        const waUrl = `https://wa.me/91${d.phone}?text=${waMsg}`;
+
+        html += `
+          <tr>
+            <td>
+              <div class="fw-bold text-dark">${d.name}</div>
+              <small class="text-muted">${d.id}</small>
+            </td>
+            <td>${d.village}, ता. ${d.taluka || '-'}</td>
+            <td><code>${d.phone}</code></td>
+            <td class="text-end fw-semibold">₹${d.totalDebit.toLocaleString('en-IN')}</td>
+            <td class="text-end text-success fw-semibold">₹${d.totalCredit.toLocaleString('en-IN')}</td>
+            <td class="text-end fw-bold text-danger fs-6">₹${d.balance.toLocaleString('en-IN')}</td>
+            <td class="text-center">${statusBadge}</td>
+            <td class="text-center">
+              <div class="d-flex align-items-center justify-content-center gap-1">
+                <button onclick="openReceivePayModal('${d.phone}', '${d.name}', ${d.balance})" class="btn btn-xs btn-outline-success py-1 px-2 rounded-pill" title="जमा रक्कम नोंदवा">
+                  <i class="bi bi-cash me-1"></i><span class="lang-mr">जमा</span><span class="lang-en">Credit</span>
+                </button>
+                <a href="${waUrl}" target="_blank" class="btn btn-xs btn-success text-white py-1 px-2 rounded-pill shadow-sm" title="WhatsApp आठवण">
+                  <i class="bi bi-whatsapp"></i>
+                </a>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+      App.applyLanguage(App.getLang());
+    }
+
+    function openNewCreditModal() {
+      const farmers = Store.getRegisteredFarmers();
+      const select = document.getElementById('creditFarmerSelect');
+      let html = '<option value="">-- शेतकरी निवडा --</option>';
+      farmers.forEach(f => {
+        html += `<option value="${f.phone}">${f.name} (${f.village} - ${f.phone})</option>`;
+      });
+      select.innerHTML = html;
+
+      document.getElementById('creditPhone').value = '';
+      document.getElementById('creditOldBalance').value = '';
+      document.getElementById('creditAmount').value = '';
+      document.getElementById('creditDescription').value = '';
+      document.getElementById('creditBillNo').value = 'BILL-' + Math.floor(1000 + Math.random() * 9000);
+      document.getElementById('creditDueDate').value = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+      const modal = new bootstrap.Modal(document.getElementById('newCreditModal'));
+      modal.show();
+    }
+
+    function handleFarmerSelectChange() {
+      const phone = document.getElementById('creditFarmerSelect').value;
+      if (!phone) {
+        document.getElementById('creditPhone').value = '';
+        document.getElementById('creditOldBalance').value = '';
+        return;
+      }
+      document.getElementById('creditPhone').value = phone;
+      const bal = Store.getFarmerBalance(phone);
+      document.getElementById('creditOldBalance').value = '₹' + bal.balance.toLocaleString('en-IN');
+    }
+
+    function handleSaveCreditDue(e) {
+      e.preventDefault();
+      const phone = document.getElementById('creditPhone').value;
+      const amount = parseFloat(document.getElementById('creditAmount').value) || 0;
+      const desc = document.getElementById('creditDescription').value.trim();
+      const billNo = document.getElementById('creditBillNo').value.trim();
+      const dueDate = document.getElementById('creditDueDate').value;
+
+      const farmers = Store.getRegisteredFarmers();
+      const farmer = farmers.find(f => f.phone === phone);
+      const farmerName = farmer ? farmer.name : 'शेतकरी';
+
+      Store.addUdhariEntry({
+        farmerPhone: phone,
+        farmerName: farmerName,
+        debit: amount,
+        credit: 0,
+        description_mr: desc,
+        description_en: desc,
+        voucherNo: billNo,
+        dueDate: dueDate
+      });
+
+      bootstrap.Modal.getInstance(document.getElementById('newCreditModal')).hide();
+      App.showToast(`₹${amount} चे उधारी बिल यशस्वीरित्या नोंदवले गेले!`, `Credit bill of ₹${amount} recorded!`, 'success');
+      loadAdminDebtors();
+    }
+
+    function openReceivePayModal(phone, name, due) {
+      document.getElementById('payFarmerPhone').value = phone;
+      document.getElementById('payFarmerNameDisplay').textContent = name;
+      document.getElementById('payFarmerPhoneDisplay').textContent = phone;
+      document.getElementById('payFarmerDueDisplay').textContent = '₹' + due.toLocaleString('en-IN');
+      document.getElementById('payReceivedAmount').value = due > 0 ? due : '';
+
+      const modal = new bootstrap.Modal(document.getElementById('receivePaymentModal'));
+      modal.show();
+    }
+
+    function handleSavePayment(e) {
+      e.preventDefault();
+      const phone = document.getElementById('payFarmerPhone').value;
+      const amount = parseFloat(document.getElementById('payReceivedAmount').value) || 0;
+      const mode = document.getElementById('payModeSelect').value;
+
+      Store.recordPayment(phone, amount, mode);
+
+      bootstrap.Modal.getInstance(document.getElementById('receivePaymentModal')).hide();
+      App.showToast(`₹${amount} चा भरणा यशस्वीरित्या जमा झाला!`, `Payment of ₹${amount} recorded!`, 'success');
+      loadAdminDebtors();
+    }
+  </script>
+</body>
+</html>

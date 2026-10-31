@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - Krushi Seva Kendra</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <th:block th:replace="~{layout/header :: premiumAssets}"></th:block>
+</head>
+<body class="customer-page">
+    <header th:replace="~{layout/navbar :: navbar}"></header>
+    <aside th:replace="~{layout/sidebar-customer :: sidebar('products')}"></aside>
+
+    <main class="container-fluid py-4 premium-dashboard-content">
+        <div class="customer-page-heading">
+            <div><span class="customer-eyebrow">SHOP CATALOGUE</span><h1><i class="bi bi-box2 me-2"></i>Available Products</h1><p>Browse products and contact the shop for availability and purchase.</p></div>
+        </div>
+
+        <div class="row">
+            <div th:if="${products.isEmpty()}" class="col-md-12">
+                <div class="alert alert-info">No products available.</div>
+            </div>
+            <div class="col-md-6 col-lg-4 mb-4" th:each="product : ${products}">
+                <div class="card product-card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${product.name}">Product</h5>
+                        <p class="text-muted small" th:text="${product.nameMr}">Marathi</p>
+                        <p class="text-muted small" th:if="${product.company}">Company: <span th:text="${product.company}"></span></p>
+                        <div class="my-3">
+                            <span class="fs-5 fw-bold text-success me-2">₹<span th:text="${product.discountPrice ?: product.price}">0</span></span>
+                            <span class="text-muted text-decoration-line-through small" th:if="${product.mrp != null ? product.mrp > product.price : product.discountPrice != null}">₹<span th:text="${product.mrp != null ? product.mrp : product.price}">0</span></span>
+                        </div>
+                        <p class="small text-muted">Stock: <span th:text="${product.stockQuantity}">0</span></p>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <span class="ms-1 small" th:text="${product.rating}">0</span>/5
+                        <a class="btn btn-outline-success w-100 mt-3" th:href="@{/farmer/products/{id}(id=${product.id})}">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{layout/footer :: footer}"></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

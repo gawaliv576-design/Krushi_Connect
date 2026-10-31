@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>शेतकरी डॅशबोर्ड (Farmer Portal) | कृषी सेवा केंद्र</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body class="lang-mr">
+
+  <div class="ksk-topbar">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div>
+        <i class="bi bi-telephone-fill text-warning me-1"></i>
+        <span class="lang-mr">शेतकरी हेल्पलाइन: +९१ ९८२२० १२३४५</span>
+        <span class="lang-en">Farmer Helpline: +91 98220 12345</span>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-1">
+          <button id="btnLangMr" onclick="App.setLang('mr')" class="btn btn-xs py-0 px-2 btn-success text-white rounded-pill fw-bold" style="font-size:0.75rem;">मराठी</button>
+          <button id="btnLangEn" onclick="App.setLang('en')" class="btn btn-xs py-0 px-2 btn-outline-secondary rounded-pill fw-bold" style="font-size:0.75rem;">English</button>
+        </div>
+        <button onclick="App.toggleTheme()" class="btn btn-link text-light p-0 ms-1">
+          <i class="bi bi-moon-stars-fill theme-icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <header class="ksk-navbar">
+    <div class="container py-2">
+      <div class="d-flex align-items-center justify-content-between">
+        <a href="index.html" class="ksk-brand text-decoration-none">
+          <div class="ksk-brand-icon"><i class="bi bi-flower1"></i></div>
+          <div class="ksk-brand-text">
+            <span class="ksk-brand-title">सप्तशृंगी ॲग्रो</span>
+            <span class="ksk-brand-subtitle">Krushi Seva Kendra</span>
+          </div>
+        </a>
+
+        <nav class="d-none d-lg-flex align-items-center gap-1">
+          <a href="index.html" class="nav-link"><span class="lang-mr">मुखपृष्ठ</span><span class="lang-en">Home</span></a>
+          <a href="products.html" class="nav-link"><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></a>
+          <a href="farmer-dashboard.html" class="nav-link active"><span class="lang-mr">शेतकरी डॅशबोर्ड</span><span class="lang-en">Dashboard</span></a>
+          <a href="farmer-udhari.html" class="nav-link text-warning-emphasis"><i class="bi bi-journal-bookmark me-1"></i><span class="lang-mr">उधारी खातावही</span><span class="lang-en">Khata Ledger</span></a>
+        </nav>
+
+        <div class="d-flex align-items-center gap-3">
+          <a href="cart.html" class="btn btn-light rounded-circle p-2 position-relative shadow-sm border">
+            <i class="bi bi-cart3 fs-5 text-success"></i>
+            <span class="cart-badge-pill cart-badge" style="display:none;">0</span>
+          </a>
+          <div id="headerUserSection"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="py-4">
+    <div class="container">
+      
+      <!-- Welcome Header Banner -->
+      <div class="ksk-card p-4 p-md-5 mb-4 text-white border-0 shadow-lg" style="background: linear-gradient(135deg, #15803d, #064e3b);">
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <div class="rounded-circle bg-white text-success d-flex align-items-center justify-content-center fw-bold fs-3 shadow" style="width: 64px; height: 64px;">
+                <i class="bi bi-person-fill"></i>
+              </div>
+              <div>
+                <h3 class="fw-bold mb-0" id="dashFarmerName">शेतकरी बंधू</h3>
+                <span class="badge bg-warning text-dark fw-bold px-3 py-1 rounded-pill mt-1" id="dashFarmerId">
+                  KSK-9822012345
+                </span>
+              </div>
+            </div>
+            <p class="mb-0 text-light text-opacity-90">
+              <i class="bi bi-geo-alt-fill text-warning me-1"></i>
+              <span id="dashFarmerLocation">गाव: वैजापूर, ता. वैजापूर (जि. छत्रपती संभाजीनगर)</span>
+              <span class="mx-2">•</span>
+              <i class="bi bi-flower2 text-warning me-1"></i>
+              <span id="dashFarmerCrops">मुख्य पिके: कपाशी, कांदा, सोयाबीन</span>
+            </p>
+          </div>
+          <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <a href="farmer-udhari.html" class="btn btn-warning fw-bold px-4 py-2 text-dark shadow">
+              <i class="bi bi-journal-check me-1"></i>
+              <span class="lang-mr">उधारी पासबुक पहा</span>
+              <span class="lang-en">View Khata Passbook</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top KPI Cards -->
+      <div class="row g-3 mb-4">
+        <!-- Active Orders -->
+        <div class="col-sm-6 col-lg-3">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon-blue">
+              <i class="bi bi-bag-check-fill"></i>
+            </div>
+            <div>
+              <div class="kpi-value" id="kpiActiveOrders">०</div>
+              <div class="kpi-label">
+                <span class="lang-mr">एकूण ऑर्डर्स</span>
+                <span class="lang-en">Total Orders</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total Purchases -->
+        <div class="col-sm-6 col-lg-3">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon-green">
+              <i class="bi bi-cash-coin"></i>
+            </div>
+            <div>
+              <div class="kpi-value" id="kpiTotalPurchases">₹०</div>
+              <div class="kpi-label">
+                <span class="lang-mr">एकूण खरेदी</span>
+                <span class="lang-en">Total Purchases</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pending Udhari Due -->
+        <div class="col-sm-6 col-lg-3">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon-red">
+              <i class="bi bi-exclamation-diamond-fill"></i>
+            </div>
+            <div>
+              <div class="kpi-value text-danger" id="kpiUdhariDue">₹०</div>
+              <div class="kpi-label">
+                <span class="lang-mr">चालू बाकी उधारी</span>
+                <span class="lang-en">Outstanding Due</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Credit Limit -->
+        <div class="col-sm-6 col-lg-3">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon-gold">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <div>
+              <div class="kpi-value text-warning-emphasis" id="kpiCreditLimit">₹२५,०००</div>
+              <div class="kpi-label">
+                <span class="lang-mr">मंजूर उधारी मर्यादा</span>
+                <span class="lang-en">Credit Limit</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions Grid -->
+      <div class="row g-4 mb-4">
+        <div class="col-lg-8">
+          
+          <!-- Recent Orders Card -->
+          <div class="ksk-card p-4 mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="fw-bold mb-0">
+                <i class="bi bi-clock-history text-success me-2"></i>
+                <span class="lang-mr">मागील ऑर्डर्स</span>
+                <span class="lang-en">Recent Orders</span>
+              </h5>
+              <a href="products.html" class="btn btn-sm btn-outline-success">
+                <span class="lang-mr">नवीन खरेदी करा</span>
+                <span class="lang-en">Shop Products</span>
+              </a>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table align-middle">
+                <thead class="table-light small">
+                  <tr>
+                    <th><span class="lang-mr">ऑर्डर क्र.</span><span class="lang-en">Order ID</span></th>
+                    <th><span class="lang-mr">तारीख</span><span class="lang-en">Date</span></th>
+                    <th><span class="lang-mr">उत्पादने</span><span class="lang-en">Items</span></th>
+                    <th><span class="lang-mr">पेमेंट मोड</span><span class="lang-en">Payment</span></th>
+                    <th><span class="lang-mr">रक्कम</span><span class="lang-en">Total</span></th>
+                    <th><span class="lang-mr">स्थिती</span><span class="lang-en">Status</span></th>
+                  </tr>
+                </thead>
+                <tbody id="farmerOrdersTableBody">
+                  <!-- Dynamically populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Mini Khata Ledger Preview -->
+          <div class="ksk-card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="fw-bold mb-0 text-warning-emphasis">
+                <i class="bi bi-journal-bookmark-fill text-warning me-2"></i>
+                <span class="lang-mr">डिजिटल खातावही सारांश</span>
+                <span class="lang-en">Digital Ledger Preview</span>
+              </h5>
+              <a href="farmer-udhari.html" class="btn btn-sm btn-ksk-accent text-dark fw-bold">
+                <span class="lang-mr">संपूर्ण पासबुक पहा</span>
+                <span class="lang-en">View Full Passbook</span>
+              </a>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-bordered table-khata align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th><span class="lang-mr">तारीख</span><span class="lang-en">Date</span></th>
+                    <th><span class="lang-mr">तपशील</span><span class="lang-en">Description</span></th>
+                    <th class="text-end"><span class="lang-mr">नावे (₹)</span><span class="lang-en">Debit (₹)</span></th>
+                    <th class="text-end"><span class="lang-mr">जमा (₹)</span><span class="lang-en">Credit (₹)</span></th>
+                    <th class="text-end"><span class="lang-mr">शिल्लक (₹)</span><span class="lang-en">Balance (₹)</span></th>
+                  </tr>
+                </thead>
+                <tbody id="miniKhataTableBody">
+                  <!-- Injected via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Side: Weather, Quick Re-Order, Advisory -->
+        <div class="col-lg-4">
+          
+          <!-- Quick UPI Pay Udhari Box -->
+          <div class="ksk-card p-4 mb-4 border-warning bg-warning bg-opacity-10">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <i class="bi bi-qr-code-scan text-warning-emphasis fs-4"></i>
+              <h6 class="fw-bold mb-0 text-dark">
+                <span class="lang-mr">उधारी घरबसल्या UPI ने भरा</span>
+                <span class="lang-en">Pay Credit Due Online via UPI</span>
+              </h6>
+            </div>
+            <p class="small text-muted mb-3">
+              <span class="lang-mr">थकीत उधारी त्वरित Google Pay, PhonePe किंवा Paytm द्वारे जमा करा व त्वरित पावती मिळवा.</span>
+              <span class="lang-en">Clear pending dues instantly using PhonePe, GPay, or Paytm QR and get instant receipt.</span>
+            </p>
+            <a href="farmer-udhari.html" class="btn btn-warning w-100 fw-bold text-dark py-2">
+              <i class="bi bi-wallet2 me-1"></i>
+              <span class="lang-mr">आत्ताच उधारी भरा (Pay Now)</span>
+              <span class="lang-en">Pay Due Now (UPI)</span>
+            </a>
+          </div>
+
+          <!-- Seasonal Re-Order Widget -->
+          <div class="ksk-card p-4 mb-4">
+            <h6 class="fw-bold mb-3">
+              <i class="bi bi-arrow-repeat text-success me-2"></i>
+              <span class="lang-mr">पुन्हा मागवा (त्वरित खरेदी)</span>
+              <span class="lang-en">Quick Re-order</span>
+            </h6>
+            <div class="d-flex flex-column gap-3 small">
+              <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+                <div>
+                  <div class="fw-bold">
+                    <span class="lang-mr">निम कोटेड युरिया (४५kg)</span>
+                    <span class="lang-en">Neem Coated Urea (45kg)</span>
+                  </div>
+                  <span class="text-success fw-bold">₹२६६</span>
+                </div>
+                <button onclick="Store.addToCart('prod-001', 1); App.showToast('युरिया कार्टमध्ये जोडला!', 'Added Urea to cart!');" class="btn btn-xs btn-outline-success">
+                  <span class="lang-mr">+ मागवा</span><span class="lang-en">+ Add</span>
+                </button>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+                <div>
+                  <div class="fw-bold">
+                    <span class="lang-mr">डीएपी १८:४६:० (५०kg)</span>
+                    <span class="lang-en">DAP 18:46:0 (50kg)</span>
+                  </div>
+                  <span class="text-success fw-bold">₹१,३५०</span>
+                </div>
+                <button onclick="Store.addToCart('prod-002', 1); App.showToast('डीएपी कार्टमध्ये जोडले!', 'Added DAP to cart!');" class="btn btn-xs btn-outline-success">
+                  <span class="lang-mr">+ मागवा</span><span class="lang-en">+ Add</span>
+                </button>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <div class="fw-bold">
+                    <span class="lang-mr">कोराजन कीटकनाशक (६०ml)</span>
+                    <span class="lang-en">Coragen FMC (60ml)</span>
+                  </div>
+                  <span class="text-success fw-bold">₹९८०</span>
+                </div>
+                <button onclick="Store.addToCart('prod-004', 1); App.showToast('कोराजन कार्टमध्ये जोडले!', 'Added Coragen to cart!');" class="btn btn-xs btn-outline-success">
+                  <span class="lang-mr">+ मागवा</span><span class="lang-en">+ Add</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Crop Weather Alert -->
+          <div class="ksk-card p-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge bg-success-subtle text-success border border-success-subtle">
+                <span class="lang-mr">आजचा सल्ला</span><span class="lang-en">Daily Advisory</span>
+              </span>
+              <span class="small text-muted"><span class="lang-mr">आज</span><span class="lang-en">Today</span></span>
+            </div>
+            <h6 class="fw-bold text-dark mb-2">
+              <span class="lang-mr">कपाशी बोंडअळी सर्वेक्षण</span>
+              <span class="lang-en">Cotton Bollworm Scouting</span>
+            </h6>
+            <p class="small text-muted mb-0">
+              <span class="lang-mr">कपाशीच्या पात्या व बोंडांचे निरीक्षण करा. रोझेट फुले आढळल्यास त्वरित निंबोळी अर्क ५% किंवा कोराजन ६ मिली प्रति १५ लिटर फवारावे.</span>
+              <span class="lang-en">Inspect cotton squares and bolls. If rosette flowers are found, spray 5% Neem extract or Coragen 6ml per 15L water immediately.</span>
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="ksk-footer mt-5">
+    <div class="container text-center small text-light text-opacity-50">
+      <p class="mb-0">
+        <span class="lang-mr">© 2026 कृषी सेवा केंद्र - सप्तशृंगी ॲग्रो सर्व्हिसेस, नाशिक.</span>
+        <span class="lang-en">© 2026 Krushi Seva Kendra - Saptashrungi Agro Services, Nashik.</span>
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initFarmerDashboard();
+    });
+
+    window.addEventListener('ksk_lang_changed', () => {
+      initFarmerDashboard();
+    });
+
+    function initFarmerDashboard() {
+      let currentUser = Store.getCurrentUser();
+      
+      // If no user or admin, default to demo farmer Ramesh Patil
+      if (!currentUser || currentUser.role !== 'farmer') {
+        const demoFarmer = Store.getRegisteredFarmers().find(f => f.phone === '9822012345');
+        if (demoFarmer) {
+          Store.setCurrentUser(demoFarmer);
+          currentUser = demoFarmer;
+        }
+      }
+
+      // Populate header & profile info
+      const fNameMr = currentUser.name;
+      const fNameEn = currentUser.name_en || (currentUser.name.includes('(') ? currentUser.name.split('(')[1].replace(')', '') : 'Ramesh Patil');
+      document.getElementById('dashFarmerName').innerHTML = `<span class="lang-mr">${fNameMr}</span><span class="lang-en">${fNameEn}</span>`;
+      document.getElementById('dashFarmerId').textContent = currentUser.id || ('KSK-' + currentUser.phone);
+      document.getElementById('dashFarmerLocation').innerHTML = `<span class="lang-mr">गाव: ${currentUser.village || 'वैजापूर'}, ता. ${currentUser.taluka || 'वैजापूर'}</span><span class="lang-en">Village: Vaijapur, Taluka: Vaijapur</span>`;
+      document.getElementById('dashFarmerCrops').innerHTML = `<span class="lang-mr">मुख्य पिके: ${currentUser.crops || 'कपाशी, कांदा, सोयाबीन'}</span><span class="lang-en">Key Crops: Cotton, Onion, Soybean</span>`;
+
+      // Calculate balance & ledger
+      const balanceObj = Store.getFarmerBalance(currentUser.phone);
+      const orders = Store.getOrders().filter(o => o.farmerPhone === currentUser.phone);
+
+      document.getElementById('kpiActiveOrders').textContent = orders.length;
+      document.getElementById('kpiTotalPurchases').textContent = '₹' + (currentUser.totalPurchases || balanceObj.totalDebit).toLocaleString('en-IN');
+      document.getElementById('kpiUdhariDue').textContent = '₹' + balanceObj.balance.toLocaleString('en-IN');
+      document.getElementById('kpiCreditLimit').textContent = '₹' + (currentUser.creditLimit || 25000).toLocaleString('en-IN');
+
+      // Render Orders
+      const orderBody = document.getElementById('farmerOrdersTableBody');
+      if (orders.length === 0) {
+        orderBody.innerHTML = `<tr><td colspan="6" class="text-center py-3 text-muted"><span class="lang-mr">अद्याप कोणतीही ऑर्डर नोंदवलेली नाही.</span><span class="lang-en">No orders placed yet.</span></td></tr>`;
+      } else {
+        let orderHtml = '';
+        orders.slice(0, 5).forEach(o => {
+          const itemsMr = o.items.map(i => {
+            const p = Store.getProductById(i.id);
+            return (p ? p.name_mr : i.name_mr) + ` (${i.qty})`;
+          }).join(', ');
+
+          const itemsEn = o.items.map(i => {
+            const p = Store.getProductById(i.id);
+            return (p ? p.name_en : (i.name_en || i.name_mr)) + ` (${i.qty})`;
+          }).join(', ');
+
+          const payMr = o.paymentMethod || 'रोख / उधारी';
+          const payEn = o.paymentMethod.includes('Cash') ? 'Cash on Delivery' : o.paymentMethod.includes('UPI') ? 'UPI Payment' : 'Store Credit / Khata';
+
+          const statusMr = o.status_mr || 'पोहोचवले';
+          const statusEn = o.status_en || o.status || 'Delivered';
+
+          orderHtml += `
+            <tr>
+              <td><strong>${o.orderId}</strong></td>
+              <td>${o.date}</td>
+              <td class="small text-truncate" style="max-width:180px;">
+                <span class="lang-mr">${itemsMr}</span>
+                <span class="lang-en">${itemsEn}</span>
+              </td>
+              <td>
+                <span class="badge bg-light text-dark border">
+                  <span class="lang-mr">${payMr}</span>
+                  <span class="lang-en">${payEn}</span>
+                </span>
+              </td>
+              <td class="fw-bold">₹${o.total.toLocaleString('en-IN')}</td>
+              <td>
+                <span class="badge bg-success">
+                  <span class="lang-mr">${statusMr}</span>
+                  <span class="lang-en">${statusEn}</span>
+                </span>
+              </td>
+            </tr>
+          `;
+        });
+        orderBody.innerHTML = orderHtml;
+      }
+
+      // Render Mini Khata
+      const ledger = Store.getFarmerLedger(currentUser.phone);
+      const khataBody = document.getElementById('miniKhataTableBody');
+      if (ledger.length === 0) {
+        khataBody.innerHTML = `<tr><td colspan="5" class="text-center py-3 text-muted"><span class="lang-mr">उधारी खात्यावर कोणताही व्यवहार नाही.</span><span class="lang-en">No transaction records on credit ledger.</span></td></tr>`;
+      } else {
+        let khataHtml = '';
+        let running = 0;
+        ledger.slice(-4).forEach(item => {
+          running += (item.debit || 0) - (item.credit || 0);
+          khataHtml += `
+            <tr>
+              <td>${item.date}</td>
+              <td class="small">
+                <span class="lang-mr">${item.description_mr || item.description}</span>
+                <span class="lang-en">${item.description_en || item.description_mr || item.description}</span>
+              </td>
+              <td class="text-end text-danger">${item.debit > 0 ? '₹' + item.debit.toLocaleString('en-IN') : '-'}</td>
+              <td class="text-end text-success">${item.credit > 0 ? '₹' + item.credit.toLocaleString('en-IN') : '-'}</td>
+              <td class="text-end fw-bold">₹${running.toLocaleString('en-IN')}</td>
+            </tr>
+          `;
+        });
+        khataBody.innerHTML = khataHtml;
+      }
+
+      // Ensure language styling applies to new elements
+      App.applyLanguage(App.getLang());
+    }
+  </script>
+</body>
+</html>

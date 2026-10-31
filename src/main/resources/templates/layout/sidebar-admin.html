@@ -1,0 +1,72 @@
+<aside xmlns:th="http://www.thymeleaf.org"
+       th:fragment="sidebar(activeItem)"
+       class="premium-sidebar premium-admin-sidebar sidebar-krushi"
+       id="adminSidebar"
+       aria-label="Admin navigation">
+    <a class="premium-sidebar-brand" th:href="@{/admin/dashboard}">
+        <span class="premium-sidebar-brand-icon"><i class="bi bi-flower1"></i></span>
+        <span><strong>Agro Admin</strong><small>Shop management</small></span>
+    </a>
+
+    <p class="premium-sidebar-label">WORKSPACE</p>
+    <nav class="premium-sidebar-nav">
+        <a class="premium-sidebar-link" th:href="@{/admin/dashboard}"
+           th:classappend="${activeItem == 'dashboard' ? 'active' : ''}">
+            <i class="bi bi-grid-1x2-fill"></i><span>Dashboard</span>
+        </a>
+        <a class="premium-sidebar-link" th:href="@{/admin/products}"
+           th:classappend="${activeItem == 'products' ? 'active' : ''}">
+            <i class="bi bi-box-seam"></i><span>Products</span>
+            <span class="premium-sidebar-badge" th:if="${totalProducts != null}" th:text="${totalProducts}">0</span>
+        </a>
+        <a class="premium-sidebar-link" th:href="@{/admin/categories}"
+           th:classappend="${activeItem == 'categories' ? 'active' : ''}">
+            <i class="bi bi-tags"></i><span>Categories</span>
+            <span class="premium-sidebar-badge" th:if="${totalCategories != null}" th:text="${totalCategories}">0</span>
+        </a>
+        <a class="premium-sidebar-link" th:href="@{/admin/farmers}"
+           th:classappend="${activeItem == 'farmers' ? 'active' : ''}">
+            <i class="bi bi-people"></i><span>Farmers</span>
+            <span class="premium-sidebar-badge" th:if="${totalFarmers != null}" th:text="${totalFarmers}">0</span>
+        </a>
+        <a class="premium-sidebar-link" th:href="@{/admin/inventory}"
+           th:classappend="${activeItem == 'inventory' ? 'active' : ''}">
+            <i class="bi bi-boxes"></i><span>Inventory</span>
+            <span class="premium-sidebar-badge premium-sidebar-badge-warn" th:if="${lowStockCount != null}" th:text="${lowStockCount}">0</span>
+        </a>
+        <a class="premium-sidebar-link" th:href="@{/admin/enquiries}"
+           th:classappend="${activeItem == 'enquiries' ? 'active' : ''}">
+            <i class="bi bi-chat-square-text"></i><span>Enquiries</span>
+            <span class="premium-sidebar-badge premium-sidebar-badge-warn" th:if="${openEnquiryCount != null and openEnquiryCount > 0}" th:text="${openEnquiryCount}">0</span>
+        </a>
+        <a class="premium-sidebar-link" th:href="@{/admin/payments}"
+           th:classappend="${activeItem == 'payments' ? 'active' : ''}">
+            <i class="bi bi-credit-card-2-front"></i><span>Payments</span>
+            <span class="premium-sidebar-badge" th:if="${totalPayments != null}" th:text="${totalPayments}">0</span>
+        </a>
+        <a class="premium-sidebar-link" th:href="@{/admin/udhari}"
+           th:classappend="${activeItem == 'udhari' ? 'active' : ''}">
+            <i class="bi bi-wallet2"></i><span>Udhari</span>
+            <span class="premium-sidebar-badge" th:if="${pendingUdhariCount != null}" th:text="${pendingUdhariCount}">0</span>
+        </a>
+        <a class="premium-sidebar-link" th:href="@{/admin/reports}"
+           th:classappend="${activeItem == 'reports' ? 'active' : ''}">
+            <i class="bi bi-bar-chart-line"></i><span>Reports</span>
+        </a>
+    </nav>
+
+    <p class="premium-sidebar-label premium-sidebar-label-bottom">PREFERENCES</p>
+    <nav class="premium-sidebar-nav">
+        <a class="premium-sidebar-link" th:href="@{/admin/dashboard#shop-information}">
+            <i class="bi bi-gear"></i><span>Settings</span>
+        </a>
+        <a class="premium-sidebar-link premium-sidebar-help" th:href="@{/#contact}">
+            <i class="bi bi-life-preserver"></i><span>Shop support</span>
+        </a>
+    </nav>
+
+    <div class="premium-sidebar-foot">
+        <span class="premium-status-dot"></span>
+        <span>Store is online</span>
+    </div>
+</aside>

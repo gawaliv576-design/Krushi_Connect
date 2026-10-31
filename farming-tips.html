@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>शेती व पीक संरक्षण सल्ले (Crop Advisory & Farming Tips) | कृषी सेवा केंद्र</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body class="lang-mr">
+
+  <div class="ksk-topbar">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div>
+        <i class="bi bi-telephone-fill text-warning me-1"></i>
+        <span class="lang-mr">शेतकरी हेल्पलाइन: +९१ ९८२२० १२३४५</span>
+        <span class="lang-en">Farmer Helpline: +91 98220 12345</span>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-1">
+          <button id="btnLangMr" onclick="App.setLang('mr')" class="btn btn-xs py-0 px-2 btn-success text-white rounded-pill fw-bold" style="font-size:0.75rem;">मराठी</button>
+          <button id="btnLangEn" onclick="App.setLang('en')" class="btn btn-xs py-0 px-2 btn-outline-secondary rounded-pill fw-bold" style="font-size:0.75rem;">English</button>
+        </div>
+        <button onclick="App.toggleTheme()" class="btn btn-link text-light p-0 ms-1">
+          <i class="bi bi-moon-stars-fill theme-icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <header class="ksk-navbar">
+    <div class="container py-2">
+      <div class="d-flex align-items-center justify-content-between">
+        <a href="index.html" class="ksk-brand text-decoration-none">
+          <div class="ksk-brand-icon"><i class="bi bi-flower1"></i></div>
+          <div class="ksk-brand-text">
+            <span class="ksk-brand-title">सप्तशृंगी ॲग्रो</span>
+            <span class="ksk-brand-subtitle">Krushi Seva Kendra</span>
+          </div>
+        </a>
+
+        <nav class="d-none d-lg-flex align-items-center gap-1">
+          <a href="index.html" class="nav-link"><span class="lang-mr">मुखपृष्ठ</span><span class="lang-en">Home</span></a>
+          <a href="products.html" class="nav-link"><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></a>
+          <a href="categories.html" class="nav-link"><span class="lang-mr">वर्गवारी</span><span class="lang-en">Categories</span></a>
+          <a href="fertilizer-calculator.html" class="nav-link"><span class="lang-mr">खत गणक</span><span class="lang-en">Fertilizer Calc</span></a>
+          <a href="weather.html" class="nav-link"><span class="lang-mr">हवामान सल्ला</span><span class="lang-en">Weather Advisory</span></a>
+          <a href="farming-tips.html" class="nav-link active"><span class="lang-mr">शेती सल्ले</span><span class="lang-en">Farming Tips</span></a>
+          <a href="farmer-udhari.html" class="nav-link text-warning-emphasis"><i class="bi bi-journal-bookmark me-1"></i><span class="lang-mr">उधारी खातावही</span><span class="lang-en">Khata Ledger</span></a>
+        </nav>
+
+        <div class="d-flex align-items-center gap-3">
+          <a href="cart.html" class="btn btn-light rounded-circle p-2 position-relative shadow-sm border">
+            <i class="bi bi-cart3 fs-5 text-success"></i>
+            <span class="cart-badge-pill cart-badge" style="display:none;">0</span>
+          </a>
+          <div id="headerUserSection"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="py-5">
+    <div class="container">
+      
+      <div class="text-center max-w-700 mx-auto mb-5">
+        <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 rounded-pill fw-bold mb-2">
+          <i class="bi bi-lightbulb-fill me-1"></i>
+          <span class="lang-mr">तज्ज्ञ कृषी शास्त्रज्ञांचा सल्ला</span>
+          <span class="lang-en">Agronomy Advisory Desk</span>
+        </span>
+        <h2 class="fw-bold">
+          <span class="lang-mr">पीक संरक्षण, कीड नियंत्रण व शेती सल्ले</span>
+          <span class="lang-en">Crop Protection & Seasonal Advisory</span>
+        </h2>
+        <p class="text-muted">
+          <span class="lang-mr">कपाशी, कांदा, सोयाबीन व फळबागांसाठी योग्य वेळी योग्य औषध फवारणी करून भरघोस उत्पादन मिळवा.</span>
+          <span class="lang-en">Practical agronomic guides to protect your yield against pests and diseases.</span>
+        </p>
+      </div>
+
+      <!-- Advisory Categories / Guides -->
+      <div class="row g-4">
+        
+        <!-- Guide 1: Cotton Pink Bollworm -->
+        <div class="col-lg-6">
+          <div class="ksk-card p-4 h-100">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="badge bg-danger">
+                <span class="lang-mr">कीड नियंत्रण अलर्ट</span>
+                <span class="lang-en">Pest Control Alert</span>
+              </span>
+              <span class="text-muted small">
+                <span class="lang-mr">कपाशी पीक (Cotton)</span>
+                <span class="lang-en">Cotton Crop</span>
+              </span>
+            </div>
+            <h4 class="fw-bold text-dark mb-3">
+              <i class="bi bi-bug-fill text-danger me-2"></i>
+              <span class="lang-mr">गुलाबी बोंडअळी व रसशोषक कीड नियंत्रण</span>
+              <span class="lang-en">Pink Bollworm & Sucking Pest Management</span>
+            </h4>
+            <p class="text-muted small mb-3">
+              <span class="lang-mr">कपाशीवर पाती लागण्याच्या वेळी व फुले उमलताना गुलाबी बोंडअळीचा प्रादुर्भाव मोठ्या प्रमाणात होतो. पतंग अंड्यातून बाहेर पडण्यापूर्वीच नियंत्रण करणे अत्यंत महत्त्वाचे आहे.</span>
+              <span class="lang-en">Pink bollworm attacks cotton squares and newly opened flowers. Scouting and early larval defense are critical before pest enters bolls.</span>
+            </p>
+            <div class="bg-light p-3 rounded-3 mb-3 small">
+              <h6 class="fw-bold text-success mb-2">
+                <span class="lang-mr">शिफारस केलेले उपाय:</span>
+                <span class="lang-en">Recommended Measures:</span>
+              </h6>
+              <ul class="mb-0 ps-3">
+                <li>
+                  <span class="lang-mr">शेतात एकरी ५ कामगंध सापळे (Pheromone Traps) लावावे.</span>
+                  <span class="lang-en">Install 5 pheromone traps per acre for early pest monitoring.</span>
+                </li>
+                <li>
+                  <span class="lang-mr">प्रादुर्भाव दिसताच <strong>कोराजन (Coragen)</strong> ६० मिली किंवा <strong>प्रोक्लेम</strong> १०० ग्रॅम प्रति २०० लिटर पाण्यात फवारावे.</span>
+                  <span class="lang-en">Spray <strong>Coragen</strong> 60ml or <strong>Proclaim</strong> 100g per 200L water at first threshold sign.</span>
+                </li>
+                <li>
+                  <span class="lang-mr">रसशोषक किडींसाठी (मावा, तुडतुडे) उलाला किंवा कॉनफिडॉरची फवारणी करावी.</span>
+                  <span class="lang-en">For sucking pests (aphids, jassids), spray Ulala 60g or Confidor 50ml.</span>
+                </li>
+              </ul>
+            </div>
+            <a href="products.html?category=pesticides" class="btn btn-outline-danger btn-sm fw-bold mt-auto">
+              <i class="bi bi-cart-plus me-1"></i>
+              <span class="lang-mr">कोराजन व औषधे खरेदी करा</span>
+              <span class="lang-en">Buy Coragen & Pesticides</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Guide 2: Onion Blight & Thrips -->
+        <div class="col-lg-6">
+          <div class="ksk-card p-4 h-100">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="badge bg-warning text-dark">
+                <span class="lang-mr">रोग नियंत्रण अलर्ट</span>
+                <span class="lang-en">Disease Alert</span>
+              </span>
+              <span class="text-muted small">
+                <span class="lang-mr">कांदा पीक (Onion)</span>
+                <span class="lang-en">Onion Crop</span>
+              </span>
+            </div>
+            <h4 class="fw-bold text-dark mb-3">
+              <i class="bi bi-shield-slash-fill text-warning me-2"></i>
+              <span class="lang-mr">कांद्यावरील जांभळा करपा व फुलकिडे (Thrips)</span>
+              <span class="lang-en">Purple Blotch & Thrips in Onion</span>
+            </h4>
+            <p class="text-muted small mb-3">
+              <span class="lang-mr">ढगाळ वातावरण व धुक्यामुळे कांद्याच्या पाथीवर पिवळे व जांभळे चट्टे पडतात. याला 'करपा' म्हणतात. वेळीच उपाय न केल्यास कांद्याची मान जाड होते व वाढ खुंटते.</span>
+              <span class="lang-en">Cloudy weather and morning dew induce purple blotch fungus on onion leaves. Thick necking and stunted bulbs occur if untreated.</span>
+            </p>
+            <div class="bg-light p-3 rounded-3 mb-3 small">
+              <h6 class="fw-bold text-success mb-2">
+                <span class="lang-mr">शिफारस केलेले उपाय:</span>
+                <span class="lang-en">Recommended Measures:</span>
+              </h6>
+              <ul class="mb-0 ps-3">
+                <li>
+                  <span class="lang-mr"><strong>अमिस्टार टॉप (Amistar Top)</strong> २० मिली किंवा कस्टोडिया २५ मिली प्रति १५ लिटर पाण्याचा पंप.</span>
+                  <span class="lang-en">Spray <strong>Amistar Top</strong> 20ml or Custodia 25ml per 15L spray tank.</span>
+                </li>
+                <li>
+                  <span class="lang-mr">फुलकिड्यांसाठी (Thrips) कराटे (Karate) ३० मिली एकत्र मिसळून फवारावे.</span>
+                  <span class="lang-en">Mix Karate (Lambda Cyhalothrin) 30ml tank-mix for thrips knockdown.</span>
+                </li>
+                <li>
+                  <span class="lang-mr">कांद्याच्या पाथीवरून औषध घसरू नये म्हणून <strong>स्टिकर (Spread-Sticker)</strong> अवश्य मिसळावे.</span>
+                  <span class="lang-en">Must add <strong>Silicon Spreader / Sticker</strong> (10ml/tank) for waxy leaf adhesion.</span>
+                </li>
+              </ul>
+            </div>
+            <a href="products.html?category=pesticides" class="btn btn-outline-warning text-dark btn-sm fw-bold mt-auto">
+              <i class="bi bi-cart-plus me-1"></i>
+              <span class="lang-mr">कांदा बुरशीनाशक खरेदी करा</span>
+              <span class="lang-en">Buy Onion Fungicides</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Guide 3: Soil Health & Organic -->
+        <div class="col-lg-6">
+          <div class="ksk-card p-4 h-100">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="badge bg-success">
+                <span class="lang-mr">जमीन आरोग्य सुधारणा</span>
+                <span class="lang-en">Soil Health Revitalization</span>
+              </span>
+              <span class="text-muted small">
+                <span class="lang-mr">सर्व पिके (Soil Health)</span>
+                <span class="lang-en">All Crops</span>
+              </span>
+            </div>
+            <h4 class="fw-bold text-dark mb-3">
+              <i class="bi bi-flower3 text-success me-2"></i>
+              <span class="lang-mr">रासायनिक खतांचा अतिरेक टाळा व सेंद्रिय कर्ब वाढवा</span>
+              <span class="lang-en">Reduce Excessive Chemical Fertilizers & Boost Soil Carbon</span>
+            </h4>
+            <p class="text-muted small mb-3">
+              <span class="lang-mr">केवळ युरिया व डीएपी टाकल्याने जमिनी कडक होतात व सूक्ष्म जिवाणूंची संख्या घटते. पिकांना अन्नद्रव्ये सहज मिळण्यासाठी सेंद्रिय खतांचा समन्वय आवश्यक आहे.</span>
+              <span class="lang-en">Continuous chemical fertilizer degrades soil porosity and beneficial microbes. Combining organic bio-fertilizers unlocks trapped phosphorus.</span>
+            </p>
+            <div class="bg-light p-3 rounded-3 mb-3 small">
+              <h6 class="fw-bold text-success mb-2">
+                <span class="lang-mr">शिफारस केलेले उपाय:</span>
+                <span class="lang-en">Recommended Measures:</span>
+              </h6>
+              <ul class="mb-0 ps-3">
+                <li>
+                  <span class="lang-mr"><strong>संजीवनी बायो-एनपीके (Bio-NPK)</strong> जिवाणू खत १ लिटर प्रति एकर ठिबकद्वारे जमिनीत सोडावे.</span>
+                  <span class="lang-en">Drip-apply <strong>Bio-NPK Consortium</strong> 1L per acre once a month.</span>
+                </li>
+                <li>
+                  <span class="lang-mr">पांढरी मुळी जोमदार फुटण्यासाठी हुमिक ॲसिड (Humic Acid 98%) ५०० ग्रॅम वापरावे.</span>
+                  <span class="lang-en">Apply Humic Acid 98% (500g/acre) for explosive white feeder root development.</span>
+                </li>
+                <li>
+                  <span class="lang-mr">दर ३ वर्षांनी माती परीक्षण (Soil Testing) करूनच खत मात्रा ठरवावी.</span>
+                  <span class="lang-en">Conduct comprehensive soil testing once every 3 years.</span>
+                </li>
+              </ul>
+            </div>
+            <a href="products.html?category=organic" class="btn btn-outline-success btn-sm fw-bold mt-auto">
+              <i class="bi bi-cart-plus me-1"></i>
+              <span class="lang-mr">सेंद्रिय जिवाणू खते पहा</span>
+              <span class="lang-en">Explore Bio & Organic Inputs</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Guide 4: Modern Drip Fertigation -->
+        <div class="col-lg-6">
+          <div class="ksk-card p-4 h-100">
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="badge bg-primary">
+                <span class="lang-mr">सिंचन व फर्टीगेशन</span>
+                <span class="lang-en">Irrigation & Fertigation</span>
+              </span>
+              <span class="text-muted small">
+                <span class="lang-mr">ठिबक सिंचन (Drip Fertigation)</span>
+                <span class="lang-en">Drip Fertigation</span>
+              </span>
+            </div>
+            <h4 class="fw-bold text-dark mb-3">
+              <i class="bi bi-droplet-half text-primary me-2"></i>
+              <span class="lang-mr">ठिबक सिंचनातून १००% विद्राव्य खते देण्याची पद्धत</span>
+              <span class="lang-en">Precise Water-Soluble Fertigation through Drip Lines</span>
+            </h4>
+            <p class="text-muted small mb-3">
+              <span class="lang-mr">खते थेट पाण्यात विरघळवून मुळांजवळ दिल्यास खतांची बचत ४०% होते व पाणी थेट मुळांपर्यंत पोहोचते.</span>
+              <span class="lang-en">Applying water-soluble fertilizer directly to the root zone increases nutrient uptake efficiency by 40% and cuts wastage.</span>
+            </p>
+            <div class="bg-light p-3 rounded-3 mb-3 small">
+              <h6 class="fw-bold text-success mb-2">
+                <span class="lang-mr">शिफारस केलेले वेळापत्रक:</span>
+                <span class="lang-en">Recommended Stage Schedule:</span>
+              </h6>
+              <ul class="mb-0 ps-3">
+                <li>
+                  <span class="lang-mr">वाढीच्या काळात: <strong>१९:१९:१९</strong> ग्रेड ५ किलो प्रति एकर दर आठवड्याला.</span>
+                  <span class="lang-en">Vegetative Stage: <strong>19:19:19</strong> balanced grade 5kg per acre weekly.</span>
+                </li>
+                <li>
+                  <span class="lang-mr">फुलोरा व फळधारणेच्या काळात: <strong>१२:६१:०</strong> व <strong>०:५२:३४</strong>.</span>
+                  <span class="lang-en">Flowering & Fruit setting: <strong>12:61:0</strong> & <strong>0:52:34</strong> mono-potassium phosphate.</span>
+                </li>
+                <li>
+                  <span class="lang-mr">फळांचे वजन व चकाकी वाढवण्यासाठी: <strong>०:०:५०</strong> किंवा कॅल्शियम नायट्रेट + बोरॉन.</span>
+                  <span class="lang-en">Fruit sizing & luster: <strong>0:0:50</strong> Potassium Sulphate + Calcium Boron.</span>
+                </li>
+              </ul>
+            </div>
+            <a href="products.html?category=irrigation" class="btn btn-outline-primary btn-sm fw-bold mt-auto">
+              <i class="bi bi-cart-plus me-1"></i>
+              <span class="lang-mr">ठिबक व सिंचन साहित्य पहा</span>
+              <span class="lang-en">Explore Drip Irrigation Kits</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Free Consultation Banner -->
+      <div class="mt-5 p-4 rounded-4 text-white text-center" style="background: linear-gradient(135deg, #15803d, #166534);">
+        <h4 class="fw-bold mb-2">
+          <span class="lang-mr">आपल्या पिकावर कोणतीही कीड किंवा रोग आहे का?</span>
+          <span class="lang-en">Noticing Pests or Yellowing on Your Crops?</span>
+        </h4>
+        <p class="lead mb-4 text-light text-opacity-90">
+          <span class="lang-mr">पिकाचा फोटो काढून आमच्या कृषी सेवा केंद्राच्या व्हॉट्सॲप नंबरवर पाठवा. मोफत सल्ला मिळवा!</span>
+          <span class="lang-en">Snap a clear photo of infected leaves and send it to our WhatsApp helpline for free agronomist advice!</span>
+        </p>
+        <a href="https://wa.me/919822012345?text=Hello,%20I%20need%20crop%20protection%20advice%20for%20my%20farm." target="_blank" class="btn btn-warning btn-lg px-4 py-2 fw-bold text-dark rounded-pill">
+          <i class="bi bi-whatsapp me-2"></i>
+          <span class="lang-mr">व्हॉट्सॲपवर फोटो पाठवा (+९१ ९८२२० १२३४५)</span>
+          <span class="lang-en">WhatsApp Photo for Advisory (+91 98220 12345)</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="ksk-footer mt-5">
+    <div class="container text-center small text-light text-opacity-50">
+      <p class="mb-0">© 2026 कृषी सेवा केंद्र - सप्तशृंगी ॲग्रो सर्व्हिसेस, नाशिक.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My profile | Krushi Seva Kendra</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <th:block th:replace="~{layout/header :: premiumAssets}"></th:block>
+</head>
+<body class="customer-page">
+    <header th:replace="~{layout/navbar :: navbar}"></header>
+    <aside th:replace="~{layout/sidebar-customer :: sidebar('profile')}"></aside>
+    <main class="container-fluid py-4 premium-dashboard-content">
+        <div class="customer-page-heading"><div><span class="customer-eyebrow">YOUR ACCOUNT</span><h1>My profile</h1><p>Keep your contact details up to date for shop communication.</p></div></div>
+        <div class="customer-alert customer-alert--success" th:if="${profileSuccess}" th:text="${profileSuccess}"></div>
+        <div class="customer-alert customer-alert--error" th:if="${profileError}" th:text="${profileError}"></div>
+        <div class="customer-alert customer-alert--success" th:if="${passwordSuccess}" th:text="${passwordSuccess}"></div>
+        <div class="customer-alert customer-alert--error" th:if="${passwordError}" th:text="${passwordError}"></div>
+        <div class="customer-profile-grid">
+            <section class="customer-panel-card">
+                <div class="customer-panel-card__heading"><div><h2>Personal details</h2><p>Edit your farmer and contact information.</p></div><span class="profile-avatar"><i class="bi bi-person"></i></span></div>
+                <form method="post" th:action="@{/customer/profile/update}">
+                    <label class="form-label" for="profileName">Full name</label><input class="form-control" id="profileName" name="name" type="text" th:value="${user.name}" maxlength="255" required>
+                    <label class="form-label mt-3" for="profileEmail">Email address</label><input class="form-control" id="profileEmail" type="email" th:value="${user.email}" readonly><div class="form-text">Email is used to sign in and cannot be changed here.</div>
+                    <label class="form-label mt-3" for="profilePhone">Phone number</label><input class="form-control" id="profilePhone" name="phone" type="tel" th:value="${user.phone}" autocomplete="tel">
+                    <div class="row g-3 mt-0"><div class="col-md-6"><label class="form-label mt-3" for="profileVillage">Village</label><input class="form-control" id="profileVillage" name="village" type="text" th:value="${user.village}"></div><div class="col-md-6"><label class="form-label mt-3" for="profileDistrict">District</label><input class="form-control" id="profileDistrict" name="district" type="text" th:value="${user.district}"></div></div>
+                    <label class="customer-consent-option mt-3" for="whatsappReminderOptIn"><input id="whatsappReminderOptIn" name="whatsappReminderOptIn" type="checkbox" value="true" th:checked="${user.whatsappReminderOptIn}"><span><strong>WhatsApp due-date reminders</strong><small>I agree to receive automated udhari payment reminders from Saptashrungi Agro Services on this phone number after a payment is overdue. I can withdraw consent here at any time.</small></span></label>
+                    <button class="btn btn-success customer-primary-action mt-4" type="submit"><i class="bi bi-check2 me-2"></i>Save profile</button>
+                </form>
+            </section>
+            <section class="customer-panel-card">
+                <div class="customer-panel-card__heading"><div><h2>Change password</h2><p>Use your current password to set a new one.</p></div><span class="profile-avatar profile-avatar--gold"><i class="bi bi-shield-lock"></i></span></div>
+                <form method="post" th:action="@{/farmer/profile/password}">
+                    <label class="form-label" for="currentPassword">Current password</label><input class="form-control" id="currentPassword" name="currentPassword" type="password" autocomplete="current-password" required>
+                    <label class="form-label mt-3" for="newPassword">New password</label><input class="form-control" id="newPassword" name="newPassword" type="password" minlength="8" autocomplete="new-password" required><div class="form-text">Use at least 8 characters.</div>
+                    <label class="form-label mt-3" for="confirmPassword">Confirm new password</label><input class="form-control" id="confirmPassword" name="confirmPassword" type="password" minlength="8" autocomplete="new-password" required>
+                    <button class="btn btn-outline-success mt-4" type="submit"><i class="bi bi-key me-2"></i>Change password</button>
+                </form>
+            </section>
+        </div>
+    </main>
+    <footer th:replace="~{layout/footer :: footer}"></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

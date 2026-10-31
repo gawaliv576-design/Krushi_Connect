@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Contact us | Saptashrungi Agro Services</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"><th:block th:replace="~{layout/header :: premiumAssets}"></th:block><link rel="stylesheet" th:href="@{/css/public-pages.css}"></head>
+<body class="public-page"><header th:replace="~{layout/navbar :: navbar}"></header>
+<main class="container py-5">
+    <div class="public-section-heading"><span class="public-eyebrow">WE’RE HAPPY TO HELP</span><h1>Contact our shop</h1><p>Send an enquiry to our team or visit us in Mirakhnagar.</p></div>
+    <div class="contact-page-grid">
+        <section class="contact-form-card"><h2>Send a WhatsApp enquiry</h2><p>After you submit, WhatsApp opens with your message ready for you to review and send.</p><div class="alert alert-danger" th:if="${contactError}" th:text="${contactError}"></div>
+            <form method="post" th:action="@{/contact/send}">
+                <label for="contactName" class="form-label">Your name</label><input class="form-control" id="contactName" name="name" maxlength="100" required>
+                <label for="contactPhone" class="form-label mt-3">Phone number</label><input class="form-control" id="contactPhone" name="phone" type="tel" maxlength="30" pattern="[+0-9 ()-]{10,20}" required>
+                <label for="contactMessage" class="form-label mt-3">How can we help?</label><textarea class="form-control" id="contactMessage" name="message" rows="5" maxlength="1000" required></textarea>
+                <button class="btn btn-success w-100 mt-4" type="submit"><i class="bi bi-whatsapp me-2"></i>Continue to WhatsApp</button>
+            </form>
+        </section>
+        <aside class="contact-info-card"><span class="public-eyebrow">SHOP DETAILS</span><h2>Saptashrungi Agro Services</h2><p><i class="bi bi-geo-alt-fill"></i> Mirakhnagar, Vaijapur, Chhatrapati Sambhajinagar, Maharashtra - 423703</p><p><i class="bi bi-telephone-fill"></i> <a href="tel:+918600813827">+91 8600813827</a></p><p><i class="bi bi-whatsapp"></i> <a href="https://wa.me/918600813827" target="_blank" rel="noopener noreferrer">Chat with our shop</a></p><p><i class="bi bi-clock-fill"></i> Monday-Saturday: 8 AM-6 PM<br>Sunday: 8 AM-1 PM</p><div class="contact-map-frame"><iframe title="Map to Saptashrungi Agro Services" src="https://maps.google.com/maps?q=Mirakhnagar%2C%20Vaijapur%2C%20Maharashtra&t=&z=13&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div><a href="https://maps.app.goo.gl/S34rKk9DwEntCGid6" class="btn btn-outline-success mt-3" target="_blank" rel="noopener noreferrer">Open directions <i class="bi bi-arrow-up-right ms-1"></i></a></aside>
+    </div>
+</main><footer th:replace="~{layout/footer :: footer}"></footer><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script></body></html>

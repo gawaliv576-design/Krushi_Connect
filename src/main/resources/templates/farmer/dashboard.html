@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Dashboard - Krushi Seva Kendra</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="/css/style.css" rel="stylesheet">
+    <th:block th:replace="~{layout/header :: premiumAssets}"></th:block>
+</head>
+<body class="customer-page">
+    <header th:replace="~{layout/navbar :: navbar}"></header>
+
+    <div th:replace="~{layout/sidebar-customer :: sidebar('dashboard')}"></div>
+    <main class="container-fluid py-4 premium-dashboard-content" id="notifications">
+        <div class="customer-page-heading">
+            <div>
+                <span class="customer-eyebrow">FARMER WORKSPACE</span>
+                <h1><i class="bi bi-speedometer2 me-2"></i>Farmer Dashboard</h1>
+                <p th:if="${user}">Welcome back, <span th:text="${user.name}"></span>. Your shop account at a glance.</p>
+            </div>
+            <a class="btn customer-primary-action" th:href="@{/farmer/pay}"><i class="bi bi-qr-code-scan me-2"></i>Pay Now</a>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6 mb-3">
+                <div class="card customer-panel-card customer-dashboard-stat">
+                    <div class="card-body text-center">
+                        <i class="bi bi-credit-card text-success" style="font-size: 2rem;"></i>
+                        <h6 class="text-muted mt-2 mb-1">Total Payments</h6>
+                        <h3 class="fw-bold text-success" th:text="${totalPayments}" th:attr="data-countup=${totalPayments}">0</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="card customer-panel-card customer-dashboard-stat customer-dashboard-stat--amber">
+                    <div class="card-body text-center">
+                        <i class="bi bi-cash text-warning" style="font-size: 2rem;"></i>
+                        <h6 class="text-muted mt-2 mb-1">Outstanding Udhari</h6>
+                        <h3 class="fw-bold text-warning">₹<span th:text="${#numbers.formatDecimal(outstanding, 1, 2)}">0.00</span></h3>
+                        <small class="text-muted" th:text="${totalUdharis} + ' active records'">0 active records</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Profile Card -->
+            <div class="col-md-6 mb-4">
+                <div class="card customer-panel-card shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0"><i class="bi bi-person me-2"></i>Your Profile</h5>
+                    </div>
+                    <div class="card-body" th:if="${user}">
+                        <p class="mb-2"><strong>Name:</strong> <span th:text="${user.name}"></span></p>
+                        <p class="mb-2"><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+                        <p class="mb-2"><strong>Phone:</strong> <span th:text="${user.phone}"></span></p>
+                        <p class="mb-2"><strong>Village:</strong> <span th:text="${user.village}"></span></p>
+                        <p class="mb-2"><strong>District:</strong> <span th:text="${user.district}"></span></p>
+                        <a href="/farmer/profile" class="btn btn-sm btn-success">
+                            <i class="bi bi-pencil me-1"></i>Edit Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="col-md-6 mb-4">
+                <div class="card customer-panel-card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="bi bi-lightning me-2"></i>Quick Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a href="/farmer/products" class="btn btn-outline-success">
+                                <i class="bi bi-box2 me-2"></i>Browse Products
+                            </a>
+                            <a href="/farmer/pay" class="btn btn-outline-success">
+                                <i class="bi bi-qr-code-scan me-2"></i>Pay Now (UPI)
+                            </a>
+                            <a href="/farmer/payments" class="btn btn-outline-primary">
+                                <i class="bi bi-credit-card me-2"></i>View Payments
+                            </a>
+                            <a href="/farmer/udhari" class="btn btn-outline-warning">
+                                <i class="bi bi-cash me-2"></i>Check Credit
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Payments -->
+        <div class="row" th:if="${!payments.isEmpty()}">
+            <div class="col-md-12 mb-4">
+                <div class="card customer-panel-card shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Recent Payments</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Amount</th>
+                                        <th>Method</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="payment : ${payments}">
+                                        <td class="fw-bold text-success">₹<span th:text="${payment.amount}">0</span></td>
+                                        <td><span th:text="${payment.method}">CASH</span></td>
+                                        <td>
+                                            <span th:if="${payment.status.toString() == 'SUCCESS'}" class="badge bg-success">SUCCESS</span>
+                                            <span th:if="${payment.status.toString() == 'PENDING'}" class="badge bg-warning">PENDING</span>
+                                            <span th:if="${payment.status.toString() == 'FAILED'}" class="badge bg-danger">FAILED</span>
+                                        </td>
+                                        <td th:text="${#temporals.format(payment.paymentDate, 'dd/MM/yyyy HH:mm')}">Date</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Credits -->
+        <div class="row" th:if="${!udharis.isEmpty()}">
+            <div class="col-md-12 mb-4">
+                <div class="card customer-panel-card shadow-sm">
+                    <div class="card-header bg-warning text-dark">
+                        <h5 class="mb-0"><i class="bi bi-cash me-2"></i>Your Credit Status</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Amount</th>
+                                        <th>Due Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="udhari : ${udharis}">
+                                        <td class="fw-bold">₹<span th:text="${udhari.amount}">0</span></td>
+                                        <td th:text="${#temporals.format(udhari.dueDate, 'dd/MM/yyyy')}">Date</td>
+                                        <td>
+                                            <span th:if="${udhari.status.toString() == 'PENDING'}" class="badge bg-warning">PENDING</span>
+                                            <span th:if="${udhari.status.toString() == 'PARTIAL'}" class="badge bg-info">PARTIAL</span>
+                                            <span th:if="${udhari.status.toString() == 'PAID'}" class="badge bg-success">PAID</span>
+                                            <span th:if="${udhari.status.toString() == 'OVERDUE'}" class="badge bg-danger">OVERDUE</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{layout/footer :: footer}"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

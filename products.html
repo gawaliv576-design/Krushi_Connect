@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>उत्पादने दालन (Product Catalog) | कृषी सेवा केंद्र</title>
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body class="lang-mr">
+
+  <!-- Top Bar -->
+  <div class="ksk-topbar">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div>
+        <i class="bi bi-telephone-fill text-warning me-1"></i>
+        <span class="lang-mr">शेतकरी हेल्पलाइन: +९१ ९८२२० १२३४५</span>
+        <span class="lang-en">Farmer Helpline: +91 98220 12345</span>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-1">
+          <button id="btnLangMr" onclick="App.setLang('mr')" class="btn btn-xs py-0 px-2 btn-success text-white rounded-pill fw-bold" style="font-size:0.75rem;">मराठी</button>
+          <button id="btnLangEn" onclick="App.setLang('en')" class="btn btn-xs py-0 px-2 btn-outline-secondary rounded-pill fw-bold" style="font-size:0.75rem;">English</button>
+        </div>
+        <button onclick="App.toggleTheme()" class="btn btn-link text-light p-0 ms-1" title="Toggle Theme">
+          <i class="bi bi-moon-stars-fill theme-icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navbar -->
+  <header class="ksk-navbar">
+    <div class="container py-2">
+      <div class="d-flex align-items-center justify-content-between">
+        <a href="index.html" class="ksk-brand text-decoration-none">
+          <div class="ksk-brand-icon">
+            <i class="bi bi-flower1"></i>
+          </div>
+          <div class="ksk-brand-text">
+            <span class="ksk-brand-title">सप्तशृंगी ॲग्रो</span>
+            <span class="ksk-brand-subtitle">Krushi Seva Kendra</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="d-none d-lg-flex align-items-center gap-1">
+          <a href="index.html" class="nav-link">
+            <span class="lang-mr">मुखपृष्ठ</span><span class="lang-en">Home</span>
+          </a>
+          <a href="products.html" class="nav-link active">
+            <span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span>
+          </a>
+          <a href="categories.html" class="nav-link">
+            <span class="lang-mr">वर्गवारी</span><span class="lang-en">Categories</span>
+          </a>
+          <a href="fertilizer-calculator.html" class="nav-link">
+            <span class="lang-mr">खत गणक</span><span class="lang-en">Fertilizer Calc</span>
+          </a>
+          <a href="weather.html" class="nav-link">
+            <span class="lang-mr">हवामान सल्ला</span><span class="lang-en">Weather Advisory</span>
+          </a>
+          <a href="farming-tips.html" class="nav-link">
+            <span class="lang-mr">शेती सल्ले</span><span class="lang-en">Farming Tips</span>
+          </a>
+          <a href="farmer-udhari.html" class="nav-link text-warning-emphasis">
+            <i class="bi bi-journal-bookmark me-1"></i>
+            <span class="lang-mr">उधारी खातावही</span><span class="lang-en">Khata Ledger</span>
+          </a>
+        </nav>
+
+        <div class="d-flex align-items-center gap-3">
+          <a href="cart.html" class="btn btn-light rounded-circle p-2 position-relative shadow-sm border" title="Shopping Cart">
+            <i class="bi bi-cart3 fs-5 text-success"></i>
+            <span class="cart-badge-pill cart-badge" style="display:none;">0</span>
+          </a>
+          <div id="headerUserSection"></div>
+          <button class="btn btn-outline-success d-lg-none rounded-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
+            <i class="bi bi-list fs-4"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="py-4">
+    <div class="container">
+      
+      <!-- Breadcrumb & Header -->
+      <div class="row align-items-center mb-4">
+        <div class="col-md-6">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-1">
+              <li class="breadcrumb-item"><a href="index.html">मुखपृष्ठ</a></li>
+              <li class="breadcrumb-item active" aria-current="page">उत्पादने दालन</li>
+            </ol>
+          </nav>
+          <h2 class="fw-bold mb-0">
+            <span class="lang-mr">कृषी उत्पादने व औषध दालन</span>
+            <span class="lang-en">Agricultural Products Catalog</span>
+          </h2>
+        </div>
+        <div class="col-md-6 text-md-end mt-3 mt-md-0">
+          <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fw-bold" id="productCountBadge">
+            <i class="bi bi-box-seam me-1"></i>उत्पादने लोड होत आहेत...
+          </span>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        
+        <!-- Sidebar Filters -->
+        <div class="col-lg-3">
+          <div class="ksk-card p-4 sticky-top" style="top: 85px;">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5 class="fw-bold mb-0">
+                <i class="bi bi-funnel text-success me-1"></i>
+                <span class="lang-mr">फिल्टर्स</span><span class="lang-en">Filters</span>
+              </h5>
+              <button onclick="resetFilters()" class="btn btn-link btn-sm text-decoration-none p-0 text-danger fw-bold">
+                <span class="lang-mr">रीसेट करा</span><span class="lang-en">Reset</span>
+              </button>
+            </div>
+
+            <!-- Instant Search Input -->
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-muted">
+                <span class="lang-mr">शोध (Search)</span><span class="lang-en">Search Product</span>
+              </label>
+              <div class="input-group">
+                <input type="text" id="filterSearch" class="form-control" placeholder="नाव, घटक, बॅच..." oninput="filterProducts()">
+                <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('filterSearch').value=''; filterProducts();">
+                  <i class="bi bi-x"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Category Filter -->
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-muted">
+                <span class="lang-mr">वर्गवारी (Category)</span><span class="lang-en">Category</span>
+              </label>
+              <select id="filterCategory" class="form-select" onchange="filterProducts()">
+                <option value="all">सर्व वर्गवारी (All Categories)</option>
+                <option value="fertilizers">रासायनिक खते (Fertilizers)</option>
+                <option value="pesticides">कीटकनाशके व तणनाशक (Pesticides)</option>
+                <option value="seeds">बियाणे (Seeds)</option>
+                <option value="irrigation">ठिबक व सिंचन (Irrigation)</option>
+                <option value="tools">कृषी अवजारे (Agri Tools)</option>
+                <option value="organic">सेंद्रिय खते (Organic Bio)</option>
+              </select>
+            </div>
+
+            <!-- Crop Filter -->
+            <div class="mb-4">
+              <label class="form-label fw-bold small text-muted">
+                <span class="lang-mr">पीक प्रकार (Crop Suitability)</span><span class="lang-en">Crop Suitability</span>
+              </label>
+              <select id="filterCrop" class="form-select" onchange="filterProducts()">
+                <option value="all">सर्व पिके (All Crops)</option>
+                <option value="कांदा">कांदा (Onion)</option>
+                <option value="कपाशी">कपाशी (Cotton)</option>
+                <option value="सोयाबीन">सोयाबीन (Soybean)</option>
+                <option value="ऊस">ऊस (Sugarcane)</option>
+                <option value="द्राक्षे">द्राक्षे / फळबागा (Grapes / Fruits)</option>
+                <option value="भाजीपाला">भाजीपाला (Vegetables)</option>
+              </select>
+            </div>
+
+            <!-- Price Range Filter -->
+            <div class="mb-4">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <label class="form-label fw-bold small text-muted mb-0">
+                  <span class="lang-mr">कमाल किंमत</span><span class="lang-en">Max Price</span>
+                </label>
+                <span class="fw-bold text-success" id="priceRangeValue">₹४,०००</span>
+              </div>
+              <input type="range" class="form-range" id="filterPrice" min="200" max="5000" step="100" value="5000" oninput="document.getElementById('priceRangeValue').textContent = '₹' + this.value; filterProducts();">
+              <div class="d-flex justify-content-between small text-muted">
+                <span>₹२००</span>
+                <span>₹५,०००</span>
+              </div>
+            </div>
+
+            <!-- Stock Filter Checkbox -->
+            <div class="form-check form-switch mb-2">
+              <input class="form-check-input" type="checkbox" id="filterInStock" onchange="filterProducts()">
+              <label class="form-check-label small fw-semibold" for="filterInStock">
+                <span class="lang-mr">फक्त उपलब्ध साठा (In-Stock Only)</span>
+                <span class="lang-en">In-Stock Only</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Products Listing Grid -->
+        <div class="col-lg-9">
+          <!-- Active filter pills -->
+          <div class="d-flex flex-wrap gap-2 mb-3" id="activeFilterPills"></div>
+
+          <!-- Product Grid Container -->
+          <div class="row g-3" id="catalogProductGrid">
+            <!-- Dynamic content loaded via JS -->
+          </div>
+
+          <!-- No Products Found Fallback -->
+          <div id="noProductsFound" class="text-center py-5 d-none">
+            <div class="display-1 text-muted"><i class="bi bi-search"></i></div>
+            <h4 class="fw-bold mt-3">
+              <span class="lang-mr">कोणतेही उत्पादन सापडले नाही!</span>
+              <span class="lang-en">No Products Found!</span>
+            </h4>
+            <p class="text-muted">
+              <span class="lang-mr">कृपया वेगळा शोध शब्द किंवा फिल्टर बदलून पहा.</span>
+              <span class="lang-en">Please try a different search keyword or reset filters.</span>
+            </p>
+            <button onclick="resetFilters()" class="btn btn-outline-success">
+              <span class="lang-mr">सर्व उत्पादने पहा</span>
+              <span class="lang-en">View All Products</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Reusable Product Modal -->
+  <div class="modal fade" id="productDetailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden" id="productDetailModalContent">
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Nav -->
+  <div class="mobile-bottom-nav">
+    <a href="index.html" class="mobile-bottom-nav-item">
+      <i class="bi bi-house-door"></i>
+      <span class="lang-mr">मुखपृष्ठ</span><span class="lang-en">Home</span>
+    </a>
+    <a href="products.html" class="mobile-bottom-nav-item active">
+      <i class="bi bi-bag"></i>
+      <span class="lang-mr">खरेदी</span><span class="lang-en">Shop</span>
+    </a>
+    <a href="fertilizer-calculator.html" class="mobile-bottom-nav-item">
+      <i class="bi bi-calculator"></i>
+      <span class="lang-mr">खत गणक</span><span class="lang-en">Calc</span>
+    </a>
+    <a href="farmer-udhari.html" class="mobile-bottom-nav-item">
+      <i class="bi bi-journal-bookmark"></i>
+      <span class="lang-mr">खातावही</span><span class="lang-en">Khata</span>
+    </a>
+    <a href="cart.html" class="mobile-bottom-nav-item position-relative">
+      <i class="bi bi-cart3"></i>
+      <span class="cart-badge-pill cart-badge" style="display:none; top:-4px; right:12px;">0</span>
+      <span class="lang-mr">कार्ट</span><span class="lang-en">Cart</span>
+    </a>
+  </div>
+
+  <!-- Footer -->
+  <footer class="ksk-footer mt-5">
+    <div class="container text-center small text-light text-opacity-50">
+      <p class="mb-0">
+        <span class="lang-mr">© 2026 कृषी सेवा केंद्र - सप्तशृंगी ॲग्रो सर्व्हिसेस, नाशिक. सर्व हक्क सुरक्षित.</span>
+        <span class="lang-en">© 2026 Krushi Seva Kendra - Saptashrungi Agro Services, Nashik. All Rights Reserved.</span>
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Read URL parameters if any
+      const urlParams = new URLSearchParams(window.location.search);
+      const searchParam = urlParams.get('search');
+      const catParam = urlParams.get('category');
+      
+      if (searchParam) {
+        document.getElementById('filterSearch').value = searchParam;
+      }
+      if (catParam) {
+        document.getElementById('filterCategory').value = catParam;
+      }
+
+      filterProducts();
+    });
+
+    function filterProducts() {
+      const query = (document.getElementById('filterSearch').value || '').toLowerCase().trim();
+      const category = document.getElementById('filterCategory').value;
+      const crop = document.getElementById('filterCrop').value;
+      const maxPrice = parseFloat(document.getElementById('filterPrice').value) || 99999;
+      const inStockOnly = document.getElementById('filterInStock').checked;
+
+      const all = Store.getProducts();
+      const filtered = all.filter(p => {
+        const matchQuery = !query || 
+          p.name_mr.toLowerCase().includes(query) || 
+          p.name_en.toLowerCase().includes(query) || 
+          p.brand.toLowerCase().includes(query) || 
+          p.composition.toLowerCase().includes(query) ||
+          p.batchNo.toLowerCase().includes(query);
+
+        const matchCat = category === 'all' || p.category === category;
+        const matchCrop = crop === 'all' || p.crop_mr.includes(crop) || p.crop_en.toLowerCase().includes(crop.toLowerCase());
+        const matchPrice = p.price <= maxPrice;
+        const matchStock = !inStockOnly || p.stock > 0;
+
+        return matchQuery && matchCat && matchCrop && matchPrice && matchStock;
+      });
+
+      renderProducts(filtered);
+    }
+
+    function renderProducts(products) {
+      const container = document.getElementById('catalogProductGrid');
+      const noResults = document.getElementById('noProductsFound');
+      const badge = document.getElementById('productCountBadge');
+
+      badge.innerHTML = `<i class="bi bi-box-seam me-1"></i><span class="lang-mr">${products.length} उत्पादने उपलब्ध</span><span class="lang-en">${products.length} Products Available</span>`;
+
+      if (products.length === 0) {
+        container.innerHTML = '';
+        noResults.classList.remove('d-none');
+        return;
+      }
+
+      noResults.classList.add('d-none');
+      let html = '';
+
+      products.forEach(p => {
+        const discountPercent = p.originalPrice > p.price ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100) : 0;
+        const isOutOfStock = p.stock <= 0;
+
+        html += `
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="ksk-card">
+              <div class="product-img-wrapper">
+                <img src="${p.image}" alt="${p.name_mr}" loading="lazy">
+                ${discountPercent > 0 ? `<span class="product-tag-discount"><span class="lang-mr">${discountPercent}% सूट</span><span class="lang-en">${discountPercent}% OFF</span></span>` : ''}
+                <span class="product-tag-category">${p.brand}</span>
+              </div>
+              <div class="p-3 d-flex flex-column flex-grow-1">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <span class="badge bg-light text-dark border small">${p.unit}</span>
+                  ${isOutOfStock 
+                    ? `<span class="badge bg-danger"><span class="lang-mr">साठा संपला</span><span class="lang-en">Out of Stock</span></span>` 
+                    : p.stock < 15 
+                      ? `<span class="badge bg-warning text-dark"><span class="lang-mr">मर्यादित साठा (${p.stock})</span><span class="lang-en">Low Stock (${p.stock})</span></span>` 
+                      : `<span class="badge bg-success-subtle text-success small"><span class="lang-mr">उपलब्ध (${p.stock})</span><span class="lang-en">In Stock (${p.stock})</span></span>`}
+                </div>
+
+                <h6 class="fw-bold text-dark mb-1 text-truncate" title="${p.name_mr}">
+                  <span class="lang-mr">${p.name_mr}</span>
+                  <span class="lang-en">${p.name_en}</span>
+                </h6>
+                <div class="small text-muted mb-2 text-truncate">
+                  <i class="bi bi-shield-check text-success me-1"></i>${p.composition}
+                </div>
+
+                <div class="d-flex align-items-baseline mb-3 mt-auto">
+                  <span class="product-price-current">₹${p.price}</span>
+                  ${p.originalPrice > p.price ? `<span class="product-price-original">₹${p.originalPrice}</span>` : ''}
+                </div>
+
+                <div class="d-grid gap-2">
+                  <button onclick="handleAddToCart('${p.id}')" class="btn btn-sm btn-ksk-primary" ${isOutOfStock ? 'disabled' : ''}>
+                    <i class="bi bi-cart-plus me-1"></i>
+                    <span class="lang-mr">${isOutOfStock ? 'साठा संपला' : 'कार्टमध्ये जोडा'}</span>
+                    <span class="lang-en">${isOutOfStock ? 'Out of Stock' : 'Add to Cart'}</span>
+                  </button>
+                  <button onclick="openProductModal('${p.id}')" class="btn btn-sm btn-outline-secondary">
+                    <i class="bi bi-info-circle me-1"></i>
+                    <span class="lang-mr">माहिती व प्रमाण</span><span class="lang-en">Details & Dosage</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    window.addEventListener('ksk_lang_changed', () => {
+      filterProducts();
+    });
+
+    function resetFilters() {
+      document.getElementById('filterSearch').value = '';
+      document.getElementById('filterCategory').value = 'all';
+      document.getElementById('filterCrop').value = 'all';
+      document.getElementById('filterPrice').value = '5000';
+      document.getElementById('priceRangeValue').textContent = '₹5,000';
+      document.getElementById('filterInStock').checked = false;
+      filterProducts();
+    }
+
+    function handleAddToCart(id) {
+      Store.addToCart(id, 1);
+      App.showToast('उत्पादन कार्टमध्ये जोडले गेले!', 'Product added to cart!', 'success');
+    }
+
+    function openProductModal(id) {
+      const p = Store.getProductById(id);
+      if (!p) return;
+
+      const modalContainer = document.getElementById('productDetailModalContent');
+      const discountPercent = p.originalPrice > p.price ? Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100) : 0;
+
+      modalContainer.innerHTML = `
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title fw-bold">
+            <span class="lang-mr">${p.name_mr}</span>
+            <span class="lang-en">${p.name_en}</span>
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="row g-4">
+            <div class="col-md-5">
+              <img src="${p.image}" class="img-fluid rounded-3 shadow-sm border w-100" style="max-height:280px; object-fit:cover;">
+              <div class="mt-3 p-3 bg-light rounded-3 text-center">
+                <span class="badge bg-warning text-dark fw-bold px-3 py-1 mb-1">
+                  <span class="lang-mr">${p.badge || '१००% अस्सल'}</span>
+                  <span class="lang-en">${p.badge ? p.badge.replace('१००% अस्सल', '100% Genuine') : '100% Genuine'}</span>
+                </span>
+                <div class="small text-muted">
+                  <span class="lang-mr">बॅच क्रमांक:</span><span class="lang-en">Batch No:</span> <strong>${p.batchNo}</strong>
+                </div>
+                <div class="small text-muted">
+                  <span class="lang-mr">अंतिम मुदत:</span><span class="lang-en">Expiry Date:</span> <strong>${p.expiryDate}</strong>
+                </div>
+                <div class="small text-muted">
+                  <span class="lang-mr">बारकोड:</span><span class="lang-en">Barcode:</span> <code>${p.barcode}</code>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-7">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge bg-success-subtle text-success border border-success-subtle">${p.brand}</span>
+                <span class="badge bg-secondary-subtle text-secondary">${p.unit}</span>
+              </div>
+              <h4 class="fw-bold mb-1">
+                <span class="lang-mr">${p.name_mr}</span>
+                <span class="lang-en">${p.name_en}</span>
+              </h4>
+              <div class="mb-3">
+                <span class="fs-3 fw-bold text-success">₹${p.price}</span>
+                ${p.originalPrice > p.price ? `<span class="text-muted text-decoration-line-through ms-2">₹${p.originalPrice}</span>` : ''}
+                ${discountPercent > 0 ? `<span class="badge bg-danger ms-2">${discountPercent}% OFF</span>` : ''}
+              </div>
+
+              <div class="p-3 bg-light rounded-3 mb-3">
+                <h6 class="fw-bold text-success mb-1">
+                  <i class="bi bi-droplet-half me-1"></i>
+                  <span class="lang-mr">वापर व फवारणी प्रमाण:</span>
+                  <span class="lang-en">Dosage & Spraying:</span>
+                </h6>
+                <p class="small mb-2 text-dark">
+                  <span class="lang-mr">${p.dosage_mr}</span>
+                  <span class="lang-en">${p.dosage_en}</span>
+                </p>
+                <h6 class="fw-bold text-primary mb-1">
+                  <i class="bi bi-shield-check me-1"></i>
+                  <span class="lang-mr">रासायनिक घटक:</span>
+                  <span class="lang-en">Composition:</span>
+                </h6>
+                <p class="small mb-0 text-muted">${p.composition}</p>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-bold small">
+                  <i class="bi bi-plant me-1 text-success"></i>
+                  <span class="lang-mr">उपयुक्त पिके:</span>
+                  <span class="lang-en">Recommended Crops:</span>
+                </label>
+                <div class="small text-muted">
+                  <span class="lang-mr">${p.crop_mr}</span>
+                  <span class="lang-en">${p.crop_en}</span>
+                </div>
+              </div>
+
+              <!-- Bulk Pricing Tier Notice -->
+              <div class="alert alert-warning py-2 px-3 small rounded-3 mb-3">
+                <i class="bi bi-tag-fill me-1"></i>
+                <span class="lang-mr"><strong>सवलत ऑफर:</strong> ५ पेक्षा जास्त पोती / बॉटल खरेदीवर अतिरिक्त ₹२० प्रति बॅग सूट उपलब्ध!</span>
+                <span class="lang-en"><strong>Bulk Offer:</strong> Additional ₹20 per bag discount on purchasing more than 5 units!</span>
+              </div>
+
+              <div class="d-flex align-items-center gap-3">
+                <div class="input-group" style="width: 120px;">
+                  <button class="btn btn-outline-secondary" type="button" onclick="const input = document.getElementById('modalQty'); if(input.value > 1) input.value--;">-</button>
+                  <input type="number" id="modalQty" class="form-control text-center" value="1" min="1" max="100">
+                  <button class="btn btn-outline-secondary" type="button" onclick="const input = document.getElementById('modalQty'); input.value++;">+</button>
+                </div>
+                <button onclick="addToCartFromModal('${p.id}')" class="btn btn-ksk-primary flex-grow-1" ${p.stock <= 0 ? 'disabled' : ''}>
+                  <i class="bi bi-cart-plus me-1"></i>
+                  <span class="lang-mr">कार्टमध्ये जोडा</span><span class="lang-en">Add to Cart</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const modal = new bootstrap.Modal(document.getElementById('productDetailModal'));
+      modal.show();
+    }
+
+    function addToCartFromModal(id) {
+      const qty = parseInt(document.getElementById('modalQty').value) || 1;
+      Store.addToCart(id, qty);
+      bootstrap.Modal.getInstance(document.getElementById('productDetailModal')).hide();
+      App.showToast(`कार्टमध्ये ${qty} नग जोडले गेले!`, `Added ${qty} items to cart!`, 'success');
+    }
+  </script>
+</body>
+</html>

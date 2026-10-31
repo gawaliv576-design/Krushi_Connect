@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Fertilizer quantity calculator | Krushi Seva Kendra</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"><th:block th:replace="~{layout/header :: premiumAssets}"></th:block><link rel="stylesheet" th:href="@{/css/public-pages.css}"></head>
+<body class="public-page"><header th:replace="~{layout/navbar :: navbar}"></header>
+<main class="container py-5"><div class="public-section-heading"><span class="public-eyebrow">AGRI TOOL</span><h1>Fertilizer quantity calculator</h1><p>Estimate total product quantity using the application rate on your product label or advice from an agronomist.</p></div>
+    <div class="calculator-layout"><section class="calculator-card"><form id="fertilizerCalculator"><label class="form-label" for="fieldArea">Field area</label><div class="input-group"><input class="form-control" id="fieldArea" type="number" min="0.01" step="0.01" placeholder="e.g. 2.5" required><select class="form-select" id="areaUnit" aria-label="Area unit"><option value="acre">Acres</option><option value="hectare">Hectares</option></select></div><label class="form-label mt-4" for="doseRate">Label / expert advised rate</label><div class="input-group"><input class="form-control" id="doseRate" type="number" min="0.01" step="0.01" placeholder="Enter the advised rate" required><span class="input-group-text">kg / acre</span></div><button class="btn btn-success w-100 mt-4" type="submit"><i class="bi bi-calculator me-2"></i>Calculate quantity</button></form><div class="calculator-result" id="calculatorResult" hidden role="status" aria-live="polite"></div></section>
+        <aside class="calculator-guidance"><i class="bi bi-info-circle-fill"></i><h2>Use the right rate</h2><p>This tool only multiplies your entered area by your entered rate. It does not recommend a fertilizer, dose, or application schedule.</p><ul><li>Follow the product label and local regulations.</li><li>Base decisions on soil testing and crop needs.</li><li>Ask a qualified agronomist if unsure.</li><li>Never exceed the stated label rate.</li></ul><a th:href="@{/contact}">Ask our shop for product information <i class="bi bi-arrow-right"></i></a></aside></div>
+</main><footer th:replace="~{layout/footer :: footer}"></footer>
+<script>
+document.getElementById("fertilizerCalculator").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const area = Number(document.getElementById("fieldArea").value);
+    const rate = Number(document.getElementById("doseRate").value);
+    const unit = document.getElementById("areaUnit").value;
+    const areaInAcres = unit === "hectare" ? area * 2.47105 : area;
+    const result = document.getElementById("calculatorResult");
+    if (!Number.isFinite(areaInAcres) || !Number.isFinite(rate) || area <= 0 || rate <= 0) {
+        result.hidden = false;
+        result.textContent = "Enter a field area and an advised rate greater than zero.";
+        return;
+    }
+    result.hidden = false;
+    result.innerHTML = "";
+    const label = document.createElement("span");
+    label.textContent = `Estimated total for ${area} ${unit}${area === 1 ? "" : "s"}`;
+    const total = document.createElement("strong");
+    total.textContent = `${(areaInAcres * rate).toLocaleString(undefined, { maximumFractionDigits: 2 })} kg`;
+    result.append(label, total);
+});
+</script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script></body></html>

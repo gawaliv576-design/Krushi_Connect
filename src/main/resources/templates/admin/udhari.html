@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Udhari management | Agro Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <th:block th:replace="~{layout/header :: premiumAssets}"></th:block>
+</head>
+<body class="admin-page">
+    <header th:replace="~{layout/navbar :: navbar}"></header>
+    <aside th:replace="~{layout/sidebar-admin :: sidebar('udhari')}"></aside>
+    <main class="container-fluid py-4 premium-dashboard-content">
+        <div class="admin-page-heading">
+            <div><span class="admin-eyebrow">CUSTOMER ACCOUNTS</span><h1>Udhari management</h1><p>Review outstanding customer credit and payment due dates.</p></div>
+            <a class="btn btn-success admin-primary-action" th:href="@{/admin/udhari/create}"><i class="bi bi-plus-lg me-2"></i>Add credit</a>
+        </div>
+        <section class="card admin-panel-card">
+            <div class="card-header"><h2 class="h5 mb-0">Customer credit ledger <span class="admin-count" th:text="${udharis.size()}">0</span></h2></div>
+            <div class="card-body p-0">
+                <div class="admin-empty-state" th:if="${udharis.isEmpty()}"><i class="bi bi-wallet2"></i><span>No customer credit records found.</span></div>
+                <div class="table-responsive" th:unless="${udharis.isEmpty()}">
+                    <table class="table align-middle admin-table mb-0">
+                        <thead><tr><th>Customer</th><th>Phone</th><th>Amount</th><th>Due date</th><th>Status</th><th class="text-end">Action</th></tr></thead>
+                        <tbody><tr th:each="udhari : ${udharis}">
+                            <td><strong th:text="${udhari.user.name}">Customer</strong><small class="d-block text-muted" th:text="${udhari.user.village}">Village</small></td>
+                            <td th:text="${udhari.user.phone != null ? udhari.user.phone : '—'}">Phone</td>
+                            <td class="fw-bold">₹<span th:text="${#numbers.formatDecimal(udhari.amount, 1, 2)}">0.00</span></td>
+                            <td>
+                                <span th:if="${udhari.dueDate != null}" th:text="${#temporals.format(udhari.dueDate, 'dd MMM yyyy')}">Date</span>
+                                <span th:if="${udhari.dueDate == null}" class="text-muted">Not set</span>
+                            </td>
+                            <td><span class="admin-status" th:classappend="${udhari.status.name() == 'PAID' ? 'admin-status--active' : (udhari.status.name() == 'OVERDUE' ? 'admin-status--low' : 'admin-status--pending')}" th:text="${udhari.status}">PENDING</span></td>
+                            <td class="text-end">
+                                <form th:if="${udhari.status.name() != 'PAID'}" method="post" th:action="@{/admin/udhari/{id}/mark-paid(id=${udhari.id})}" onsubmit="return confirm('Mark this credit as paid?')">
+                                    <button class="btn btn-sm btn-outline-success" type="submit"><i class="bi bi-check2-circle me-1"></i>Mark as paid</button>
+                                </form>
+                                <span th:if="${udhari.status.name() == 'PAID'}" class="text-success small fw-semibold"><i class="bi bi-check-circle-fill me-1"></i>Paid</span>
+                            </td>
+                        </tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer th:replace="~{layout/footer :: footer}"></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

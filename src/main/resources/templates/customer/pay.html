@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UPI payment | Krushi Seva Kendra</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <th:block th:replace="~{layout/header :: premiumAssets}"></th:block>
+</head>
+<body class="customer-page">
+    <header th:replace="~{layout/navbar :: navbar}"></header>
+    <aside th:replace="~{layout/sidebar-customer :: sidebar('pay')}"></aside>
+    <main class="container-fluid py-4 premium-dashboard-content" th:attr="data-customer-name=${user.name}">
+        <div class="customer-page-heading">
+            <div><span class="customer-eyebrow">QUICK &amp; SECURE</span><h1><i class="bi bi-qr-code me-2"></i>UPI payment</h1><p>Pay Saptashrungi Agro Services directly using your preferred UPI app.</p></div>
+            <a class="customer-outstanding-chip" th:href="@{/customer/udhari}"><i class="bi bi-wallet2"></i><span>Udhari balance</span><strong>₹<span th:text="${#numbers.formatDecimal(outstanding, 1, 2)}">0.00</span></strong></a>
+        </div>
+        <div class="upi-layout">
+            <section class="upi-card upi-qr-card">
+                <div class="upi-card__heading"><span class="upi-card__icon"><i class="bi bi-qr-code-scan"></i></span><div><h2>Scan &amp; pay</h2><p>Open any UPI app and scan the shop QR.</p></div></div>
+                <div class="upi-qr-frame"><img id="upiQrImage" th:src="@{/customer/pay/qr}" data-fallback="/farmer/pay/upi_qr.jpg" alt="UPI QR code for Saptashrungi Agro Services"></div>
+                <div class="upi-merchant"><strong>Saptashrungi Agro Services</strong><span class="marathi">सप्तशृंगी ॲग्रो सर्व्हिसेस</span><span>UPI ID</span><div class="upi-id-copy"><code id="upiId">8600813827@upi</code><button class="upi-copy-button" type="button" onclick="copyUPI()" aria-label="Copy UPI ID"><i class="bi bi-copy"></i><span th:text="#{common.copy}">Copy</span></button></div></div>
+                <p class="upi-secure-note"><i class="bi bi-shield-check"></i> Verify the shop name in your UPI app before confirming payment.</p>
+            </section>
+
+            <section class="upi-card upi-payment-card" id="payment-details">
+                <div class="upi-card__heading"><span class="upi-card__icon upi-card__icon--gold"><i class="bi bi-currency-rupee"></i></span><div><h2>Payment details</h2><p>Enter an amount and choose a payment purpose.</p></div></div>
+                <form id="upiPaymentForm" onsubmit="return false">
+                    <label class="form-label" for="paymentAmount">Amount (₹)</label>
+                    <div class="input-group upi-amount-input"><span class="input-group-text">₹</span><input class="form-control" id="paymentAmount" type="number" min="1" max="10000000" step="0.01" inputmode="decimal" placeholder="Enter amount" oninput="updateLinks()"></div>
+                    <div class="upi-quick-amounts" aria-label="Quick amount selection">
+                        <button type="button" data-amount-preset="500" onclick="setAmt(500)">₹500</button><button type="button" data-amount-preset="1000" onclick="setAmt(1000)">₹1,000</button><button type="button" data-amount-preset="2000" onclick="setAmt(2000)">₹2,000</button><button type="button" data-amount-preset="5000" onclick="setAmt(5000)">₹5,000</button>
+                    </div>
+                    <label class="form-label mt-3" for="paymentPurpose">Purpose</label>
+                    <select class="form-select" id="paymentPurpose" onchange="updateLinks()">
+                        <option value="Udhari">Udhari</option><option value="Seeds">Seeds</option><option value="Fertilizer">Fertilizer</option><option value="Pesticide">Pesticide</option><option value="Equipment">Equipment</option><option value="Other">Other</option>
+                    </select>
+                    <label class="form-label mt-3" for="paymentNote">Note (optional)</label>
+                    <input class="form-control" id="paymentNote" type="text" maxlength="50" placeholder="Add a short payment note" oninput="updateLinks()">
+                    <small class="d-block text-end mt-1"><span id="paymentNoteCount">0</span>/50</small>
+                    <small class="text-danger d-none" id="paymentAmountError" role="alert">Enter an amount greater than ₹0 to continue.</small>
+                    <a class="btn upi-pay-button w-100 mt-4 disabled" id="upiAppPayLink" href="#" aria-disabled="true" tabindex="-1"><i class="bi bi-phone me-2"></i>UPI App ने Pay करा</a>
+                    <a class="btn upi-whatsapp-button w-100 mt-2 disabled" id="upiWhatsAppLink" href="#" aria-disabled="true" tabindex="-1"><i class="bi bi-whatsapp me-2"></i>WhatsApp वर Confirm करा</a>
+                    <div class="upi-apps"><span>Works with your UPI app</span><div>
+                        <a href="#" class="upi-app-phonepe disabled" data-upi-app="phonepe" aria-disabled="true" tabindex="-1">PhonePe</a>
+                        <a href="#" class="upi-app-gpay disabled" data-upi-app="gpay" aria-disabled="true" tabindex="-1">GPay</a>
+                        <a href="#" class="upi-app-paytm disabled" data-upi-app="paytm" aria-disabled="true" tabindex="-1">Paytm</a>
+                        <a href="#" class="upi-app-bhim disabled" data-upi-app="bhim" aria-disabled="true" tabindex="-1">BHIM</a>
+                    </div></div>
+                </form>
+            </section>
+        </div>
+
+        <section class="upi-steps-card">
+            <div class="customer-panel-card__heading"><div><span class="customer-eyebrow">FOUR SIMPLE STEPS</span><h2>How to pay</h2></div></div>
+            <div class="upi-steps-grid">
+                <article><span>01</span><i class="bi bi-currency-rupee"></i><strong>Enter amount</strong><p>Type how much you want to pay and select a purpose.</p></article>
+                <article><span>02</span><i class="bi bi-qr-code-scan"></i><strong>Open your UPI app</strong><p>Scan the QR or tap the UPI button to open an app.</p></article>
+                <article><span>03</span><i class="bi bi-shield-check"></i><strong>Verify shop details</strong><p>Check the payee name and UPI ID before authorizing.</p></article>
+                <article><span>04</span><i class="bi bi-whatsapp"></i><strong>Share confirmation</strong><p>After payment, send the transaction details to the shop.</p></article>
+            </div>
+        </section>
+
+        <section class="upi-help-card"><div><span class="customer-eyebrow">NEED A HAND?</span><h2>We’re happy to help</h2><p>Contact Saptashrungi Agro Services if you need assistance with your payment.</p></div><div><a class="btn btn-outline-success" href="tel:+918600813827"><i class="bi bi-telephone me-2"></i>Call shop</a><a class="btn btn-success" href="https://wa.me/918600813827" target="_blank" rel="noopener noreferrer"><i class="bi bi-whatsapp me-2"></i>WhatsApp</a></div></section>
+        <p id="upiCopyFeedback" class="upi-copy-feedback" role="status" aria-live="polite"></p>
+    </main>
+    <footer th:replace="~{layout/footer :: footer}"></footer>
+    <script>
+        const shopUpiId = "8600813827@upi";
+        const shopPayee = "Saptashrungi Agro Services";
+
+        function updateLinks() {
+            const amountInput = document.getElementById("paymentAmount");
+            const amount = Number(amountInput.value);
+            const validAmount = Number.isFinite(amount) && amount > 0 && amount <= 10000000;
+            const purpose = document.getElementById("paymentPurpose").value;
+            const noteInput = document.getElementById("paymentNote");
+            const note = noteInput.value.trim().slice(0, 50);
+            document.getElementById("paymentNoteCount").textContent = String(noteInput.value.length);
+            const transactionNote = [purpose, note].filter(Boolean).join(" - ").slice(0, 100);
+            const params = new URLSearchParams({ pa: shopUpiId, pn: shopPayee, cu: "INR", tn: transactionNote });
+            if (validAmount) params.set("am", amount.toFixed(2));
+            const universalUrl = `upi://pay?${params.toString()}`;
+            const payLink = document.getElementById("upiAppPayLink");
+            const whatsappLink = document.getElementById("upiWhatsAppLink");
+            [payLink, whatsappLink, ...document.querySelectorAll("[data-upi-app]")].forEach((link) => {
+                link.classList.toggle("disabled", !validAmount);
+                link.setAttribute("aria-disabled", String(!validAmount));
+                link.setAttribute("tabindex", validAmount ? "0" : "-1");
+            });
+            payLink.href = validAmount ? universalUrl : "#";
+            const schemeByApp = { phonepe: "phonepe://pay?", gpay: "tez://upi/pay?", paytm: "paytmmp://pay?", bhim: "upi://pay?" };
+            document.querySelectorAll("[data-upi-app]").forEach((link) => {
+                link.href = validAmount ? `${schemeByApp[link.dataset.upiApp]}${params.toString()}` : "#";
+            });
+            document.getElementById("paymentAmountError").classList.toggle("d-none", validAmount);
+            const qrParams = new URLSearchParams();
+            if (validAmount) qrParams.set("amount", amount.toFixed(2));
+            if (transactionNote) qrParams.set("note", transactionNote);
+            const qrImage = document.getElementById("upiQrImage");
+            const qrQuery = qrParams.toString();
+            qrImage.src = `/customer/pay/qr${qrQuery ? `?${qrQuery}` : ""}`;
+
+            const userName = document.querySelector("[data-customer-name]")?.dataset.customerName || "Customer";
+            const timestamp = new Date().toLocaleString();
+            const message = `Namaskar, ${userName} has made a UPI payment of ₹${amount.toFixed(2)} for ${purpose}.${note ? ` Note: ${note}.` : ""} Time: ${timestamp}. Please confirm.`;
+            whatsappLink.href = validAmount ? `https://wa.me/918600813827?text=${encodeURIComponent(message)}` : "#";
+        }
+
+        function setAmt(amount) {
+            document.getElementById("paymentAmount").value = String(amount);
+            document.querySelectorAll("[data-amount-preset]").forEach((button) => {
+                button.classList.toggle("active", Number(button.dataset.amountPreset) === amount);
+            });
+            updateLinks();
+        }
+
+        async function copyUPI() {
+            const feedback = document.getElementById("upiCopyFeedback");
+            try {
+                await navigator.clipboard.writeText(shopUpiId);
+                feedback.textContent = "Copied ✓";
+            } catch (error) {
+                const field = document.createElement("textarea");
+                field.value = shopUpiId;
+                field.setAttribute("readonly", "");
+                field.style.position = "fixed";
+                field.style.opacity = "0";
+                document.body.appendChild(field);
+                field.select();
+                const copied = document.execCommand("copy");
+                field.remove();
+                feedback.textContent = copied ? "Copied ✓" : "Copy was blocked. Select and copy the UPI ID manually.";
+            }
+            window.setTimeout(() => { feedback.textContent = ""; }, 3500);
+        }
+
+        document.getElementById("upiQrImage").addEventListener("error", (event) => {
+            const image = event.currentTarget;
+            if (image.src !== new URL(image.dataset.fallback, window.location.href).href) {
+                image.src = image.dataset.fallback;
+            }
+        });
+        updateLinks();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

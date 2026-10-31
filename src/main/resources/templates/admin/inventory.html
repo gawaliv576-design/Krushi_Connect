@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inventory | Agro Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <th:block th:replace="~{layout/header :: premiumAssets}"></th:block>
+</head>
+<body class="admin-page">
+    <header th:replace="~{layout/navbar :: navbar}"></header>
+    <aside th:replace="~{layout/sidebar-admin :: sidebar('inventory')}"></aside>
+    <main class="container-fluid py-4 premium-dashboard-content">
+        <div class="admin-page-heading">
+            <div><span class="admin-eyebrow">STOCK CONTROL</span><h1>Inventory</h1><p>Monitor stock levels and keep an eye on approaching expiry dates.</p></div>
+            <a class="btn btn-success admin-primary-action" th:href="@{/admin/products/create}"><i class="bi bi-plus-lg me-2"></i>Add product</a>
+        </div>
+        <div class="row g-3 mb-4">
+            <div class="col-sm-6 col-xl-3"><div class="inventory-summary inventory-summary--low"><span>Low stock</span><strong th:text="${lowStockProducts.size()}">0</strong><small>At or below minimum</small></div></div>
+            <div class="col-sm-6 col-xl-3"><div class="inventory-summary inventory-summary--warning"><span>Expiring soon</span><strong th:text="${expiringProducts.size()}">0</strong><small>Within 90 days</small></div></div>
+            <div class="col-sm-6 col-xl-3"><div class="inventory-summary inventory-summary--expired"><span>Expired</span><strong th:text="${expiredProducts.size()}">0</strong><small>Past expiry date</small></div></div>
+            <div class="col-sm-6 col-xl-3"><div class="inventory-summary inventory-summary--ok"><span>Tracked products</span><strong th:text="${products.size()}">0</strong><small>Across all categories</small></div></div>
+        </div>
+        <section class="card admin-panel-card">
+            <div class="card-header"><h2 class="h5 mb-0">Stock levels &amp; expiry</h2><div class="inventory-legend"><span><i class="inventory-dot inventory-dot--low"></i>Low</span><span><i class="inventory-dot inventory-dot--warning"></i>Warning</span><span><i class="inventory-dot inventory-dot--ok"></i>Healthy</span></div></div>
+            <div class="card-body p-0">
+                <div class="admin-empty-state" th:if="${products.isEmpty()}"><i class="bi bi-boxes"></i><span>No inventory to display.</span></div>
+                <div class="table-responsive" th:unless="${products.isEmpty()}">
+                    <table class="table align-middle admin-table mb-0">
+                        <thead><tr><th>Product</th><th>Category</th><th>Available stock</th><th>Minimum</th><th>Expiry date</th><th>Expiry status</th><th></th></tr></thead>
+                        <tbody><tr th:each="product : ${products}">
+                            <td><strong th:text="${product.name}">Product</strong><small class="d-block text-muted" th:text="${product.company}">Company</small></td>
+                            <td th:text="${product.category != null ? product.category.name : '—'}">Category</td>
+                            <td><span th:class="${product.stockQuantity == 0 ? 'inventory-level inventory-level--low' : (product.stockQuantity <= product.minimumStock ? 'inventory-level inventory-level--low' : (product.stockQuantity <= product.minimumStock * 2 ? 'inventory-level inventory-level--warning' : 'inventory-level inventory-level--ok'))}" th:text="${product.stockQuantity} + ' units'">0 units</span></td>
+                            <td th:text="${product.minimumStock}">0</td>
+                            <td>
+                                <span th:if="${product.expiryDate != null}" th:text="${#temporals.format(product.expiryDate, 'dd MMM yyyy')}">Date</span>
+                                <span th:if="${product.expiryDate == null}" class="text-muted">Not tracked</span>
+                            </td>
+                            <td>
+                                <span th:if="${product.expiryDate == null}" class="text-muted small">—</span>
+                                <span th:if="${product.expiryDate != null and product.expiryDate.isBefore(T(java.time.LocalDate).now())}" class="admin-status admin-status--low">Expired</span>
+                                <span th:if="${product.expiryDate != null and !product.expiryDate.isBefore(T(java.time.LocalDate).now()) and !product.expiryDate.isAfter(T(java.time.LocalDate).now().plusDays(90))}" class="admin-status admin-status--pending">Expiring soon</span>
+                                <span th:if="${product.expiryDate != null and product.expiryDate.isAfter(T(java.time.LocalDate).now().plusDays(90))}" class="admin-status admin-status--active">In date</span>
+                            </td>
+                            <td class="text-end"><a class="btn btn-sm btn-outline-success" th:href="@{/admin/products/edit/{id}(id=${product.id})}">Edit</a></td>
+                        </tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer th:replace="~{layout/footer :: footer}"></footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

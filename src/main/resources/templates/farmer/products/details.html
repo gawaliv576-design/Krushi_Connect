@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Krushi Seva Kendra</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <th:block th:replace="~{layout/header :: premiumAssets}"></th:block>
+</head>
+<body class="customer-page">
+    <header th:replace="~{layout/navbar :: navbar}"></header>
+    <aside th:replace="~{layout/sidebar-customer :: sidebar('products')}"></aside>
+
+    <main class="container-fluid py-4 premium-dashboard-content">
+        <div class="row" th:if="${product}">
+            <div class="col-md-8">
+                <h2 class="h3 fw-bold mb-3" th:text="${product.name}">Product Name</h2>
+                <p class="text-muted" th:text="${product.nameMr}">Marathi Name</p>
+
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h5 class="text-muted">Details</h5>
+                                <p class="mb-2"><strong>Company:</strong> <span th:text="${product.company}">-</span></p>
+                                <p class="mb-2"><strong>Category:</strong> <span th:text="${product.category?.name}">-</span></p>
+                                <p class="mb-2"><strong>Stock:</strong> <span th:text="${product.stockQuantity}">0</span> units</p>
+                                <p class="mb-0"><strong>Rating:</strong> <i class="bi bi-star-fill text-warning"></i> <span th:text="${product.rating}">0</span>/5</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="text-muted">Pricing</h5>
+                                <p class="mb-2">
+                                    <span class="fs-4 fw-bold text-success">₹<span th:text="${product.discountPrice ?: product.price}">0</span></span>
+                                    <span class="text-muted text-decoration-line-through ms-2" th:if="${product.mrp != null ? product.mrp > product.price : product.discountPrice != null}">₹<span th:text="${product.mrp != null ? product.mrp : product.price}">0</span></span>
+                                </p>
+                                <p class="mb-0"><strong>GST:</strong> <span th:text="${product.gstRate}">0</span>%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <img th:src="${product.imageUrl != null ? product.imageUrl : (product.image != null ? product.image : '/images/product_placeholder.svg')}"
+                             th:alt="${product.name}" class="img-fluid rounded mb-3" loading="lazy">
+                        <h6 class="mt-3 text-muted">Availability</h6>
+                        <p class="fw-semibold" th:text="${product.stockQuantity != null and product.stockQuantity > 0 ? 'In stock — confirm quantity with the shop' : 'Please contact the shop to check availability'}">Availability</p>
+                        <a class="btn btn-success w-100 mt-2" href="tel:+918600813827">
+                            <i class="bi bi-telephone-fill me-2"></i>📞 Order by Phone: 8600813827
+                        </a>
+                        <a class="btn btn-outline-success w-100 mt-2"
+                           th:href="${whatsAppOrderUrl}"
+                           target="_blank" rel="noopener noreferrer">
+                            <i class="bi bi-whatsapp me-2"></i>💬 WhatsApp Order
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer th:replace="~{layout/footer :: footer}"></footer>
+        <div th:unless="${product}" class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle me-2"></i>Product not found.
+        </div>
+
+        <div class="mt-4">
+            <a href="/farmer/products" class="btn btn-secondary">Back to Products</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

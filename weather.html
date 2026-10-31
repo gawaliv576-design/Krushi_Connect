@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>हवामान व फवारणी सल्ला (Agro Weather & Spray Advisory) | कृषी सेवा केंद्र</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/custom.css">
+  <link rel="stylesheet" href="css/dark-mode.css">
+</head>
+<body class="lang-mr">
+
+  <div class="ksk-topbar">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div>
+        <i class="bi bi-telephone-fill text-warning me-1"></i>
+        <span class="lang-mr">शेतकरी हेल्पलाइन: +९१ ९८२२० १२३४५</span>
+        <span class="lang-en">Farmer Helpline: +91 98220 12345</span>
+      </div>
+      <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-1">
+          <button id="btnLangMr" onclick="App.setLang('mr')" class="btn btn-xs py-0 px-2 btn-success text-white rounded-pill fw-bold" style="font-size:0.75rem;">मराठी</button>
+          <button id="btnLangEn" onclick="App.setLang('en')" class="btn btn-xs py-0 px-2 btn-outline-secondary rounded-pill fw-bold" style="font-size:0.75rem;">English</button>
+        </div>
+        <button onclick="App.toggleTheme()" class="btn btn-link text-light p-0 ms-1">
+          <i class="bi bi-moon-stars-fill theme-icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <header class="ksk-navbar">
+    <div class="container py-2">
+      <div class="d-flex align-items-center justify-content-between">
+        <a href="index.html" class="ksk-brand text-decoration-none">
+          <div class="ksk-brand-icon"><i class="bi bi-flower1"></i></div>
+          <div class="ksk-brand-text">
+            <span class="ksk-brand-title">सप्तशृंगी ॲग्रो</span>
+            <span class="ksk-brand-subtitle">Krushi Seva Kendra</span>
+          </div>
+        </a>
+
+        <nav class="d-none d-lg-flex align-items-center gap-1">
+          <a href="index.html" class="nav-link"><span class="lang-mr">मुखपृष्ठ</span><span class="lang-en">Home</span></a>
+          <a href="products.html" class="nav-link"><span class="lang-mr">उत्पादने</span><span class="lang-en">Products</span></a>
+          <a href="categories.html" class="nav-link"><span class="lang-mr">वर्गवारी</span><span class="lang-en">Categories</span></a>
+          <a href="fertilizer-calculator.html" class="nav-link"><span class="lang-mr">खत गणक</span><span class="lang-en">Fertilizer Calc</span></a>
+          <a href="weather.html" class="nav-link active"><span class="lang-mr">हवामान सल्ला</span><span class="lang-en">Weather Advisory</span></a>
+          <a href="farming-tips.html" class="nav-link"><span class="lang-mr">शेती सल्ले</span><span class="lang-en">Farming Tips</span></a>
+          <a href="farmer-udhari.html" class="nav-link text-warning-emphasis"><i class="bi bi-journal-bookmark me-1"></i><span class="lang-mr">उधारी खातावही</span><span class="lang-en">Khata Ledger</span></a>
+        </nav>
+
+        <div class="d-flex align-items-center gap-3">
+          <a href="cart.html" class="btn btn-light rounded-circle p-2 position-relative shadow-sm border">
+            <i class="bi bi-cart3 fs-5 text-success"></i>
+            <span class="cart-badge-pill cart-badge" style="display:none;">0</span>
+          </a>
+          <div id="headerUserSection"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="py-5">
+    <div class="container">
+      
+      <!-- Page Title & Region Selector -->
+      <div class="row align-items-center mb-4">
+        <div class="col-md-7">
+          <span class="badge bg-info-subtle text-info-emphasis border border-info-subtle px-3 py-1 rounded-pill fw-bold mb-2">
+            <i class="bi bi-broadcast me-1"></i>
+            <span class="lang-mr">कृषी उपग्रह हवामान रडार</span>
+            <span class="lang-en">Agri Satellite Weather Radar</span>
+          </span>
+          <h2 class="fw-bold mb-1">
+            <span class="lang-mr">हवामान अंदाज व फवारणी सल्लागार</span>
+            <span class="lang-en">Weather Forecast & Spray Timing Advisory</span>
+          </h2>
+          <p class="text-muted mb-0">
+            <span class="lang-mr">पाऊस, वारा व आर्द्रता तपासून कीटकनाशक फवारणी वाया जाण्यापासून वाचवा.</span>
+            <span class="lang-en">Check real-time rain probability and wind speed to avoid pesticide waste.</span>
+          </p>
+        </div>
+
+        <div class="col-md-5 text-md-end mt-3 mt-md-0">
+          <div class="d-inline-flex align-items-center gap-2 bg-white p-2 rounded-3 border shadow-sm">
+            <i class="bi bi-geo-alt-fill text-danger"></i>
+            <span class="small fw-bold">
+              <span class="lang-mr">तालुका / विभाग:</span>
+              <span class="lang-en">Taluka / Division:</span>
+            </span>
+            <select id="weatherLocation" class="form-select form-select-sm border-0 bg-light fw-bold" style="width: auto;" onchange="updateWeatherForecast()">
+              <option value="nashik" selected>सिन्नर / नाशिक (Nashik)</option>
+              <option value="vaijapur">वैजापूर (Chh. Sambhajinagar)</option>
+              <option value="kopargaon">कोपरगाव (Ahmednagar)</option>
+              <option value="yeola">येवला (Nashik)</option>
+              <option value="niphad">निफाड (Nashik)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Current Day Hero Advisory Card -->
+      <div class="ksk-card p-4 p-md-5 mb-5 text-white position-relative overflow-hidden" style="background: linear-gradient(135deg, #0f172a, #1e293b); border:none;">
+        <div class="row align-items-center">
+          <div class="col-lg-7">
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-success text-white small fw-bold mb-3" id="sprayStatusBadge">
+              <i class="bi bi-check-circle-fill"></i>
+              <span class="lang-mr">फवारणीसाठी अनुकूल व उत्तम वेळ</span>
+              <span class="lang-en">Safe & Ideal Time for Spraying</span>
+            </div>
+            <h1 class="display-4 fw-bold mb-2" id="currentTempText">
+              <span class="lang-mr">२९°C</span>
+              <span class="lang-en">29°C</span>
+            </h1>
+            <h4 class="fw-bold text-light mb-3" id="currentSkyCondition">
+              <span class="lang-mr">निरभ्र आकाश व सौम्य वारा</span>
+              <span class="lang-en">Clear Sky & Gentle Breeze</span>
+            </h4>
+            <p class="text-light text-opacity-75 mb-4" id="currentAdvisoryText">
+              <span class="lang-mr">दुपारी ३:०० ते सायंकाळी ६:०० वाजेपर्यंत कीटकनाशक व बुरशीनाशक फवारणीस सर्वोत्तम स्थिती आहे. वाऱ्याचा वेग ताशी ८ किमी पेक्षा कमी असल्याने औषध उडून वाया जाणार नाही.</span>
+              <span class="lang-en">Ideal spray condition between 3:00 PM and 6:00 PM. Wind speed below 8 km/h ensures no chemical drift or wastage.</span>
+            </p>
+
+            <div class="row g-3 text-center">
+              <div class="col-3">
+                <div class="p-2 rounded-3 bg-white bg-opacity-10">
+                  <small class="text-light text-opacity-75 d-block">
+                    <span class="lang-mr">पावसाची शक्यता</span>
+                    <span class="lang-en">Rain Chance</span>
+                  </small>
+                  <span class="fw-bold fs-5 text-info" id="currentRainProb">10%</span>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="p-2 rounded-3 bg-white bg-opacity-10">
+                  <small class="text-light text-opacity-75 d-block">
+                    <span class="lang-mr">हवेतील आर्द्रता</span>
+                    <span class="lang-en">Air Humidity</span>
+                  </small>
+                  <span class="fw-bold fs-5 text-warning" id="currentHumidity">54%</span>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="p-2 rounded-3 bg-white bg-opacity-10">
+                  <small class="text-light text-opacity-75 d-block">
+                    <span class="lang-mr">वाऱ्याचा वेग</span>
+                    <span class="lang-en">Wind Speed</span>
+                  </small>
+                  <span class="fw-bold fs-5 text-light" id="currentWind">7 km/h</span>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="p-2 rounded-3 bg-white bg-opacity-10">
+                  <small class="text-light text-opacity-75 d-block">
+                    <span class="lang-mr">दव बिंदू</span>
+                    <span class="lang-en">Dew Point</span>
+                  </small>
+                  <span class="fw-bold fs-5 text-success" id="currentDew">15°C</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-5 text-center mt-4 mt-lg-0">
+            <div class="p-4 rounded-4 bg-white bg-opacity-10 border border-white border-opacity-10 d-inline-block">
+              <i class="bi bi-sun-fill text-warning display-1 mb-2"></i>
+              <h5 class="fw-bold text-white mt-2">
+                <span class="lang-mr">आजची फवारणी मार्गदर्शक तत्त्वे</span>
+                <span class="lang-en">Today's Spray Guidelines</span>
+              </h5>
+              <ul class="list-unstyled text-start small text-light text-opacity-75 mt-3 mb-0 d-flex flex-column gap-2">
+                <li>
+                  <i class="bi bi-check2 text-success me-2"></i>
+                  <span class="lang-mr">कडक उन्हात (दुपारी १२ ते २) फवारणी टाळावी.</span>
+                  <span class="lang-en">Avoid spraying during harsh afternoon sun (12 PM to 2 PM).</span>
+                </li>
+                <li>
+                  <i class="bi bi-check2 text-success me-2"></i>
+                  <span class="lang-mr">स्टिकर / स्प्रेडरचा (Sticker) १०० मिली प्रति २०० लिटर पाण्यात अवश्य वापर करावा.</span>
+                  <span class="lang-en">Always mix 100ml sticker/spreader per 200L water for better adhesion.</span>
+                </li>
+                <li>
+                  <i class="bi bi-check2 text-success me-2"></i>
+                  <span class="lang-mr">फवारणी करताना तोंड झाकावे व हातमोजे वापरावे.</span>
+                  <span class="lang-en">Wear protective face mask and gloves during spraying operations.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7-Day Forecast Grid -->
+      <h4 class="fw-bold mb-3">
+        <i class="bi bi-calendar-week text-success me-2"></i>
+        <span class="lang-mr">आगामी ७ दिवसांचा कृषी हवामान अंदाज</span>
+        <span class="lang-en">Upcoming 7-Day Agricultural Forecast</span>
+      </h4>
+
+      <div class="row g-3" id="sevenDayForecastGrid">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Spray Golden Rules Section -->
+      <div class="mt-5 p-4 rounded-4 bg-white border shadow-sm">
+        <h5 class="fw-bold text-success mb-3">
+          <i class="bi bi-lightbulb-fill text-warning me-2"></i>
+          <span class="lang-mr">फवारणी करताना पाळायचे सुवर्ण नियम:</span>
+          <span class="lang-en">Golden Rules for Spraying Agro-chemicals:</span>
+        </h5>
+        <div class="row g-3 small">
+          <div class="col-md-4">
+            <div class="p-3 bg-light rounded-3 h-100">
+              <h6 class="fw-bold text-danger">
+                <i class="bi bi-x-octagon-fill me-1"></i>
+                <span class="lang-mr">फवारणी कधी टाळावी?</span>
+                <span class="lang-en">When to Avoid Spraying?</span>
+              </h6>
+              <p class="text-muted mb-0">
+                <span class="lang-mr">पावसाची शक्यता ६०% पेक्षा जास्त असल्यास किंवा वाऱ्याचा वेग ताशी १५ किमी पेक्षा अधिक असल्यास फवारणी करू नका, औषध वाहून जाते.</span>
+                <span class="lang-en">Avoid spraying if rain probability exceeds 60% or wind velocity is over 15 km/h to prevent drift and wash-off.</span>
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="p-3 bg-light rounded-3 h-100">
+              <h6 class="fw-bold text-success">
+                <i class="bi bi-check-circle-fill me-1"></i>
+                <span class="lang-mr">पाण्याचा सामू (Water pH)</span>
+                <span class="lang-en">Water pH Balance</span>
+              </h6>
+              <p class="text-muted mb-0">
+                <span class="lang-mr">फवारणीसाठी वापरल्या जाणाऱ्या पाण्याचा सामू ६.५ ते ७.० दरम्यान असावा. जास्त क्षारांच्या पाण्यात औषधाची कार्यक्षमता कमी होते.</span>
+                <span class="lang-en">Ensure water pH is between 6.5 and 7.0. Hard or alkaline water reduces pesticide efficacy by up to 40%.</span>
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="p-3 bg-light rounded-3 h-100">
+              <h6 class="fw-bold text-primary">
+                <i class="bi bi-droplet-fill me-1"></i>
+                <span class="lang-mr">उगवणीनंतरचे तणनाशक</span>
+                <span class="lang-en">Post-Emergence Herbicide</span>
+              </h6>
+              <p class="text-muted mb-0">
+                <span class="lang-mr">तणनाशक फवारताना जमिनीत पुरेसा ओलावा असणे अत्यंत गरजेचे आहे. कोरड्या जमिनीत तणनाशकाचा प्रभाव पडत नाही.</span>
+                <span class="lang-en">Ensure adequate soil moisture before applying weedicides. Dry soil drastically lowers herbicide uptake and action.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="ksk-footer mt-5">
+    <div class="container text-center small text-light text-opacity-50">
+      <p class="mb-0">© 2026 कृषी सेवा केंद्र - सप्तशृंगी ॲग्रो सर्व्हिसेस, नाशिक.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    const weatherData = {
+      nashik: [
+        { day_mr: 'आज', day_en: 'Today', date_mr: '३१ ऑक्टोबर', date_en: '31 October', temp: '29°C / 18°C', sky_mr: 'निरभ्र ऊन', sky_en: 'Sunny & Clear', rain: '10%', wind: '7 km/h', spray: 'safe', sprayText: '🟢 उत्तम वेळ', sprayEn: '🟢 Safe Time' },
+        { day_mr: 'उद्या', day_en: 'Tomorrow', date_mr: '०१ नोव्हेंबर', date_en: '01 November', temp: '30°C / 19°C', sky_mr: 'हलके ढगाळ', sky_en: 'Partly Cloudy', rain: '15%', wind: '8 km/h', spray: 'safe', sprayText: '🟢 उत्तम वेळ', sprayEn: '🟢 Safe Time' },
+        { day_mr: 'शनिवार', day_en: 'Saturday', date_mr: '०२ नोव्हेंबर', date_en: '02 November', temp: '28°C / 17°C', sky_mr: 'निरभ्र ऊन', sky_en: 'Clear Sky', rain: '5%', wind: '6 km/h', spray: 'safe', sprayText: '🟢 उत्तम वेळ', sprayEn: '🟢 Safe Time' },
+        { day_mr: 'रविवार', day_en: 'Sunday', date_mr: '०३ नोव्हेंबर', date_en: '03 November', temp: '27°C / 18°C', sky_mr: 'अंशतः ढगाळ', sky_en: 'Overcast', rain: '30%', wind: '12 km/h', spray: 'caution', sprayText: '🟡 सावधगिरीने', sprayEn: '🟡 Caution' },
+        { day_mr: 'सोमवार', day_en: 'Monday', date_mr: '०४ नोव्हेंबर', date_en: '04 November', temp: '26°C / 19°C', sky_mr: 'हलका पाऊस संभव', sky_en: 'Light Rain Expected', rain: '65%', wind: '18 km/h', spray: 'avoid', sprayText: '🔴 फवारणी टाळा', sprayEn: '🔴 Avoid Spraying' },
+        { day_mr: 'मंगळवार', day_en: 'Tuesday', date_mr: '०५ नोव्हेंबर', date_en: '05 November', temp: '28°C / 18°C', sky_mr: 'ढगाळ वातावरण', sky_en: 'Mostly Cloudy', rain: '20%', wind: '9 km/h', spray: 'safe', sprayText: '🟢 उत्तम वेळ', sprayEn: '🟢 Safe Time' },
+        { day_mr: 'बुधवार', day_en: 'Wednesday', date_mr: '०६ नोव्हेंबर', date_en: '06 November', temp: '29°C / 17°C', sky_mr: 'स्वच्छ ऊन', sky_en: 'Clear & Bright', rain: '5%', wind: '7 km/h', spray: 'safe', sprayText: '🟢 उत्तम वेळ', sprayEn: '🟢 Safe Time' }
+      ],
+      vaijapur: [
+        { day_mr: 'आज', day_en: 'Today', date_mr: '३१ ऑक्टोबर', date_en: '31 October', temp: '31°C / 19°C', sky_mr: 'कोरडे व स्वच्छ', sky_en: 'Dry & Clear', rain: '5%', wind: '6 km/h', spray: 'safe', sprayText: '🟢 उत्तम वेळ', sprayEn: '🟢 Safe Time' },
+        { day_mr: 'उद्या', day_en: 'Tomorrow', date_mr: '०१ नोव्हेंबर', date_en: '01 November', temp: '32°C / 20°C', sky_mr: 'कडक ऊन', sky_en: 'Sunny', rain: '5%', wind: '7 km/h', spray: 'safe', sprayText: '🟢 उत्तम वेळ', sprayEn: '🟢 Safe Time' },
+        { day_mr: 'शनिवार', day_en: 'Saturday', date_mr: '०२ नोव्हेंबर', date_en: '02 November', temp: '31°C / 19°C', sky_mr: 'स्वच्छ', sky_en: 'Clear Sky', rain: '10%', wind: '8 km/h', spray: 'safe', sprayText: '🟢 उत्तम वेळ', sprayEn: '🟢 Safe Time' },
+        { day_mr: 'रविवार', day_en: 'Sunday', date_mr: '०३ नोव्हेंबर', date_en: '03 November', temp: '30°C / 20°C', sky_mr: 'ढगाळ', sky_en: 'Partly Cloudy', rain: '25%', wind: '11 km/h', spray: 'caution', sprayText: '🟡 सावधगिरीने', sprayEn: '🟡 Caution' },
+        { day_mr: 'सोमवार', day_en: 'Monday', date_mr: '०४ नोव्हेंबर', date_en: '04 November', temp: '28°C / 20°C', sky_mr: 'पावसाची शक्यता', sky_en: 'Rain Likely', rain: '55%', wind: '16 km/h', spray: 'avoid', sprayText: '🔴 फवारणी टाळा', sprayEn: '🔴 Avoid Spraying' },
+        { day_mr: 'मंगळवार', day_en: 'Tuesday', date_mr: '०५ नोव्हेंबर', date_en: '05 November', temp: '29°C / 19°C', sky_mr: 'उघडीप', sky_en: 'Clear Breaks', rain: '15%', wind: '8 km/h', spray: 'safe', sprayText: '🟢 उत्तम वेळ', sprayEn: '🟢 Safe Time' },
+        { day_mr: 'बुधवार', day_en: 'Wednesday', date_mr: '०६ नोव्हेंबर', date_en: '06 November', temp: '30°C / 18°C', sky_mr: 'स्वच्छ ऊन', sky_en: 'Sunny & Calm', rain: '5%', wind: '6 km/h', spray: 'safe', sprayText: '🟢 उत्तम वेळ', sprayEn: '🟢 Safe Time' }
+      ]
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateWeatherForecast();
+    });
+
+    window.addEventListener('ksk_lang_changed', () => {
+      updateWeatherForecast();
+    });
+
+    function updateWeatherForecast() {
+      const loc = document.getElementById('weatherLocation').value;
+      const forecast = weatherData[loc] || weatherData['nashik'];
+      const grid = document.getElementById('sevenDayForecastGrid');
+
+      let html = '';
+      forecast.forEach(f => {
+        const badgeColor = f.spray === 'safe' ? 'bg-success text-white' : f.spray === 'caution' ? 'bg-warning text-dark' : 'bg-danger text-white';
+        const icon = f.rain.includes('65%') || f.rain.includes('55%') ? 'bi-cloud-rain-fill text-primary' : (f.sky_mr.includes('ढगाळ') ? 'bi-cloud-sun-fill text-warning' : 'bi-sun-fill text-warning');
+
+        html += `
+          <div class="col-12 col-sm-6 col-md-4 col-lg">
+            <div class="ksk-card p-3 text-center h-100">
+              <small class="text-muted d-block fw-bold">
+                <span class="lang-mr">${f.day_mr}</span><span class="lang-en">${f.day_en}</span>
+              </small>
+              <div class="small text-muted mb-2">
+                <span class="lang-mr">${f.date_mr}</span><span class="lang-en">${f.date_en}</span>
+              </div>
+              <i class="bi ${icon} fs-1 my-2 d-block"></i>
+              <h6 class="fw-bold mb-1">${f.temp}</h6>
+              <small class="text-muted d-block mb-2">
+                <span class="lang-mr">${f.sky_mr}</span><span class="lang-en">${f.sky_en}</span>
+              </small>
+              
+              <div class="p-2 bg-light rounded-3 small mb-2">
+                <div><span class="lang-mr">पाऊस:</span><span class="lang-en">Rain:</span> <strong>${f.rain}</strong></div>
+                <div><span class="lang-mr">वारा:</span><span class="lang-en">Wind:</span> <strong>${f.wind}</strong></div>
+              </div>
+
+              <span class="badge ${badgeColor} py-1 px-2 rounded-pill small mt-auto">
+                <span class="lang-mr">${f.sprayText}</span>
+                <span class="lang-en">${f.sprayEn}</span>
+              </span>
+            </div>
+          </div>
+        `;
+      });
+
+      grid.innerHTML = html;
+    }
+  </script>
+</body>
+</html>

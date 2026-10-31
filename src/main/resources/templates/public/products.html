@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Farm Products | Saptashrungi Agro Services</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <th:block th:replace="~{layout/header :: premiumAssets}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/public-pages.css}">
+</head>
+<body class="public-page">
+<header th:replace="~{layout/navbar :: navbar}"></header>
+<main>
+    <section class="public-page-hero catalog-hero">
+        <div class="container">
+            <span class="public-eyebrow">SELECTED FOR YOUR FIELDS</span>
+            <h1>Farm essentials, <span>close to home.</span></h1>
+            <p>Browse trusted products and check with our shop for availability. All purchases are completed in person.</p>
+        </div>
+    </section>
+    <section class="container py-5">
+        <div th:if="${catalogMessage}" class="alert alert-info" th:text="${catalogMessage}"></div>
+        <div class="catalog-layout">
+            <aside class="catalog-filter-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2><i class="bi bi-sliders me-2"></i>Filters</h2>
+                    <a th:href="@{/products}" class="small">Clear all</a>
+                </div>
+                <form method="get" th:action="@{/products}" class="catalog-filter-form">
+                    <label for="catalogSearch" th:text="#{common.search} + ' products'">Search products</label>
+                    <input class="form-control" id="catalogSearch" name="keyword" th:value="${searchQuery}" placeholder="Name or brand">
+                    <label for="categoryId">Category</label>
+                    <select class="form-select" id="categoryId" name="categoryId">
+                        <option value="">All categories</option>
+                        <option th:each="category : ${categories}" th:value="${category.id}" th:selected="${selectedCategoryId == category.id}" th:text="${category.name}">Category</option>
+                    </select>
+                    <label for="company">Company / brand</label>
+                    <select class="form-select" id="company" name="company">
+                        <option value="">All brands</option>
+                        <option th:each="brand : ${companies}" th:value="${brand}" th:selected="${selectedCompany == brand}" th:text="${brand}">Brand</option>
+                    </select>
+                    <label>Price range (₹)</label>
+                    <div class="d-flex gap-2">
+                        <input class="form-control" type="number" min="0" step="0.01" name="minPrice" th:value="${minPrice}" placeholder="Min" aria-label="Minimum price">
+                        <input class="form-control" type="number" min="0" step="0.01" name="maxPrice" th:value="${maxPrice}" placeholder="Max" aria-label="Maximum price">
+                    </div>
+                    <div class="form-check mt-3">
+                        <input class="form-check-input" id="inStock" type="checkbox" name="inStock" value="true" th:checked="${inStock}">
+                        <label class="form-check-label" for="inStock">In stock only</label>
+                    </div>
+                    <label for="sort">Sort by</label>
+                    <select class="form-select" id="sort" name="sort">
+                        <option value="featured" th:selected="${sort == 'featured'}">Featured</option>
+                        <option value="rating" th:selected="${sort == 'rating'}">Top rated</option>
+                        <option value="price_asc" th:selected="${sort == 'price_asc' or sort == 'price-low'}">Price: low to high</option>
+                        <option value="price_desc" th:selected="${sort == 'price_desc' or sort == 'price-high'}">Price: high to low</option>
+                        <option value="new" th:selected="${sort == 'new'}">Newest</option>
+                        <option value="name" th:selected="${sort == 'name'}">Name: A to Z</option>
+                    </select>
+                    <button class="btn btn-success w-100 mt-4" type="submit"><i class="bi bi-funnel me-2"></i>Apply filters</button>
+                </form>
+            </aside>
+            <div class="catalog-results">
+                <div class="catalog-results-heading">
+                    <div><span class="public-eyebrow">SAPTASHRUNGI AGRO SERVICES</span><h2>Available products</h2></div>
+                    <span class="catalog-count" th:text="${totalProducts + ' products'}">0 products</span>
+                </div>
+                <div th:if="${invalidPriceRange}" class="alert alert-warning">Minimum price must not exceed maximum price.</div>
+                <div class="catalog-grid" th:if="${!products.isEmpty()}">
+                    <article class="public-product-card product-card" th:each="product : ${products}">
+                        <a class="public-product-image img-wrap" th:href="@{/products/{id}(id=${product.id})}" th:aria-label="${'View ' + product.name}">
+                            <img th:src="${product.imageUrl != null ? product.imageUrl : (product.image != null ? product.image : '/images/product_placeholder.svg')}" th:alt="${product.name}" loading="lazy">
+                            <span class="company-badge" th:text="${product.company != null ? product.company : 'Farm essential'}">Brand</span>
+                            <span class="product-category-chip" th:text="${product.category != null ? product.category.name : 'Agriculture'}">Category</span>
+                            <span class="view-details-overlay"><i class="bi bi-arrow-up-right"></i> View Details</span>
+                        </a>
+                        <div class="public-product-copy">
+                            <div class="d-flex justify-content-between gap-2 align-items-start">
+                                <span class="product-category-label" th:text="${product.category != null ? product.category.name : 'Agriculture'}">Category</span>
+                                <span class="product-rating" th:if="${product.rating != null and product.rating > 0}"><i class="bi bi-star-fill"></i><span th:text="${#numbers.formatDecimal(product.rating, 1, 1)}">4.5</span></span>
+                            </div>
+                            <h3><a th:href="@{/products/{id}(id=${product.id})}" th:text="${product.name}">Product name</a></h3>
+                            <p class="product-marathi" th:if="${product.nameMr}" th:text="${product.nameMr}">Marathi name</p>
+                            <div class="product-price-line">
+                                <strong th:text="${'₹' + #numbers.formatDecimal(product.discountPrice != null ? product.discountPrice : product.price, 1, 2)}">₹0.00</strong>
+                                <del th:if="${product.mrp != null ? product.mrp > product.price : product.discountPrice != null}" th:text="${'₹' + #numbers.formatDecimal(product.mrp != null ? product.mrp : product.price, 1, 2)}">₹0.00</del>
+                                <span class="discount-chip" th:if="${product.mrp != null ? product.mrp > product.price : product.discountPrice != null}"
+                                      th:with="sellingPrice=${product.discountPrice != null ? product.discountPrice : product.price}, originalPrice=${product.mrp != null ? product.mrp : product.price}"
+                                      th:text="${T(java.lang.Math).round((1.0 - sellingPrice.doubleValue() / originalPrice.doubleValue()) * 100)} + '% OFF'">0% OFF</span>
+                            </div>
+                            <div class="product-card-meta">
+                                <small class="product-gst">GST <span th:text="${product.gstRate != null ? #numbers.formatDecimal(product.gstRate, 1, 2) : '0.00'}">0</span>% · Final bill at shop</small>
+                                <span th:class="${product.stockQuantity == null or product.stockQuantity == 0 ? 'stock-badge stock-out' : (product.stockQuantity <= 10 ? 'stock-badge stock-low' : 'stock-badge stock-in')}"
+                                      th:text="${product.stockQuantity == null or product.stockQuantity == 0 ? #messages.msg('product.out_of_stock') : (product.stockQuantity <= 10 ? #messages.msg('product.low_stock') : #messages.msg('product.in_stock'))}">In stock</span>
+                            </div>
+                            <a class="btn btn-outline-success w-100 mt-3" th:href="@{/products/{id}(id=${product.id})}"><span th:text="#{product.btn.view_details}">View details</span> <i class="bi bi-arrow-up-right ms-1"></i></a>
+                        </div>
+                    </article>
+                </div>
+                <div class="catalog-empty" th:if="${products.isEmpty()}">
+                    <span><i class="bi bi-search"></i></span><h3>No products match these filters</h3>
+                    <p>Try changing your filters or contact the shop for help finding a product.</p>
+                    <a class="btn btn-success" th:href="@{/products}">Clear filters</a>
+                </div>
+                <nav class="catalog-pagination" th:if="${totalPages > 1}" aria-label="Product pages">
+                    <a class="page-link" th:if="${currentPage > 1}" th:href="@{/products(categoryId=${selectedCategoryId},company=${selectedCompany},keyword=${searchQuery},minPrice=${minPrice},maxPrice=${maxPrice},inStock=${inStock},sort=${sort},page=${currentPage - 1},size=${size})}" aria-label="Previous page"><i class="bi bi-chevron-left"></i></a>
+                    <a class="page-link" th:each="pageNumber : ${pageNumbers}" th:classappend="${pageNumber == currentPage ? 'active' : ''}" th:href="@{/products(categoryId=${selectedCategoryId},company=${selectedCompany},keyword=${searchQuery},minPrice=${minPrice},maxPrice=${maxPrice},inStock=${inStock},sort=${sort},page=${pageNumber},size=${size})}" th:text="${pageNumber}">1</a>
+                    <a class="page-link" th:if="${currentPage < totalPages}" th:href="@{/products(categoryId=${selectedCategoryId},company=${selectedCompany},keyword=${searchQuery},minPrice=${minPrice},maxPrice=${maxPrice},inStock=${inStock},sort=${sort},page=${currentPage + 1},size=${size})}" aria-label="Next page"><i class="bi bi-chevron-right"></i></a>
+                </nav>
+            </div>
+        </div>
+    </section>
+</main>
+<footer th:replace="~{layout/footer :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

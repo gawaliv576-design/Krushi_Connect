@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Vaijapur weather | Krushi Seva Kendra</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"><th:block th:replace="~{layout/header :: premiumAssets}"></th:block><link rel="stylesheet" th:href="@{/css/public-pages.css}"></head>
+<body class="public-page"><header th:replace="~{layout/navbar :: navbar}"></header>
+<main class="container py-5"><div class="public-section-heading"><span class="public-eyebrow">LOCAL WEATHER</span><h1>Weather for your day in the field</h1><p>Current conditions near Vaijapur. Use official forecasts and local advice when planning farm work.</p></div>
+    <section class="weather-widget" id="weatherWidget" aria-live="polite"><div class="weather-widget-heading"><span class="weather-icon" id="weatherIcon"><i class="bi bi-cloud-sun"></i></span><div><span class="public-eyebrow" id="weatherLocation">VAIJAPUR, MAHARASHTRA</span><h2 id="weatherSummary">Checking current weather…</h2><p id="weatherUpdated">Weather provided by Open-Meteo</p></div></div><div class="weather-temperature"><strong id="weatherTemperature">--°</strong><span>Current temperature</span></div><div class="weather-metrics"><div><i class="bi bi-thermometer-half"></i><span>Feels like</span><strong id="weatherFeels">--°C</strong></div><div><i class="bi bi-droplet-half"></i><span>Humidity</span><strong id="weatherHumidity">--%</strong></div><div><i class="bi bi-wind"></i><span>Wind speed</span><strong id="weatherWind">-- km/h</strong></div></div><p class="weather-error" id="weatherError" hidden></p></section>
+    <p class="weather-disclaimer"><i class="bi bi-info-circle"></i> Weather information is indicative and may change. Check official IMD forecasts and local advisories before making crop or spraying decisions. <a href="https://mausam.imd.gov.in/" target="_blank" rel="noopener noreferrer">Visit IMD</a>.</p>
+</main><footer th:replace="~{layout/footer :: footer}"></footer>
+<script>
+(async function loadVaijapurWeather() {
+    const error = document.getElementById("weatherError");
+    try {
+        const geoResponse = await fetch("https://geocoding-api.open-meteo.com/v1/search?name=Vaijapur&count=1&language=en&format=json");
+        if (!geoResponse.ok) throw new Error("Location lookup failed");
+        const locationData = await geoResponse.json();
+        const place = locationData.results?.find((item) => item.country_code === "IN") ?? locationData.results?.[0];
+        if (!place) throw new Error("Vaijapur weather is unavailable right now.");
+        const query = new URLSearchParams({ latitude: place.latitude, longitude: place.longitude, current: "temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,weather_code", timezone: "Asia/Kolkata" });
+        const weatherResponse = await fetch(`https://api.open-meteo.com/v1/forecast?${query}`);
+        if (!weatherResponse.ok) throw new Error("Weather service is unavailable right now.");
+        const weatherData = await weatherResponse.json();
+        const current = weatherData.current;
+        const descriptions = { 0: "Clear sky", 1: "Mostly clear", 2: "Partly cloudy", 3: "Overcast", 45: "Foggy", 48: "Foggy", 51: "Light drizzle", 53: "Drizzle", 55: "Heavy drizzle", 61: "Light rain", 63: "Rain", 65: "Heavy rain", 71: "Light snow", 80: "Rain showers", 81: "Rain showers", 82: "Heavy showers", 95: "Thunderstorm", 96: "Thunderstorm with hail", 99: "Thunderstorm with hail" };
+        document.getElementById("weatherLocation").textContent = `${place.name}, ${place.admin1 ?? "Maharashtra"}`.toUpperCase();
+        document.getElementById("weatherSummary").textContent = descriptions[current.weather_code] ?? "Current conditions";
+        document.getElementById("weatherTemperature").textContent = `${Math.round(current.temperature_2m)}°`;
+        document.getElementById("weatherFeels").textContent = `${Math.round(current.apparent_temperature)}°C`;
+        document.getElementById("weatherHumidity").textContent = `${current.relative_humidity_2m}%`;
+        document.getElementById("weatherWind").textContent = `${Math.round(current.wind_speed_10m)} km/h`;
+        document.getElementById("weatherUpdated").textContent = `Updated ${current.time.replace("T", " ")} · Open-Meteo`;
+    } catch (failure) {
+        error.hidden = false;
+        error.textContent = `${failure instanceof Error ? failure.message : "Unable to load weather."} Please check the IMD forecast.`;
+        document.getElementById("weatherSummary").textContent = "Weather data unavailable";
+    }
+})();
+</script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script></body></html>

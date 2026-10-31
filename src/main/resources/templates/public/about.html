@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="सप्तशृंगी ॲग्रो सर्व्हिसेस — मिराखनगर, वैजापूर येथील शेतकऱ्यांसाठी कृषी उत्पादने, मार्गदर्शन आणि स्थानिक सेवा.">
+    <title>आमच्याविषयी | सप्तशृंगी ॲग्रो सर्व्हिसेस</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <th:block th:replace="~{layout/header :: premiumAssets}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/public-pages.css}">
+</head>
+<body class="public-page about-page">
+<header th:replace="~{layout/navbar :: navbar}"></header>
+<main>
+    <section class="about-hero" aria-labelledby="about-title">
+        <div class="about-hero-shade" aria-hidden="true"></div>
+        <div class="container about-hero-content">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb about-breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/}">मुख्यपृष्ठ</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">आमच्याविषयी</li>
+                </ol>
+            </nav>
+            <span class="public-eyebrow">मिराखनगर · वैजापूर</span>
+            <h1 id="about-title">सप्तशृंगी ॲग्रो सर्व्हिसेस</h1>
+            <p>शेतकऱ्यांच्या विश्वासाची साथ — प्रत्येक हंगामात दर्जेदार कृषी उत्पादने, योग्य माहिती आणि आपुलकीची स्थानिक सेवा.</p>
+            <a class="btn btn-light about-hero-cta" th:href="@{/contact}">आमच्याशी संपर्क साधा <i class="bi bi-arrow-right ms-2" aria-hidden="true"></i></a>
+        </div>
+    </section>
+
+    <section class="container py-5 about-story-grid" data-reveal aria-labelledby="about-story-title">
+        <div>
+            <span class="public-eyebrow">आमची ओळख</span>
+            <h2 id="about-story-title">शेतकऱ्यांच्या विश्वासाचे आपले हक्काचे केंद्र</h2>
+            <p class="about-marathi">शेती हा आपल्या परिसराच्या जीवनाचा आणि अर्थव्यवस्थेचा आधार आहे. सप्तशृंगी ॲग्रो सर्व्हिसेसमध्ये बियाणे, खते, पीक संरक्षण उत्पादने, सिंचन साहित्य आणि शेतीची अवजारे उपलब्ध करून देण्याचा आम्ही प्रयत्न करतो. प्रत्येक शेताची गरज वेगळी असते, म्हणून उत्पादनाची माहिती समजावून सांगणे आणि योग्य वेळी तज्ज्ञांचा सल्ला घेण्यास प्रोत्साहन देणे हे आमच्या सेवेचा भाग आहे.</p>
+            <p class="about-marathi">मिराखनगर, वैजापूर येथून आम्ही स्थानिक शेतकरी आणि त्यांच्या कुटुंबांशी विश्वासाचे नाते जपतो. हंगाम कोणताही असो—आपुलकीने मदत, स्पष्ट व्यवहार आणि विश्वासार्ह कृषी उत्पादने देणे हेच आमचे काम.</p>
+            <ul class="about-key-points">
+                <li><i class="bi bi-patch-check-fill" aria-hidden="true"></i>विश्वासार्ह कंपन्यांची दर्जेदार कृषी उत्पादने</li>
+                <li><i class="bi bi-chat-heart-fill" aria-hidden="true"></i>शेतकऱ्यांना समजेल अशी वैयक्तिक मदत</li>
+                <li><i class="bi bi-geo-alt-fill" aria-hidden="true"></i>वैजापूर परिसरातील स्थानिक सेवा आणि आधार</li>
+            </ul>
+        </div>
+        <div class="about-shop-photo">
+            <img src="/images/shop.jpeg" alt="मिराखनगर, वैजापूर येथील सप्तशृंगी ॲग्रो सर्व्हिसेसचे दुकान" loading="lazy">
+            <div class="location-float">
+                <img src="/images/saptashrungi_logo_round.jpg" alt="" loading="lazy">
+                <span><strong>सप्तशृंगी ॲग्रो सर्व्हिसेस</strong><small><i class="bi bi-geo-alt-fill" aria-hidden="true"></i> मिराखनगर, वैजापूर</small></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-stats-strip" data-reveal aria-label="आमच्या सेवेचा अनुभव">
+        <div class="container about-stats-grid">
+            <div><strong data-countup="10">10+</strong><span>वर्षांचा अनुभव</span></div>
+            <div><strong data-countup="5000">5,000+</strong><span>शेतकऱ्यांचा विश्वास</span></div>
+            <div><strong data-countup="500">500+</strong><span>कृषी उत्पादने</span></div>
+            <div><strong data-countup="50">50+</strong><span>विश्वासार्ह ब्रँड्स</span></div>
+        </div>
+    </section>
+
+    <section class="container py-5 about-services-section" data-reveal aria-labelledby="about-services-title">
+        <div class="public-section-heading">
+            <span class="public-eyebrow">शेतीसाठी आवश्यक साथ</span>
+            <h2 id="about-services-title">एका ठिकाणी शेतीच्या गरजा</h2>
+            <p>तुमच्या पिकांच्या आणि शेताच्या गरजेनुसार दुकानात उपलब्ध पर्याय जाणून घ्या.</p>
+        </div>
+        <div class="service-grid service-bento-grid">
+            <article class="service-card service-card--seeds"><i class="bi bi-flower1" aria-hidden="true"></i><h3>🌱 दर्जेदार बियाणे</h3><p>हंगाम आणि पिकानुसार विविध बियाण्यांचे पर्याय.</p></article>
+            <article class="service-card service-card--fertilizers"><i class="bi bi-moisture" aria-hidden="true"></i><h3>🌿 खते आणि पीक पोषण</h3><p>पिकांच्या पोषणासाठी विश्वासार्ह उत्पादने आणि लेबलविषयक माहिती.</p></article>
+            <article class="service-card service-card--drip"><i class="bi bi-droplet-half" aria-hidden="true"></i><h3>💧 ठिबक सिंचन</h3><p>पाणी व्यवस्थापनासाठी ठिबक सिंचन साहित्याचे पर्याय.</p></article>
+            <article class="service-card service-card--protection"><i class="bi bi-shield-check" aria-hidden="true"></i><h3>🐛 पीक संरक्षण</h3><p>पीक संरक्षण उत्पादने आणि सुरक्षित वापराबाबत आवश्यक सूचना.</p></article>
+            <article class="service-card service-card--equipment"><i class="bi bi-tools" aria-hidden="true"></i><h3>🔧 शेतीची अवजारे</h3><p>शेतातील रोजच्या कामासाठी उपयोगी साधने आणि उपकरणे.</p></article>
+            <article class="service-card service-card--udhari"><i class="bi bi-wallet2" aria-hidden="true"></i><h3>💰 उधारी व पेमेंट माहिती</h3><p>उधारीची नोंद, देय तारीख आणि पेमेंट पर्यायांसाठी मदत.</p></article>
+        </div>
+    </section>
+
+    <section class="why-about-section" data-reveal aria-labelledby="about-why-title">
+        <div class="container why-about-grid">
+            <div>
+                <span class="public-eyebrow">शेतकरी प्रथम</span>
+                <h2 id="about-why-title">आमच्यावर विश्वास का ठेवावा?</h2>
+                <ol class="why-numbered">
+                    <li><span>०१</span><div><strong>विश्वासार्ह उत्पादने</strong><p>ओळखीच्या कृषी ब्रँड्समधील उत्पादनांची माहिती देऊन योग्य पर्याय निवडण्यास मदत.</p></div></li>
+                    <li><span>०२</span><div><strong>स्थानिक आणि आपुलकीची सेवा</strong><p>तुमच्या परिसरातील शेतकऱ्यांशी विश्वासाचे नाते जपणारी मदत.</p></div></li>
+                    <li><span>०३</span><div><strong>हंगामभर मार्गदर्शन</strong><p>खरीप असो वा रब्बी—उत्पादनाची माहिती आणि वापराच्या सूचनांसाठी संपर्क करा.</p></div></li>
+                    <li><span>०४</span><div><strong>स्पष्ट व्यवहार</strong><p>उत्पादन, किंमत, GST आणि पेमेंटविषयी आधीच माहिती मिळवा.</p></div></li>
+                </ol>
+            </div>
+            <aside class="why-feature-card">
+                <i class="bi bi-tree-fill" aria-hidden="true"></i>
+                <h3>प्रत्येक हंगामात शेतकऱ्यांच्या सोबत</h3>
+                <p>तुमच्या शेतासाठी विश्वासार्ह उत्पादने निवडताना आम्ही मदतीसाठी उपलब्ध आहोत.</p>
+                <ul class="about-feature-list">
+                    <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i>खरीप आणि रब्बी हंगामासाठी कृषी साहित्य</li>
+                    <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i>चौकशीसाठी फोन आणि WhatsApp</li>
+                    <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i>UPI आणि रोख पेमेंट पर्याय</li>
+                    <li><i class="bi bi-check-circle-fill" aria-hidden="true"></i>लागू असल्यास GST बिल</li>
+                </ul>
+                <a th:href="@{/products}">उत्पादने पाहा <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+            </aside>
+        </div>
+    </section>
+
+    <section class="container py-5 about-contact-grid" data-reveal aria-labelledby="about-contact-title">
+        <div>
+            <span class="public-eyebrow">दुकानाला भेट द्या</span>
+            <h2 id="about-contact-title">आम्ही मदतीसाठी येथे आहोत</h2>
+            <p>उत्पादनांची उपलब्धता, दिशा किंवा सामान्य चौकशीसाठी दुकानाशी संपर्क साधा.</p>
+            <address class="about-contact-details">
+                <p><i class="bi bi-geo-alt-fill" aria-hidden="true"></i><span><strong>पत्ता</strong><br>मिराखनगर, वैजापूर, छत्रपती संभाजीनगर, महाराष्ट्र - ४२३७०३</span></p>
+                <p><i class="bi bi-telephone-fill" aria-hidden="true"></i><span><strong>फोन</strong><br><a href="tel:+918600813827">+९१ ८६००८१३८२७</a></span></p>
+                <p><i class="bi bi-whatsapp" aria-hidden="true"></i><span><strong>WhatsApp</strong><br><a href="https://wa.me/918600813827" target="_blank" rel="noopener noreferrer">दुकानाला WhatsApp संदेश पाठवा</a></span></p>
+                <p><i class="bi bi-clock-fill" aria-hidden="true"></i><span><strong>दुकानाची वेळ</strong><br>आजच्या वेळेसाठी कृपया दुकानाला फोन करा.</span></p>
+            </address>
+            <div class="about-contact-actions">
+                <a class="btn btn-success" href="tel:+918600813827"><i class="bi bi-telephone-fill me-2" aria-hidden="true"></i>फोन करा</a>
+                <a class="btn btn-outline-success" href="https://www.google.com/maps/search/?api=1&amp;query=Saptashrungi+Agro+Services%2C+Mirakhnagar%2C+Vaijapur%2C+Maharashtra+423703" target="_blank" rel="noopener noreferrer"><i class="bi bi-map me-2" aria-hidden="true"></i>Google Maps वर उघडा</a>
+            </div>
+        </div>
+        <div class="about-map-frame">
+            <iframe title="मिराखनगर, वैजापूर येथील सप्तशृंगी ॲग्रो सर्व्हिसेसचा नकाशा"
+                    src="https://www.google.com/maps?q=Saptashrungi%20Agro%20Services%2C%20Mirakhnagar%2C%20Vaijapur%2C%20Maharashtra%20423703&amp;output=embed"
+                    loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                    allowfullscreen></iframe>
+        </div>
+    </section>
+
+    <section class="mission-banner about-mission" data-reveal aria-labelledby="about-mission-title">
+        <div class="container">
+            <span class="public-eyebrow">आमचे ध्येय</span>
+            <h2 id="about-mission-title">“शेतकऱ्यांच्या प्रगतीसोबत, समृद्ध शेतीकडे.”</h2>
+            <p>विश्वासार्ह कृषी उत्पादने, योग्य माहिती आणि स्थानिक आपुलकीची सेवा—प्रत्येक शेतकऱ्याला आत्मविश्वासाने पुढे जाण्यासाठी साथ देणे हेच आमचे ध्येय.</p>
+            <div class="about-mission-actions">
+                <a class="btn btn-light" th:href="@{/products}">उत्पादने पाहा <i class="bi bi-arrow-right ms-2" aria-hidden="true"></i></a>
+                <a class="btn btn-outline-light" href="tel:+918600813827"><i class="bi bi-telephone me-2" aria-hidden="true"></i>फोन करा</a>
+            </div>
+        </div>
+    </section>
+</main>
+<footer th:replace="~{layout/footer :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
