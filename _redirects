@@ -1,0 +1,18 @@
+# Netlify Clean URL Rewrites
+/login                 /login.html                 200
+/register              /register.html              200
+/products              /products.html              200
+/categories            /categories.html            200
+/cart                  /cart.html                  200
+/checkout              /checkout.html              200
+/farmer-dashboard      /farmer-dashboard.html      200
+/farmer-udhari         /farmer-udhari.html         200
+/admin-dashboard       /admin-dashboard.html       200
+/admin-products        /admin-products.html        200
+/admin-udhari          /admin-udhari.html          200
+/admin-customers       /admin-customers.html       200
+/admin-orders          /admin-orders.html          200
+/fertilizer-calculator /fertilizer-calculator.html 200
+/weather               /weather.html               200
+/farming-tips          /farming-tips.html          200
+/*                     /404.html                   404

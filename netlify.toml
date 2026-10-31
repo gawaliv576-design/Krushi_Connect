@@ -1,0 +1,112 @@
+# Netlify Deployment Configuration for Krushi Seva Kendra
+# https://github.com/gawaliv576-design/Krushi_Connect
+
+[build]
+  # Static frontend root directory
+  publish = "."
+
+# Security & Performance Headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Pretty URL Rewrites (Access /products directly without .html)
+[[redirects]]
+  from = "/login"
+  to = "/login.html"
+  status = 200
+
+[[redirects]]
+  from = "/register"
+  to = "/register.html"
+  status = 200
+
+[[redirects]]
+  from = "/products"
+  to = "/products.html"
+  status = 200
+
+[[redirects]]
+  from = "/categories"
+  to = "/categories.html"
+  status = 200
+
+[[redirects]]
+  from = "/cart"
+  to = "/cart.html"
+  status = 200
+
+[[redirects]]
+  from = "/checkout"
+  to = "/checkout.html"
+  status = 200
+
+[[redirects]]
+  from = "/farmer-dashboard"
+  to = "/farmer-dashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/farmer-udhari"
+  to = "/farmer-udhari.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin-dashboard"
+  to = "/admin-dashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin-products"
+  to = "/admin-products.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin-udhari"
+  to = "/admin-udhari.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin-customers"
+  to = "/admin-customers.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin-orders"
+  to = "/admin-orders.html"
+  status = 200
+
+[[redirects]]
+  from = "/fertilizer-calculator"
+  to = "/fertilizer-calculator.html"
+  status = 200
+
+[[redirects]]
+  from = "/weather"
+  to = "/weather.html"
+  status = 200
+
+[[redirects]]
+  from = "/farming-tips"
+  to = "/farming-tips.html"
+  status = 200
+
+# Fallback 404 Page
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
