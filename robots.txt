@@ -22,4 +22,4 @@ Allow: /js/
 Disallow: /admin-*.html
 Disallow: /admin-*
 
-Sitemap: https://krushiconnect.netlify.app/sitemap.xml
+Sitemap: https://saptashrungikrushiseva.netlify.app/sitemap.xml
